@@ -1,17 +1,15 @@
 {
-  "name": "async-race-api",
+  "name": "rslang",
   "version": "1.0.0",
-  "description": "Fun with promises",
-  "main": "index.js",
+  "description": "",
+  "main": "main.ts",
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack --mode development",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "watch": "cross-env NODE_ENV=development webpack --mode development --watch",
     "server": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json",
-    "lint": "eslint \"**/*.{js,ts}\" --quiet --fix",
-    "deploy": "gh-pages -d dist",
-    "start": "node src/index.js"
+    "lint": "eslint \"**/*.{js,ts}\" --quiet --fix"
   },
   "author": "Artem Puzik",
   "license": "MIT",
