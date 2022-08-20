@@ -12,11 +12,11 @@
     <link rel="stylesheet" href="./styles/css/app.css">
 </head>
 <body>
-  <header class="header">
+  <header class="header" id="pageHeader">
     <div class="wrapper header-wrapper">
       <div class="header-left">
         <img src="./assets/logo.png" alt="logo icon" class="logo-icon" width="40px" height="40px">
-        <a href="/" class="logo">RSLang</a>
+        <a href="/src/index.html" class="logo">RSLang</a>
       </div>
       <div class="header-right">
         <nav class="nav__container">
@@ -39,7 +39,7 @@
           </ul>
         </nav>
         <div class="auth__container">
-          <a href="/authorization">
+          <a href="#openModal">
             <button type="button" class="btn-basic">Sign In</button>
           </a>
         </div>
@@ -50,5 +50,36 @@
   <main class="main">
   </main>
   <footer class="footer"></footer>
+  <div id="openModal" class="modal overlay__modal">
+    <a href="#close" class="modal-out-area"></a>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="form-wrapper">
+          <h1>Sign In</h1>
+          <a href="#close" title="Close" class="close">
+            <img src="./assets/svg/close.svg" alt="close">
+          </a>
+          <form>
+            <div class="form-item">
+              <label for="email"></label>
+              <input type="email" name="email" required="required" placeholder="Email Address"></input>
+            </div>
+            <div class="form-item">
+              <label for="password"></label>
+              <input type="password" name="password" required="required" placeholder="Password"></input>
+            </div>
+            <div class="button-panel">
+              <input type="submit" class="button-sign-in" title="Sign In" value="Sign In"></input>
+            </div>
+          </form>
+          <div class="form-footer">
+            <p><a href="#">Create an account</a></p>
+            <p><a href="#">Forgot password?</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./modal.js"></script>
 </body>
 </html>

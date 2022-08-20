@@ -168,6 +168,12 @@ textarea {
   margin: 0; /* 2 */
 }
 
+/* Remove outline on the forms and links */
+:active, :hover, :focus {
+  outline: 0;
+  outline-offset: 0;
+}
+
 /**
  * Show the overflow in IE.
  * 1. Show the overflow in Edge.
