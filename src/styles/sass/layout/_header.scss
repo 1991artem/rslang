@@ -1,0 +1,55 @@
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  font-size: 1rem;
+  font-family: $font-stack;
+}
+
+.header-left {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.logo {
+  font-family: $font-stack;
+  font-weight: 700;
+  font-size: 2rem;
+  color: $color-dark;
+  padding-left: 10px;
+  margin-left: 10px;
+  border-left: 2px solid $color-dark;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav__container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  margin-right: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+  position: relative;
+}
+
+.nav-link {
+  color: $font-color_primary;
+}
