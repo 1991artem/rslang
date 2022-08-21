@@ -1,0 +1,93 @@
+.header {
+  background-color: $color-primary;
+}
+
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 0;
+  font-size: 1rem;
+  font-family: $font-stack;
+}
+
+.header-left {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.logo {
+  font-family: $font-stack;
+  font-weight: 700;
+  font-size: 2rem;
+  color: $color-dark;
+  padding-left: 10px;
+  margin-left: 10px;
+  border-left: 2px solid $color-dark;
+  cursor: pointer;
+}
+
+.logo:hover {
+  color: $color-dark-m;
+  transition: all 0.3s ease-in-out;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.nav__container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  margin-right: 15px;
+  align-items: center;
+  justify-content: center;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  margin: 0 15px;
+  position: relative;
+}
+
+.nav-item::after {
+  position: absolute;
+  content: "";
+  top: 120%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: $color-accent;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s;
+}
+
+.nav-item:hover::after{
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.nav-link {
+  color: $font-color_primary;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%
+}
+
+.sticky + .main {
+  padding-top: 80px;
+}
