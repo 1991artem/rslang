@@ -19,17 +19,17 @@ static async signinUsersFromServer(data:string): Promise<void> {
         .then((response) => this.errorHandler(response))
         .then((response) => response.json())
         .then((data: IUserData[]) => {
-            DataStorage.UserStorage = data;
             console.log(data);
         })
-        .catch((err) => console.log('Signin Error', err));
+        .catch((err) => {
+            console.log('Не удалось найти такого пользователя!!! Повторите попытку');
+        });
 }
 static async addUsersToServer(data:string): Promise<void> {
     await fetch(`${this.url}/signin`, {method: 'POST', headers : API.header, body: data})
         .then((response) => this.errorHandler(response))
         .then((response) => response.json())
         .then((data: IUserData[]) => {
-            DataStorage.UserStorage = data;
             console.log(data);
         })
         .catch((err) => console.log('Add User Error', err));

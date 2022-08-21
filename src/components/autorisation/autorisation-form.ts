@@ -23,9 +23,6 @@ export class AutorisationForm {
                                     <button id="autorisation-form_button">Login</button>
                                 </p>
                                 </div>`;
-                                    StartPageListener.listen();
-                                    this.buttonAutorisationForm();
-
     }
     buttonAutorisationForm(){
         const onClick = () => {

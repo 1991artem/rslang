@@ -1,4 +1,4 @@
-import { IUserData } from './interfacec';
+import { IWordsData } from './interfacec';
 export class DataStorage {
-    static UserStorage: IUserData[] = [];
+    static allWordsStorage: IWordsData[] = [];
 }
