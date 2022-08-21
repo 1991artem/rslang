@@ -10,6 +10,7 @@
   -webkit-transition: opacity 200ms ease-in; 
   -moz-transition: opacity 200ms ease-in;
   transition: opacity 200ms ease-in;
+  transition: all 0.8s ease 0s;
   pointer-events: none;
   margin: 0;
   padding: 0;
@@ -19,6 +20,12 @@
   opacity: 1;
   pointer-events: auto;
   overflow-y: auto;
+  transform: translate(0px, 0px);
+}
+
+.modal:target .form-wrapper {
+  opacity: 1;
+  transform: translate(0px, 0px);
 }
 
 .modal-dialog {
@@ -78,6 +85,9 @@ body {
   padding: 0 1em;
   max-width: 370px;
   font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+  transition: all 0.8s ease 0s;
+  opacity: 0;
+  transform: translate(0px, -100%);
 }
 
 h1 {
