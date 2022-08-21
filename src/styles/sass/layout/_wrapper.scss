@@ -1,0 +1,10 @@
+.wrapper {
+  width: 90%;
+  max-width: 1440px;
+  margin: 0 auto;
+}
+
+body {
+  scroll-behavior: smooth;
+  background-color: $color-primary;
+}
