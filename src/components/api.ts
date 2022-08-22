@@ -1,5 +1,6 @@
-import { IUserData } from "./interfacec";
+import { IUserData, IUserDataToken, IWordsData } from "./interfacec";
 import { DataStorage } from './dataStorage';
+import { AutorisationForm } from './autorisation/autorisation-form';
 
 export class API {
     static url: string;
@@ -18,18 +19,39 @@ static async signinUsersFromServer(data:string): Promise<void> {
     await fetch(`${this.url}/signin`, {method: 'POST', headers : API.header, body: data})
         .then((response) => this.errorHandler(response))
         .then((response) => response.json())
-        .then((data: IUserData[]) => {
+        .then((data: IUserDataToken) => {
             console.log(data);
+            DataStorage.userData = data;
+            AutorisationForm.closeModalWindow();
         })
         .catch((err) => {
             console.log('Не удалось найти такого пользователя!!! Повторите попытку');
         });
 }
-static async addUsersToServer(data:string): Promise<void> {
-    await fetch(`${this.url}/signin`, {method: 'POST', headers : API.header, body: data})
+static async createUsersOnServer(data:string): Promise<void> {
+    await fetch(`${this.url}/users`, {method: 'POST', headers : API.header, body: data})
         .then((response) => this.errorHandler(response))
         .then((response) => response.json())
-        .then((data: IUserData[]) => {
+        .then((data: IUserData) => {
+            console.log(data);
+        })
+        .catch((err) => console.log('Add User Error', err));
+}
+static async loadWordsFromServer(group:number, page:number){
+    await fetch(`${this.url}/words?group=${group}&page=${page}`, {method: 'GET', headers : API.header})
+    .then((response) => this.errorHandler(response))
+    .then((response) => response.json())
+    .then((data: IWordsData[]) => {
+        console.log(data);
+    })
+    .catch((err) => console.log('Add User Error', err));
+}
+static async loadWordToIdFromServer(id:string){
+        await fetch(`${this.url}/words/${id}`, {method: 'GET', headers : API.header})
+        .then((response) => this.errorHandler(response))
+        .then((response) => response.json())
+        .then((data: IWordsData) => {
+            DataStorage.wordId = data;
             console.log(data);
         })
         .catch((err) => console.log('Add User Error', err));
