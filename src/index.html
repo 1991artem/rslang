@@ -53,8 +53,8 @@
     <a href="#close" class="modal-out-area"></a>
     <div class="modal-dialog">
       <div class="modal-content">
-        <div class="form-wrapper">
-          <h1>Sign In</h1>
+        <div class="form-wrapper login-form-container">
+          <h1>Log In</h1>
           <a href="#close" title="Close" class="close">
             <img src="./assets/svg/close.svg" alt="close">
           </a>
@@ -72,8 +72,33 @@
             </div>
           </form>
           <div class="form-footer">
-            <p><a href="#">Create an account</a></p>
-            <p><a href="#">Forgot password?</a></p>
+            <p class="signup-link"><a href="#openModal" onclick="signup()">Don't have an account? Sign Up</a></p>
+          </div>
+        </div>
+        <div class="form-wrapper signup-form-container">
+          <h1>Sign Up</h1>
+          <a href="#close" title="Close" class="close">
+            <img src="./assets/svg/close.svg" alt="close">
+          </a>
+          <form>
+            <div class="form-item">
+              <label for="name"></label>
+              <input type="name" name="name" required="required" placeholder="Name"></input>
+            </div>
+            <div class="form-item">
+              <label for="email"></label>
+              <input type="email" name="email" required="required" placeholder="Email Address"></input>
+            </div>
+            <div class="form-item">
+              <label for="password"></label>
+              <input type="password" name="password" required="required" placeholder="Password"></input>
+            </div>
+            <div class="button-panel">
+              <input type="submit" class="button-sign-up" title="Sign Up" value="Sign Up" onclick="signup()"></input>
+            </div>
+          </form>
+          <div class="form-footer">
+            <p class="signup-link"><a href="#openModal" onclick="login()">Do you have an account? Sign In</a></p>
           </div>
         </div>
       </div>

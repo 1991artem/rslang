@@ -26,3 +26,13 @@ function myFunction() {
     header.classList.remove("sticky");
   }
 }
+
+function signup() {
+    document.querySelector(".login-form-container").style.cssText = "display: none;";
+    document.querySelector(".signup-form-container").style.cssText = "display: block;";
+}
+
+function login() {
+    document.querySelector(".signup-form-container").style.cssText = "display: none;";
+    document.querySelector(".login-form-container").style.cssText = "display: block;";
+}

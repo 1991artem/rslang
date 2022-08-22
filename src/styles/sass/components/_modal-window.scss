@@ -10,6 +10,7 @@
   -webkit-transition: opacity 200ms ease-in; 
   -moz-transition: opacity 200ms ease-in;
   transition: opacity 200ms ease-in;
+  transition: all 0.8s ease 0s;
   pointer-events: none;
   margin: 0;
   padding: 0;
@@ -19,6 +20,12 @@
   opacity: 1;
   pointer-events: auto;
   overflow-y: auto;
+  transform: translate(0px, 0px);
+}
+
+.modal:target .form-wrapper {
+  opacity: 1;
+  transform: translate(0px, 0px);
 }
 
 .modal-dialog {
@@ -78,6 +85,9 @@ body {
   padding: 0 1em;
   max-width: 370px;
   font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+  transition: all 0.8s ease 0s;
+  opacity: 0;
+  transform: translate(0px, -100%);
 }
 
 h1 {
@@ -116,11 +126,6 @@ form {
   width: 100%;
 } 
 
-.button-sign-in:hover {
-  background-color: $color-accent;
-  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);
-}
-
 .form-footer {
   font-size: 1em;
   padding: 2em 0;
@@ -148,4 +153,25 @@ form {
 .close:focus, .close:hover {
   cursor: pointer;
   opacity: .75;
+}
+
+.signup-link {
+cursor: pointer;
+}
+
+.signup-link a:focus {
+  color: $color-dark-m;
+}
+
+.signup-form-container {
+  position: relative;
+  background: #fafafa;
+  margin: 3em auto;
+  padding: 0 1em;
+  max-width: 370px;
+  font: 400 87.5%/1.5em 'Open Sans', sans-serif;
+  transition: all 0.8s ease 0s;
+  opacity: 0;
+  transform: translate(-50%,-60%);
+  display: none;
 }
