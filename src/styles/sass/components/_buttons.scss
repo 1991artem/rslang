@@ -10,3 +10,13 @@
 .button-panel .button-sign-in {
   @include btn-signIn;
 }
+
+.button-panel .button-sign-up {
+  @include btn-signIn;
+}
+
+.button-sign-in,
+.button-sign-up:hover {
+  background-color: $color-accent;
+  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);
+}
