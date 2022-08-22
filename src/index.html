@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="./assets/favicon.ico" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>RSlang</title>
+</head>
+<body>
+  <header class="header" id="pageHeader">
+    <div class="wrapper header-wrapper">
+      <div class="header-left">
+        <img src="./assets/logo.png" alt="logo icon" class="logo-icon" width="40px" height="40px">
+        <a href="/src/index.html" class="logo">RSLang</a>
+      </div>
+      <div class="header-right">
+        <nav class="nav__container">
+          <ul class="nav">
+            <li class="nav-item">
+              <a href="/" class="nav-link">Home</a>
+            </li>
+            <li class="nav-item">
+              <a href="#textbook" class="nav-link">Textbook</a>
+            </li>
+            <li class="nav-item">
+              <a href="#mini-games" class="nav-link">Games</a>
+            </li>
+            <li class="nav-item">
+              <a href="#statistics" class="nav-link">Statistics</a>
+            </li>
+            <li class="nav-item">
+              <a href="#about" class="nav-link">About Us</a>
+            </li>
+          </ul>
+        </nav>
+        <div class="auth__container">
+          <a href="#openModal">
+            <button type="button" class="btn-basic">Sign In</button>
+          </a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+  </main>
+  <footer class="footer"></footer>
+  <div id="openModal" class="modal overlay__modal">
+    <a href="#close" class="modal-out-area"></a>
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="form-wrapper">
+          <h1>Sign In</h1>
+          <a href="#close" title="Close" class="close">
+            <img src="./assets/svg/close.svg" alt="close">
+          </a>
+          <form>
+            <div class="form-item">
+              <label for="email"></label>
+              <input id="autorisation-form_mail" type="email" name="email" required="required" placeholder="Email Address"></input>
+            </div>
+            <div class="form-item">
+              <label for="password"></label>
+              <input id="autorisation-form_password" type="password" name="password" required="required" placeholder="Password"></input>
+            </div>
+            <div class="button-panel">
+              <input id="autorisation-form_button" type="button" class="button-sign-in" title="Sign In" value="Sign In"></input>
+            </div>
+          </form>
+          <div class="form-footer">
+            <p><a href="#">Create an account</a></p>
+            <p><a href="#">Forgot password?</a></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="./modal.js"></script>
+</body>
+</html>
