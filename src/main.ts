@@ -13,6 +13,8 @@ const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
 const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
+API.loadWordToIdFromServer('5e9f5ee35eb9e72bc21af713');
+API.getNewUserTokenFromServer('62ff6443e4e0c70016d5da56');
 
 API.loadWordToIdFromServer("5e9f5ee35eb9e72bc21af713");
 
@@ -20,17 +22,10 @@ const nav = document.querySelector(".nav");
 const btn = document.querySelector(".btn-word");
 const audio = document.getElementById('sound')
 
-btn?.addEventListener("click", (event: Event) => {
-    const btnWord = event.target as Element;
-    // if(btnWord.getAt){
-    //     console.log('sound')
-    // }
-});
-
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
   const selectedNavItem = btn.getAttribute("data-nav");
-  //TODO: add
+  //TODO: add initial loading for nav items
   switch (selectedNavItem) {
     case "home":
       console.log(selectedNavItem);
