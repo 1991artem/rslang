@@ -1,5 +1,5 @@
-import './components/styles/autorisation.scss';
 import { AutorisationForm} from './components/autorisation/autorisation-form';
+import "./styles/css/app.css"
 import { API } from './components/api';
 import { DataStorage } from './components/dataStorage';
 import { StartPageListener } from './components/startPageListener';
