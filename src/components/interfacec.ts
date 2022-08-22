@@ -21,10 +21,10 @@ export interface IWordsData {
         textExampleTranslate: string
 }
 
-export interface IDataToken {
+export interface IUserDataToken {
     message: string,
-    token: string,
+    name: string,
     refreshToken: string,
-    userId: string,
-    name: string
+    token: string,
+    userId: string
 }

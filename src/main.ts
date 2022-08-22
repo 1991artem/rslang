@@ -11,5 +11,7 @@ const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
 const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
+API.loadWordsFromServer(0,0);
+API.loadWordToIdFromServer('5e9f5ee35eb9e72bc21af713');
 
 
