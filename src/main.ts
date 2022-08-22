@@ -13,5 +13,6 @@ const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
 API.loadWordsFromServer(0,0);
 API.loadWordToIdFromServer('5e9f5ee35eb9e72bc21af713');
+API.getNewUserTokenFromServer('62ff6443e4e0c70016d5da56');
 
 

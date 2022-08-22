@@ -28,3 +28,18 @@ export interface IUserDataToken {
     token: string,
     userId: string
 }
+
+export interface IGetUserWords {
+        difficulty: string,
+        optional: {}
+}
+
+export interface IUserStatistic {
+    learnedWords: number,
+    optional: {}
+}
+
+export interface IUserSettings {
+    wordsPerDay: number,
+    optional: {}
+}
