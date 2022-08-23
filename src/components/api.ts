@@ -175,11 +175,12 @@ export class API {
 
   // ================================== GET WORDS ===========================================================
 
-  static async loadWordsFromServer(group: number, page: number): Promise<IWordsData[] | void> {
+  static async loadWordsFromServer(group: number, page: number): Promise<IWordsData[]| void> {
     return await fetch(`${this.url}/words?group=${group}&page=${page}`, { method: "GET", headers: API.header })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData[]) => {
+        console.log(data)
         return data;
       })
       .catch((err) => console.log("Add User Error", err));
