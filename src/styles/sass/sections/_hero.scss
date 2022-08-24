@@ -1,0 +1,29 @@
+.hero-content {
+  max-width: 424px;
+}
+
+.hero-title {
+  font-family: $font-stack;
+  font-size: 60px;
+  color: $color-dark;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0;
+  padding: 0;
+}
+
+.hero-subtitle {
+  font-family: $font-stack;
+  display: block;
+  margin-top: 8px;
+  color: $color-gray;
+}
+
+.hero-text,
+.hero-under-text {
+  font-family: $font-stack;
+  font-size: 16px;
+  line-height: 1.5;
+  display: block;
+  margin: 16px 0px 0px;
+}
