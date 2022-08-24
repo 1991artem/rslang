@@ -4,8 +4,7 @@ import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfacec";
-import { container } from "webpack";
-
+import "./styles/css/app.css";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
