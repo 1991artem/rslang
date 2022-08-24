@@ -1,3 +1,4 @@
+
 import { IWordsData } from "../interfacec";
 
 export class Card {
@@ -25,13 +26,27 @@ export class Card {
           <li class="textbook-list_item">
             <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}">
             <div class="textbook-list_item__wrapper">
-              <h2 class="word">${this.wordData.word}${this.wordData.transcription}${this.wordData.wordTranslate}</h2>
-              <p class="description">${this.wordData.textMeaning}${this.wordData.textMeaningTranslate}</p>
-              <button data-audio="audioBtn" class="btn-basic bnt-word">&#128264;
+              <h2 class="word">${this.wordData.word} ${this.wordData.transcription} ${this.wordData.wordTranslate}</h2>
+              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Word
                 <audio id="sound">
                 <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audio}">
                 </audio>
               </button>
+              <p class="description">${this.wordData.textMeaning}</p>
+              <p class="description-translate">${this.wordData.textMeaningTranslate}</p>
+              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Description
+                <audio id="sound">
+                <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioMeaning}">
+                </audio>
+              </button>
+              <p class="example">${this.wordData.textExample}</p>
+              <p class="example-translate">${this.wordData.textExampleTranslate}</p>
+              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Example
+                <audio id="sound">
+                <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioExample}">
+                </audio>
+              </button>
+              
             </div>
           </li>
         </ul>
