@@ -1,10 +1,10 @@
 import { AutorisationForm } from "./components/autorisation/autorisation-form";
-import "./styles/css/app.css";
 import { API } from "./components/api";
 import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfacec";
+
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
