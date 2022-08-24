@@ -1,11 +1,11 @@
 import { StartPageListener } from "../startPageListener";
 import { IUserData } from '../interfacec';
 import { API } from '../api';
-import './autorisation.scss'
 
 export class AutorisationForm {
     buttonAutorisationForm(){
         StartPageListener.listen();
+        this.singinClick();
         const onClick = (event: Event) => {
             event.preventDefault();
             let singinUser: IUserData = {
@@ -14,8 +14,7 @@ export class AutorisationForm {
                 password: this.verificationLengthPassword((<HTMLInputElement>StartPageListener.AUTORISATION_INPUT_PASSWORD).value),
             }
             if(singinUser.password){
-                console.log(singinUser)
-                API.signinUsersFromServer(JSON.stringify(singinUser))
+                API.signinUsersFromServer(JSON.stringify(singinUser));
             }
         }
         if(StartPageListener.AUTORISATION_INPUT_BUTTON){
@@ -29,6 +28,17 @@ export class AutorisationForm {
             return '';
         } else {
             return string;
+        }
+    }
+    static closeModalWindow(){
+        StartPageListener.MODAL_WINDOW?.classList.add('closeModal');
+    }
+    singinClick(){
+        const onClick = () => {
+            StartPageListener.MODAL_WINDOW?.classList.remove('closeModal');
+        }
+        if(StartPageListener.AUTORISATION_SINGIN){
+            StartPageListener.AUTORISATION_SINGIN.addEventListener('click', onClick)
         }
     }
 }
