@@ -1,5 +1,5 @@
 
-import { IWordsData } from "../interfacec";
+import { IWordsData } from "../interfaces";
 import "./textbook.scss";
 
 export class Card {
