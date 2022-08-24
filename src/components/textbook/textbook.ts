@@ -1,5 +1,5 @@
 import { IWordsData } from "../interfaces";
-import "./textbook.scss";
+import "../../styles/sass/pages/_textbook.scss";
 
 
 export class Card {

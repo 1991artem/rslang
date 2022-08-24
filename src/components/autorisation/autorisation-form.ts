@@ -1,7 +1,7 @@
 import { StartPageListener } from "../startPageListener";
 import { IUserData } from '../interfaces';
 import { API } from '../api';
-import './autorisation.scss'
+import "../../styles/sass/pages/_textbook.scss";
 import { DataStorage } from '../dataStorage';
 
 
