@@ -1,8 +1,7 @@
 import { StartPageListener } from "../startPageListener";
 import { IUserData } from '../interfaces';
 import { API } from '../api';
-import './autorisation.scss'
-import { DataStorage } from '../dataStorage';
+import '../../styles/sass/pages/_authorization.scss'
 
 
 export class AutorisationForm {

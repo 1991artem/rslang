@@ -131,10 +131,10 @@ module.exports = {
         type: 'asset/resource',
       },
       {
-        test: /\.(svg)$/i,
+        test: /\.(svg | scss)$/i,
         type: 'file-loader',
         generator: {
-          filename: 'assets/icons/[name][ext]',
+          filename: 'assets/svg/[name][ext]',
         },
       },
       {

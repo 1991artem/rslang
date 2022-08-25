@@ -6,6 +6,7 @@ import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
 import { container } from "webpack";
 import { Test } from './components/test';
+import './styles/app.scss'
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
