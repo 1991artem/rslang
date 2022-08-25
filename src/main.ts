@@ -3,9 +3,10 @@ import { API } from "./components/api";
 import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
-import { IWordsData } from "./components/interfacec";
+import { IWordsData } from "./components/interfaces";
 import { container } from "webpack";
-
+import { Test } from './components/test';
+import './styles/app.scss'
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
@@ -14,9 +15,9 @@ const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
 const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
-// API.loadWordToIdFromServer('5e9f5ee35eb9e72bc21af713');
-// API.getNewUserTokenFromServer('62ff6443e4e0c70016d5da56');
 // API.loadWordsFromServer(0,1)
+const test = new Test();
+test.active();
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups");

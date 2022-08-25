@@ -1,10 +1,10 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IUserSettings } from "./interfacec";
+import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IUserSettings } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
 export class API {
   static url: string;
-  static header: {} = { "Content-Type": "application/json", Accept: "application/json" };
+  //Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmY2NDQzZTRlMGM3MDAxNmQ1ZGE1NiIsImlhdCI6MTY2MTMxOTk1NywiZXhwIjoxNjYxMzM0MzU3fQ.DZho5jalR2rIP1tTdtgPEKbEGvytAWQUTmOIaxsubjQ
   constructor(url: string) {
     API.url = url;
   }
@@ -19,12 +19,17 @@ export class API {
   // ================================== USERS ===========================================================
 
   static async signinUsersFromServer(data: string): Promise<void> {
-    await fetch(`${this.url}/signin`, { method: "POST", headers: API.header, body: data })
+    await fetch(`${this.url}/signin`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserDataToken) => {
         console.log(data);
         DataStorage.userData = data;
+        if(!sessionStorage.getItem(`${data.userId}`)){
+          sessionStorage.setItem(`${data.userId}`,JSON.stringify(data));
+        } else {
+          API.checkToken();
+        }
         AutorisationForm.closeModalWindow();
       })
       .catch((err) => {
@@ -32,41 +37,42 @@ export class API {
       });
   }
   static async createUsersOnServer(data: string): Promise<void> {
-    await fetch(`${this.url}/users`, { method: "POST", headers: API.header, body: data })
+    await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
 
   static async getUserFromServer(id: string) {
-    await fetch(`${this.url}/users/${id}`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${id}`, { method: "GET", headers:  {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}})
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserData) => {
         DataStorage.getUsers = data;
         console.log(data);
       })
-      .catch((err) => console.log("GET USER Error", err));
+      .catch((err) => {
+        console.log("GET USER Error", err)
+      });
   }
 
   static async updateUserOnServer(id: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/`, { method: "PUT", headers: API.header, body: data }).catch((err) =>
+    await fetch(`${this.url}/users/`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch((err) =>
       console.log("create User Error", err)
     );
   }
 
   static async deleteUserOnServer(id: string): Promise<void> {
-    await fetch(`${this.url}/users/`, { method: "DELETE", headers: API.header }).catch((err) =>
+    await fetch(`${this.url}/users/`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} }).catch((err) =>
       console.log("delete User Error", err)
     );
   }
 
   static async getNewUserTokenFromServer(id: string) {
-    await fetch(`${this.url}/users/${id}/tokens`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${id}/tokens`, { method: "GET", headers:  {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${DataStorage.userData?.refreshToken}`}})
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserDataToken) => {
-        DataStorage.userData = data;
-        console.log(data);
+        DataStorage.newToken = data;
       })
       .catch((err) => console.log("GET USER Error", err));
   }
@@ -74,7 +80,7 @@ export class API {
   // ================================== Users/Words ===========================================================
 
   static async getUserWordsFromServer(id: string) {
-    await fetch(`${this.url}/users/${id}/words`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${id}/words`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IGetUserWords) => {
@@ -85,13 +91,13 @@ export class API {
   }
 
   static async createUsersWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/${wordId}`, { method: "POST", headers: API.header, body: data })
+    await fetch(`${this.url}/users/${userId}/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
 
   static async getUserWordsByIdFromServer(userId: string, wordId: string) {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IGetUserWords) => {
@@ -101,13 +107,13 @@ export class API {
   }
 
   static async updateUserWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "PUT", headers: API.header, body: data }).catch((err) =>
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch((err) =>
       console.log("create User Error", err)
     );
   }
 
   static async deleteUserWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: API.header, body: data }).catch(
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch(
       (err) => console.log("create User Error", err)
     );
   }
@@ -115,7 +121,7 @@ export class API {
   // ================================== Users/AggregatedWords ===========================================================
 
   static async getAllUserAgregatedWordsFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/aggregatedWords`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${userId}/aggregatedWords`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
@@ -126,7 +132,7 @@ export class API {
   }
 
   static async getAllUserAgregatedWordsByIdFromServer(userId: string, wordId: string) {
-    await fetch(`${this.url}/users/${userId}/aggregatedWords/${wordId}`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${userId}/aggregatedWords/${wordId}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
@@ -138,7 +144,7 @@ export class API {
   // ================================== Users/Statistic ===========================================================
 
   static async getUserStatisticFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserStatistic) => {
@@ -149,7 +155,7 @@ export class API {
   }
 
   static async updateUserStatisticFromServer(userId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/statistics`, { method: "PUT", headers: API.header, body: data }).catch((err) =>
+    await fetch(`${this.url}/users/${userId}/statistics`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch((err) =>
       console.log("create User Error", err)
     );
   }
@@ -157,7 +163,7 @@ export class API {
   // ================================== Users/Setting ===========================================================
 
   static async getUserSettingsFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/settings`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/users/${userId}/settings`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserSettings) => {
@@ -168,7 +174,7 @@ export class API {
   }
 
   static async updateUserSettingsFromServer(userId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/settings`, { method: "PUT", headers: API.header, body: data }).catch((err) =>
+    await fetch(`${this.url}/users/${userId}/settings`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch((err) =>
       console.log("create User Error", err)
     );
   }
@@ -176,7 +182,7 @@ export class API {
   // ================================== GET WORDS ===========================================================
 
   static async loadWordsFromServer(group: number, page: number): Promise<IWordsData[]| void> {
-    return await fetch(`${this.url}/words?group=${group}&page=${page}`, { method: "GET", headers: API.header })
+    return await fetch(`${this.url}/words?group=${group}&page=${page}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData[]) => {
@@ -187,7 +193,7 @@ export class API {
   }
 
   static async loadWordToIdFromServer(id: string) {
-    await fetch(`${this.url}/words/${id}`, { method: "GET", headers: API.header })
+    await fetch(`${this.url}/words/${id}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
@@ -195,5 +201,30 @@ export class API {
         console.log(data);
       })
       .catch((err) => console.log("load word Error", err));
+  }
+  static checkToken(){
+      if(DataStorage.userData?.userId){
+        API.getNewUserTokenFromServer(DataStorage.userData?.userId)
+        if(DataStorage.newToken){
+          API.saveToken()
+        }
+    }
+  }
+  static saveToken(){
+    if(DataStorage.userData){
+      DataStorage.userData.refreshToken = <string>DataStorage.newToken?.refreshToken;
+      DataStorage.userData.token = <string>DataStorage.newToken?.token;
+      sessionStorage.setItem(`${DataStorage.userData.userId}`,JSON.stringify(DataStorage.userData));
+      console.log(sessionStorage.getItem(DataStorage.userData.userId));
+    }
+
+  }
+  static getToken(): string | undefined{
+    if(DataStorage.userData){
+      let user = sessionStorage.getItem(DataStorage.userData.userId);
+      if(user){
+        return JSON.parse(user).token;
+      }
+    }
   }
 }

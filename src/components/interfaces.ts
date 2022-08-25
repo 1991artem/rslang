@@ -43,3 +43,7 @@ export interface IUserSettings {
     wordsPerDay: number,
     optional: {}
 }
+export interface INewToken {
+    refreshToken: string,
+    token: string
+}

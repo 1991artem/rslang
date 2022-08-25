@@ -1,6 +1,5 @@
 .footer {
   background-color: $color-dark-m;
-  padding: 20px;  
 }
 
 .footer-container {
@@ -52,16 +51,11 @@
 }
 
 .rss-logo {
-  color: $color-primary;
-  width: 121px;
-  height: 45px;
-  background-image: url("/src/assets/svg/rs_school_js.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
+  width: 7rem;
+  height: auto;
 }
 
 .rss-logo:hover {
-  filter: invert(67%) sepia(67%) saturate(625%) hue-rotate(352deg) brightness(99%) contrast(103%);
-  cursor: pointer;
+  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
   transition: 0.5s;
 }
