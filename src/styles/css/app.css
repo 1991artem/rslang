@@ -692,7 +692,6 @@ body {
 
 .footer {
   background-color: #2c3849;
-  padding: 20px;
 }
 
 .footer-container {
@@ -746,17 +745,12 @@ body {
 }
 
 .rss-logo {
-  color: #f4efe7;
-  width: 121px;
-  height: 45px;
-  background-image: url("/assets/svg/rs_school_js.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
+  width: 7rem;
+  height: auto;
 }
 
 .rss-logo:hover {
-  filter: invert(67%) sepia(67%) saturate(625%) hue-rotate(352deg) brightness(99%) contrast(103%);
-  cursor: pointer;
+  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
   transition: 0.5s;
 }
 
@@ -823,6 +817,62 @@ li {
   background-color: transparent;
 }
 
+.advantages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 3rem;
+}
+
+.advantages-content {
+  display: flex;
+  flex-wrap: wrap;
+  -moz-column-gap: 6rem;
+       column-gap: 6rem;
+  margin-bottom: 7rem;
+}
+
+.advantages-title {
+  font-size: 3rem;
+  color: #3F5069;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.adv-card-icon {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.advantages-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 290px;
+  padding: 40px 20px;
+  flex-wrap: wrap;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+.adv-card-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  color: #000;
+  font-weight: 400;
+  margin-bottom: 1.5rem;
+}
+
+.adv-card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+  color: #000;
+}
+
 .hero-container {
   display: flex;
   justify-content: space-evenly;
@@ -837,8 +887,8 @@ li {
 .hero-title {
   text-align: left;
   font-family: "Roboto", sans-serif;
-  font-size: 4rem;
-  color: #3F5069;
+  font-size: 3rem;
+  color: #2c3849;
   font-weight: 700;
   line-height: 1;
   margin: 0;
