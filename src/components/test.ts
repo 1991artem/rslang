@@ -1,5 +1,4 @@
 import { API } from "./api";
-import { DataStorage } from "./dataStorage";
 export class Test {
     active(){
         const onClick = (event: Event) => {
