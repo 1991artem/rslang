@@ -21,6 +21,8 @@ autorisationForm.buttonAutorisationForm();
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups");
 const pagination = document.querySelector("#pagination");
+const quantityPages = 15;
+const quantityGroups = 6;
 
 function dinamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
   let i = 1
@@ -35,6 +37,7 @@ function dinamicList(maxValue: number, elementName: string, className: string, c
 
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
+  console.log(btn)
   const selectedNavItem = btn.getAttribute("data-nav");
   //TODO: add initial loading for nav items
   switch (selectedNavItem) {
@@ -46,21 +49,9 @@ nav?.addEventListener("click", async (event) => {
       //подсвечивать вкладку на которой находимся и задизейблить ее чтобы не жмякалась
       const dataCards = await API.loadWordsFromServer(0, 0);
       renderCards(dataCards as IWordsData[]);
-      //15 и 5 это меджик намберс - вынести в переменную с понятным названием что это
-      dinamicList(15, "li", "pagination_number", pagination!);
-      dinamicList(6, "button", "groups_list__item", groups!)
-      // for (let i = 1; i <= 15; i++) {
-      //   let li = document.createElement("li");
-      //   li.classList.add("pagination_number");
-      //   li.innerText = String(i);
-      //   pagination?.appendChild(li);
-      // }
-      // for (let i = 1; i <= 6; i++) {
-      //   let btn = document.createElement("button");
-      //   btn.classList.add("groups_list__item");
-      //   btn.innerText = String(i);
-      //   groups?.appendChild(btn)
-      // }
+      dinamicList(quantityPages, "li", "pagination_number", pagination!);
+      dinamicList(quantityGroups, "button", "groups_list__item", groups!);
+      btn.classList.add('active');
       break;
 
     case "games":
