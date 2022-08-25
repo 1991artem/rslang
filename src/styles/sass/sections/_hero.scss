@@ -12,8 +12,8 @@
 .hero-title {
   text-align: left;
   font-family: "Roboto", sans-serif;
-  font-size: 4rem;
-  color: $color-dark;
+  font-size: 3rem;
+  color: $color-dark-m;
   font-weight: 700;
   line-height: 1;
   margin: 0;
@@ -29,12 +29,9 @@
 
 .hero-text,
 .hero-under-text {
-  font-family: $font-stack;
-  font-size: 16px;
-  line-height: 1.5;
+  @include paragraph-txt;
   display: block;
   margin: 16px 0px 0px;
-  color: $font-color_primary;
 }
 
 .hero-img-box {
