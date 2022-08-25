@@ -131,8 +131,11 @@ module.exports = {
         type: 'asset/resource',
       },
       {
-        test: /\.(svg)$/i,
+        test: /\.(svg | scss)$/i,
         type: 'file-loader',
+        generator: {
+          filename: 'assets/svg/[name][ext]',
+        },
       },
       {
         test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,

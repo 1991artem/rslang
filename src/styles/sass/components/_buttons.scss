@@ -22,11 +22,14 @@
 }
 
 .cta-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
   margin-top: 24px;
-  padding: 8px 40px;
-  color: rgb(250, 252, 254);
-  background-color: rgb(247, 153, 40);
+  background-color: $color-orange;
   font-size: 16px;
   line-height: 1.5;
   transition: background-color 0.2s ease 0s;
+  text-transform: none;
 }
