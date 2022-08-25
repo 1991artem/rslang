@@ -29,12 +29,9 @@
 
 .hero-text,
 .hero-under-text {
-  font-family: $font-stack;
-  font-size: 16px;
-  line-height: 1.5;
+  @include paragraph-txt;
   display: block;
   margin: 16px 0px 0px;
-  color: $font-color_primary;
 }
 
 .hero-img-box {

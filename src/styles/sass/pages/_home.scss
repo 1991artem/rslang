@@ -1,3 +1,4 @@
+// advantages section
 .advantages-container {
   display: flex;
   flex-direction: column;
@@ -10,13 +11,6 @@
   flex-wrap: wrap;
   column-gap: 6rem;
   margin-bottom: 7rem;
-}
-
-.advantages-title {
-  font-size: 3rem;
-  color: $color-dark;
-  font-family: $font-stack;
-  font-weight: 400;
 }
 
 .adv-card-icon {
@@ -38,17 +32,74 @@
 }
 
 .adv-card-title {
-  font-family: $font-stack;
-  font-size: 24px;
-  color: $font-color_primary;
-  font-weight: 400;
   margin-bottom: 1.5rem;
 }
 
 .adv-card-desc {
+  @include paragraph-txt;
+}
+
+// our team section
+
+.about-photo {
+  width: 273px;
+  height: auto;
+  margin: 0px;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  row-gap: 3rem;
+  padding: 32px 0px;
   font-size: 16px;
-  font-weight: 400;
-  line-height: 1.6;
-  font-family: $font-stack;
-  color: $font-color_primary;
+  line-height: 1.5;
+  margin-bottom: 7rem;
+}
+
+.about-card {
+  max-width: 67rem;
+  max-height: 16.6rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: $color-dark;
+  border-radius: 10px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 32px 18px 40px;
+}
+
+.about-subtitle {
+  font-size: $font-stack;
+  color: $color-gray;
+}
+
+.about-desc {
+  margin: 14px 0px 0px;
+  color: $font-color_light;
+}
+
+.github-icon {
+  max-width: 2.5rem;
+  height: auto;
+  margin: 14px 0 0;
+}
+
+.github-icon:hover {
+  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
+  transition: 0.5s;
+}
+
+.about-name {
+  color: $font-color_light;
 }
