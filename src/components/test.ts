@@ -1,4 +1,5 @@
 import { API } from "./api";
+
 export class Test {
     active(){
         const onClick = (event: Event) => {
