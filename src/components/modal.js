@@ -27,6 +27,8 @@ function myFunction() {
   }
 }
 
+
+// switch between login & sign up forms
 function signup() {
     document.querySelector(".login-form-container").style.cssText = "display: none;";
     document.querySelector(".signup-form-container").style.cssText = "display: block;";

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,14 +9,14 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <title>RSlang</title>
+  <!-- <link rel="stylesheet" href="./styles/css/app.css"> -->
 </head>
-
 <body>
   <header class="header" id="pageHeader">
-    <div class="wrapper header-wrapper">
+    <div class="wrapper header-container">
       <div class="header-left">
         <img src="./assets/logo.png" alt="logo icon" class="logo-icon" width="40px" height="40px">
-        <a href="/src/index.html" class="logo">RSLang</a>
+        <a href="index.html" class="logo">RSLang</a>
       </div>
       <div class="header-right">
         <nav class="nav__container">
@@ -49,6 +48,23 @@
     </div>
   </header>
   <main class="main">
+    <section class="hero-page">
+      <div class="wrapper hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title">RSLang</h1>
+          <span class="hero-subtitle">Learning English has never been so easy</span>
+          <p class="hero-text">Memorizing English words can be fun and challenging. Play games, listen to pronunciation, improve your knowledge. With our app, learning is a joy.</p>
+          <p class="hero-under-text">We Hope You'll Enjoy It!</p>
+          <a href="#textbook" class="btn-basic cta-btn">let's start</a>
+        </div>
+      </div>
+    </section>
+    <section class="about-page">
+      <div class="wrapper about-container">
+
+      </div>
+    </section>
+    <button id="test">Test</button>
     <div class="groups">
     </div>
     <ul id="pagination">
@@ -56,7 +72,19 @@
     <div class="main_container">
     </div>
   </main>
-  <footer class="footer"></footer>
+  <footer class="footer">
+    <div class="wrapper footer-container">
+      <div class="year-box">
+        <p class="year">© 2022</p>
+      </div>
+      <div class="github-box">
+        <a href="https://github.com/1991artem" class="github-link">1991artem</a>
+        <a href="https://github.com/Snitkon" class="github-link">Snitkon</a>
+        <a href="https://github.com/annabarnv" class="github-link">annabarnv</a>
+      </div>
+      <a href="https://rs.school/js/" class="rss-logo"></a>
+    </div>
+  </footer>
   <div id="openModal" class="modal overlay__modal closeModal">
     <a href="#close" class="modal-out-area"></a>
     <div class="modal-dialog">
@@ -115,7 +143,6 @@
       </div>
     </div>
   </div>
-  <script src="./modal.js"></script>
+  <script src="./components/modal.js"></script>
 </body>
-
 </html>
