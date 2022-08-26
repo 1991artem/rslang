@@ -1,6 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
 .btn-basic {
+  font-family: "Roboto", sans-serif;
   display: inline-block;
   outline: none;
   cursor: pointer;
@@ -70,19 +73,16 @@
 }
 
 .cta-btn {
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
   margin-top: 24px;
-  padding: 8px 40px;
-  color: rgb(250, 252, 254);
-  background-color: rgb(247, 153, 40);
-  text-align: center;
-  text-decoration: none;
-  text-transform: none;
+  background-color: #fa6930;
   font-size: 16px;
   line-height: 1.5;
-  outline: none;
-  border: none;
-  transition: background-color 0.2s ease 0s;
+  transition: background-color 0.5s ease 0s;
+  text-transform: none;
 }
 
 .modal {
@@ -94,8 +94,6 @@
   background: rgba(0, 0, 0, 0.5);
   z-index: 1050;
   opacity: 0;
-  -webkit-transition: opacity 200ms ease-in;
-  -moz-transition: opacity 200ms ease-in;
   transition: opacity 200ms ease-in;
   transition: all 0.8s ease 0s;
   pointer-events: none;
@@ -333,7 +331,8 @@ a {
 abbr[title] {
   border-bottom: none; /* 1 */
   text-decoration: underline; /* 2 */
-  text-decoration: underline dotted; /* 2 */
+  -webkit-text-decoration: underline dotted;
+          text-decoration: underline dotted; /* 2 */
 }
 
 /**
@@ -586,6 +585,28 @@ li {
   box-sizing: border-box;
 }
 
+.section-title {
+  font-size: 3rem;
+  color: #3F5069;
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+}
+
+.card-title {
+  font-family: "Roboto", sans-serif;
+  font-size: 24px;
+  color: #000;
+  font-weight: 400;
+}
+
+.paragraph-text {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+  color: #000;
+}
+
 .header {
   background-color: #f4efe7;
 }
@@ -693,7 +714,6 @@ body {
 
 .footer {
   background-color: #2c3849;
-  padding: 20px;
 }
 
 .footer-container {
@@ -704,10 +724,13 @@ body {
 }
 
 .year-box {
+  max-height: -webkit-fit-content;
+  max-height: -moz-fit-content;
   max-height: fit-content;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: "Roboto", sans-serif;
 }
 
 .github-box {
@@ -718,6 +741,7 @@ body {
 }
 
 .github-link {
+  font-family: "Roboto", sans-serif;
   position: relative;
   color: #fff;
   text-decoration: none;
@@ -743,17 +767,12 @@ body {
 }
 
 .rss-logo {
-  color: #f4efe7;
-  width: 121px;
-  height: 45px;
-  background-image: url("/src/assets/svg/rs_school_js.svg");
-  background-size: contain;
-  background-repeat: no-repeat;
+  width: 7rem;
+  height: auto;
 }
 
 .rss-logo:hover {
-  filter: invert(67%) sepia(67%) saturate(625%) hue-rotate(352deg) brightness(99%) contrast(103%);
-  cursor: pointer;
+  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
   transition: 0.5s;
 }
 
@@ -765,14 +784,185 @@ body {
   display: none;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+li {
+  list-style-type: none;
+}
+
+#pagination {
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  list-style-type: none;
+}
+
+.pagination_number {
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.textbook-list_item {
+  margin: 0 25%;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgb(255, 255, 255);
+}
+
+.bnt-textbook {
+  margin-bottom: 10px;
+}
+
+.groups {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.groups_list__item {
+  margin: 10px;
+  width: 55px;
+  height: 55px;
+  border: 2px solid rgb(51, 68, 84);
+  border-radius: 50%;
+  background-color: transparent;
+}
+
+.advantages-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 3rem;
+}
+
+.advantages-content {
+  display: flex;
+  flex-wrap: wrap;
+  -moz-column-gap: 6rem;
+       column-gap: 6rem;
+  margin-bottom: 7rem;
+}
+
+.adv-card-icon {
+  display: inline-block;
+  margin-bottom: 2rem;
+}
+
+.advantages-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 290px;
+  padding: 40px 20px;
+  flex-wrap: wrap;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
+  background-color: rgb(255, 255, 255);
+}
+
+.adv-card-title {
+  margin-bottom: 1.5rem;
+}
+
+.adv-card-desc {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+  color: #000;
+}
+
+.about-photo {
+  width: 273px;
+  height: auto;
+  margin: 0px;
+}
+
+.about-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-flow: column wrap;
+  row-gap: 3rem;
+  padding: 32px 0px;
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 7rem;
+}
+
+.about-card {
+  max-width: 67rem;
+  max-height: 16.6rem;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 1.5;
+  background-color: #3F5069;
+  border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  padding: 18px 32px 18px 40px;
+}
+
+.about-subtitle {
+  font-size: "Roboto", sans-serif;
+  color: #8d8d8d;
+}
+
+.about-desc {
+  margin: 14px 0px 0px;
+  color: #fff;
+}
+
+.github-icon {
+  max-width: 2.5rem;
+  height: auto;
+  margin: 14px 0 0;
+}
+
+.github-icon:hover {
+  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
+  transition: 0.5s;
+}
+
+.about-name {
+  color: #fff;
+}
+
+.hero-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
 .hero-content {
   max-width: 424px;
+  margin: 0 -10rem 20rem 0;
 }
 
 .hero-title {
+  text-align: left;
   font-family: "Roboto", sans-serif;
-  font-size: 60px;
-  color: #3F5069;
+  font-size: 3rem;
+  color: #2c3849;
   font-weight: 700;
   line-height: 1;
   margin: 0;
@@ -788,9 +978,26 @@ body {
 
 .hero-text,
 .hero-under-text {
-  font-family: "Roboto", sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  font-weight: 400;
+  line-height: 1.6;
+  font-family: "Roboto", sans-serif;
+  color: #000;
   display: block;
   margin: 16px 0px 0px;
-}/*# sourceMappingURL=app.css.map */
+}
+
+.hero-img-box {
+  width: 700px;
+  margin: 6rem 0rem 7rem 0rem;
+}
+
+.hero-img-guy {
+  width: 30vw;
+  margin-left: 18rem;
+}
+
+.hero-img-girl {
+  width: 30vw;
+  margin-right: 18rem;
+}

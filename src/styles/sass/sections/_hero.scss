@@ -1,16 +1,19 @@
-.hero-page {
-  background-image: url(/assets/image/classroom.jpg);
-  background-repeat: no-repeat;
+.hero-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
 }
 
 .hero-content {
   max-width: 424px;
+  margin: 0 -10rem 20rem 0;
 }
 
 .hero-title {
-  font-family: $font-stack;
-  font-size: 60px;
-  color: $color-dark;
+  text-align: left;
+  font-family: "Roboto", sans-serif;
+  font-size: 3rem;
+  color: $color-dark-m;
   font-weight: 700;
   line-height: 1;
   margin: 0;
@@ -26,9 +29,22 @@
 
 .hero-text,
 .hero-under-text {
-  font-family: $font-stack;
-  font-size: 16px;
-  line-height: 1.5;
+  @include paragraph-txt;
   display: block;
   margin: 16px 0px 0px;
+}
+
+.hero-img-box {
+  width: 700px;
+  margin: 6rem 0rem 7rem 0rem;
+}
+
+.hero-img-guy {
+  width: 30vw;
+  margin-left: 18rem;
+}
+
+.hero-img-girl {
+  width: 30vw;
+  margin-right: 18rem;
 }
