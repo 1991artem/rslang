@@ -1,8 +1,6 @@
 import { StartPageListener } from "../startPageListener";
-import { IUserData } from '../interfaces';
+import { IUserData } from '../interfacec';
 import { API } from '../api';
-import '../../styles/sass/pages/_authorization.scss';
-
 
 export class AutorisationForm {
     buttonAutorisationForm(){

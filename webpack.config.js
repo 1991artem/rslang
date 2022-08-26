@@ -99,7 +99,7 @@ module.exports = {
     path: path.resolve(__dirname, "dist/"),
   },
   resolve: {
-    extensions: [".js", ".ts", ".json", ".png", ".scss"],
+    extensions: [".js", ".ts", ".json", ".png", ".scss", ".css"],
     alias: {
       "@components": path.resolve(__dirname, "src/components"),
       "@": path.resolve(__dirname, "src"),
@@ -127,14 +127,14 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/i,
+        test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: 'asset/resource',
       },
       {
-        test: /\.(svg | scss)$/i,
+        test: /\.(svg)$/i,
         type: 'file-loader',
         generator: {
-          filename: 'assets/svg/[name][ext]',
+          filename: 'assets/icons/[name][ext]',
         },
       },
       {
