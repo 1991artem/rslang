@@ -784,20 +784,6 @@ body {
   display: none;
 }
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-li {
-  list-style-type: none;
-}
-
 #pagination {
   display: flex;
   justify-content: center;

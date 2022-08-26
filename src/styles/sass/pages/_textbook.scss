@@ -1,20 +1,6 @@
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400);
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-li {
-  list-style-type: none;
-}
-
 #pagination {
   display: flex;
   flex-wrap: wrap;
@@ -53,7 +39,7 @@ li {
   gap: 10px;
 }
 
-.active-group{
+.active-group {
   background-color: coral;
 }
 
