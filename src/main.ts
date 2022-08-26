@@ -4,7 +4,6 @@ import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
-import { container } from "webpack";
 import { Test } from './components/test';
 import './styles/app.scss'
 
@@ -26,19 +25,16 @@ const quantityPages = 15;
 const quantityGroups = 6;
 
 function dinamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
-  let i = 1
-  for(i; i <= maxValue; i++) {
-    let element = document.createElement(elementName);
-    element?.classList.add(className);
+  for(let i = 1; i <= maxValue; i++) {
+    const element = document.createElement(elementName);
+    element.classList.add(className);
     element.innerText = String(i);
-    containerForElement.appendChild(element);
-    //вынести вставку элементов один раз всех после цикла
+    containerForElement.insertAdjacentElement("beforeend", element)
   }
 }
 
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
-  console.log(btn)
   const selectedNavItem = btn.getAttribute("data-nav");
   //TODO: add initial loading for nav items
   switch (selectedNavItem) {
