@@ -186,7 +186,6 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData[]) => {
-        console.log(data)
         return data;
       })
       .catch((err) => console.log("Add User Error", err));
