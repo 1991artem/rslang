@@ -78,8 +78,18 @@
   transform-origin: left;
 }
 
+
 .nav-link {
   color: $font-color_primary;
+}
+
+.active {
+  color: red;
+  pointer-events: none;
+}
+
+.act::after {
+  content: none;
 }
 
 .sticky {

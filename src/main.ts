@@ -4,7 +4,6 @@ import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
-import { container } from "webpack";
 import { Test } from './components/test';
 import './styles/app.scss'
 
@@ -20,23 +19,24 @@ const test = new Test();
 test.active();
 
 const nav = document.querySelector(".nav");
-const groups = document.querySelector(".groups");
-const pagination = document.querySelector("#pagination");
+const groups = document.querySelector(".groups") as HTMLElement;
+const pagination = document.querySelector("#pagination") as HTMLElement;
+const quantityPages = 30;
+const quantityGroups = 6;
 
 function dinamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
-  let i = 1
-  for(i; i <= maxValue; i++) {
-    let element = document.createElement(elementName);
-    element?.classList.add(className);
+  for(let i = 1; i <= maxValue; i++) {
+    const element = document.createElement(elementName);
+    element.classList.add(className);
     element.innerText = String(i);
-    containerForElement.appendChild(element);
-    //вынести вставку элементов один раз всех после цикла
+    containerForElement.insertAdjacentElement("beforeend", element)
   }
 }
 
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
-  const selectedNavItem = btn.getAttribute("data-nav");
+  const item = btn.parentElement as HTMLElement
+  const selectedNavItem = item.getAttribute("data-nav");
   //TODO: add initial loading for nav items
   switch (selectedNavItem) {
     case "home":
@@ -44,24 +44,16 @@ nav?.addEventListener("click", async (event) => {
       break;
 
     case "textbook":
-      //подсвечивать вкладку на которой находимся и задизейблить ее чтобы не жмякалась
       const dataCards = await API.loadWordsFromServer(0, 0);
       renderCards(dataCards as IWordsData[]);
-      //15 и 5 это меджик намберс - вынести в переменную с понятным названием что это
-      dinamicList(15, "li", "pagination_number", pagination!);
-      dinamicList(6, "button", "groups_list__item", groups!)
-      // for (let i = 1; i <= 15; i++) {
-      //   let li = document.createElement("li");
-      //   li.classList.add("pagination_number");
-      //   li.innerText = String(i);
-      //   pagination?.appendChild(li);
-      // }
-      // for (let i = 1; i <= 6; i++) {
-      //   let btn = document.createElement("button");
-      //   btn.classList.add("groups_list__item");
-      //   btn.innerText = String(i);
-      //   groups?.appendChild(btn)
-      // }
+      dinamicList(quantityPages, "li", "pagination_number", pagination!);
+      dinamicList(quantityGroups, "button", "groups_list__item", groups!);
+      item.classList.add('active');
+      btn.classList.add('active');
+      const firstPaginatioElement = pagination.querySelector(".pagination_number") as HTMLElement;
+      const firstGroupsElement = groups?.querySelector(".groups_list__item") as HTMLElement;
+      firstPaginatioElement.classList.add("active-page");
+      firstGroupsElement.classList.add("active-group");
       break;
 
     case "games":
@@ -85,6 +77,11 @@ groups?.addEventListener("click", async (event) => {
   const btnGroup = event?.target as HTMLElement;
   if (btnGroup.classList.contains("groups_list__item")) {
     btnGroupNumber = +btnGroup.innerText;
+    let active = document.querySelector('.active-group') as HTMLElement
+    if(active != null) {
+      active.classList.remove('active-group')
+    }
+    btnGroup.classList.add('active-group');
     const nextGroupData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
     renderCards(nextGroupData as IWordsData[]);
   }
@@ -92,8 +89,13 @@ groups?.addEventListener("click", async (event) => {
 
 pagination?.addEventListener("click", async (event: Event) => {
   const btn = event?.target as HTMLElement;
-  btnNumber = +btn.innerText;
   if (btn.classList.contains("pagination_number")) {
+    btnNumber = +btn.innerText;
+    let active = document.querySelector('.active-page') as HTMLElement
+    if(active != null) {
+      active.classList.remove('active-page')
+    }
+    btn.classList.add('active-page');
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
     renderCards(nextPageData as IWordsData[]);
   }
