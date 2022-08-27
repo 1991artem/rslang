@@ -9,4 +9,5 @@ export class DataStorage {
     static userWords: IGetUserWords | null = null;
     static userStatistics: IUserStatistic | null = null;
     static userSettings: IUserSettings | null = null;
+    static wordForGame: IWordsData[] | null = null;
 }

@@ -4,8 +4,10 @@ import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
-import { Test } from './components/test';
 import './styles/app.scss'
+import { StatisticPage } from './components/statistic/staticticPage';
+import { SprintPage } from './components/sprint/sprintPage';
+import { SprintGame } from "./components/sprint/sprintGame";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
@@ -14,9 +16,13 @@ const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
 const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
-// API.loadWordsFromServer(0,1)
-const test = new Test();
-test.active();
+const statistic: StatisticPage = new StatisticPage();
+statistic.build();
+const sprintPage: SprintPage = new SprintPage();
+sprintPage.build();
+const sprintGame: SprintGame = new SprintGame();
+sprintGame.btnClick();
+
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
