@@ -222,6 +222,7 @@ export class API {
     if(DataStorage.userData){
       let user = sessionStorage.getItem(DataStorage.userData.userId);
       if(user){
+        console.log(JSON.parse(user).token)
         return JSON.parse(user).token;
       }
     }
