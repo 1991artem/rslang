@@ -33,7 +33,6 @@ export class SprintPage {
     }
     buttonClick(){
         const onClick = (e:Event) => {
-            console.log(e.target)
             if((<HTMLElement>e.target).innerHTML == 'Games'){
                 if(StartPageListener.MAIN){
                     StartPageListener.MAIN.classList.add('display_none');
