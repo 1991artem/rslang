@@ -9,6 +9,8 @@ export class StartPageListener {
     static STATISTIC: HTMLElement | null;
     static NAV: HTMLElement | null;
     static SPRINT: HTMLElement | null;
+    static TIMER: HTMLElement | null;
+    static SPRINT_WINDOW: HTMLElement | null;
 
     static listen(){
         StartPageListener.AUTORISATION_SINGIN = document.getElementById('btn-singin');
@@ -20,6 +22,8 @@ export class StartPageListener {
         StartPageListener.STATISTIC = document.getElementById('statistic');
         StartPageListener.NAV = document.querySelector('.nav');
         StartPageListener.SPRINT = document.getElementById('sprint-game');
+        StartPageListener.TIMER = document.querySelector('.sprint-game-timer');
+        StartPageListener.SPRINT_WINDOW = document.querySelector('.sprint-game-window-active');
     }
 
 }

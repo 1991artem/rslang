@@ -47,3 +47,9 @@ export interface INewToken {
     refreshToken: string,
     token: string
 }
+export interface IResSprint {
+    word: string;
+    wordTranslate: string,
+    answer: string,
+    result: boolean
+}
