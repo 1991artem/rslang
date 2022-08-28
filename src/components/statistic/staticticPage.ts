@@ -2,6 +2,7 @@ import { StartPageListener } from "../startPageListener";
 import "./statistics.scss"
 import { DataStorage } from '../dataStorage';
 import { API } from "../api";
+import { IStatistic } from "../interfaces";
 
 export class StatisticPage {
     build(){
@@ -12,7 +13,7 @@ export class StatisticPage {
             <div>
             <p>Статистика</p>
             <button class="get-statistic">Статистика за день</button>
-            <div><p>Не хватает данных по статистике</p></div>
+            <div class="statistic-result"><p>Не хватает данных по статистике</p></div>
             </div>
             `;
             StartPageListener.MAIN.before(STATISTIC);
@@ -34,9 +35,12 @@ export class StatisticPage {
                     }
             }
         }
-        const getDataCtatistic = () => {
+        const getDataCtatistic = async () => {
             if(DataStorage.userData){
-                API.getUserStatisticFromServer(DataStorage.userData.userId);
+                if(StartPageListener.STATISTIC){
+                    let statistic = await API.getUserStatisticFromServer(DataStorage.userData.userId);
+                    StartPageListener.STATISTIC.children[0].children[2].innerHTML = (<IStatistic>statistic).learnedWords.toString()
+                }
             }
         }
         if(StartPageListener.NAV){

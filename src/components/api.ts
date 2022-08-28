@@ -1,4 +1,4 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IUserSettings } from "./interfaces";
+import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
@@ -143,13 +143,12 @@ export class API {
 
   // ================================== Users/Statistic ===========================================================
 
-  static async getUserStatisticFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
+  static async getUserStatisticFromServer(userId: string): Promise<IStatistic | void> {
+    return await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IUserStatistic) => {
-        DataStorage.userStatistics = data;
-        console.log(data);
+      .then((data: IStatistic) => {
+        return data;
       })
       .catch((err) => console.log("load agregated word Error", err));
   }

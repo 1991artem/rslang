@@ -1,12 +1,13 @@
 import { API } from '../api';
 import { IWordsData, IResSprint } from 'src/components/interfaces';
 import { StartPageListener } from '../startPageListener';
+import { DataStorage } from '../dataStorage';
 
 export class SprintGame {
-    wordArray: IWordsData[] | null;
+    wordArray: IWordsData[];
     resultArray: IResSprint[];
     constructor(){
-        this.wordArray = null
+        this.wordArray = []
         this.resultArray = [];
     }
     btnClick(){
@@ -23,14 +24,14 @@ export class SprintGame {
             let level: number = Number(selected.value.split('-')[1]);
             let page: number = Math.floor(Math.random()*10);
             (async () => {
-                this.wordArray = await API.loadWordsFromServer(level-1, page) as IWordsData[];
-                await this.buildGamePage();
+                this.wordArray = (await API.loadWordsFromServer(level-1, page) as IWordsData[]);
+                setTimeout(()=> this.buildGamePage(),1500);
             })();
 
         }
     }
     buildGamePage(){
-        console.log(this.wordArray);
+        console.log(this.wordArray)
         let game: HTMLElement = document.createElement('div');
         game.id = 'sprint-game-window';
         game.innerHTML = `
@@ -56,7 +57,7 @@ export class SprintGame {
         this.choiseWords();
     }
     setTimer(){
-        let timer: number = 60;
+        let timer: number = 5;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -86,10 +87,20 @@ export class SprintGame {
                 if(((<HTMLElement>(e.target)).innerHTML === 'Yes') && position < this.wordArray?.length) {
                     this.userAnswerYes(<string>translateWord?.innerHTML, position);
                     position++;
+                    if((this.wordArray.length - position) < 2){
+                        (async () => {
+                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                        })();
+                    }
                 };
                 if(((<HTMLElement>(e.target)).innerHTML === 'No') && position > 0) {
                     this.userAnswerNo(<string>translateWord?.innerHTML, position);
                     position++;
+                    if((this.wordArray.length - position) < 2){
+                        (async () => {
+                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                        })();
+                    }
                 };
 
                 if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
@@ -161,19 +172,40 @@ export class SprintGame {
         }
     }
     showResult(){
-        if(StartPageListener.SPRINT_WINDOW){
-            let result: string = '';
-            this.resultArray.forEach((element: IResSprint) => {
-                result +=`
-                <div class="res-row ${element.result}">
-                <div><p>${element.answer}</p></div>
-                <div><p>${element.word}</p></div>
-                <div><p>${element.wordTranslate}</p></div>
-                </div>
-                `;
-            });
-            StartPageListener.SPRINT_WINDOW.innerHTML=result;
-        }
+        if(StartPageListener.SPRINT){
+            const dataResult = (): string =>{
+                let result: string = '';
+                this.resultArray.forEach((element: IResSprint) => {
+                    result +=`
+                    <div class="resultSprint">
+                    <div class="point-result ${element.result}"></div>
+                    <div class="result-word"><p>Word: ${element.word}</p></div>
+                    <div class="result-word"><p>Сorrect: ${element.wordTranslate}</p></div>
+                    </div>
+                    `;
+                });
+                return result;
+            }
 
+            StartPageListener.SPRINT.innerHTML=`
+            <div class="result-window">${dataResult()}</div>
+            <div class="correct-result-percent"><p>Done ${this.resultArray.length} words</p></div>
+            <div class="correct-result-percent"><p>Correct result ${this.calculateResult()} %</p></div>
+            `;
+        }
+    }
+    calculateResult(): number{
+        let result = 0;
+        this.resultArray.forEach((element: IResSprint) => {
+            if(element.result){
+                result++;
+            }
+        })
+        let data = {
+                learnedWords: this.resultArray.length,
+                optional: {}
+        }
+        if(DataStorage.userData) API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data));
+        return Math.floor((result / this.resultArray.length)*100);
     }
 }
