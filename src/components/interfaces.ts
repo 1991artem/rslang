@@ -53,3 +53,7 @@ export interface IResSprint {
     answer: string,
     result: boolean
 }
+export interface IStatistic {
+    id: string,
+    learnedWords: number
+}

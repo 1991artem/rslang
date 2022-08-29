@@ -8,9 +8,12 @@ import './styles/app.scss'
 import { StatisticPage } from './components/statistic/staticticPage';
 import { SprintPage } from './components/sprint/sprintPage';
 import { SprintGame } from "./components/sprint/sprintGame";
+import { ModalWindow } from "./components/modal";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
+const modalWindow:ModalWindow = new ModalWindow();
+modalWindow.active();
 const autorisationForm: AutorisationForm = new AutorisationForm();
 const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
