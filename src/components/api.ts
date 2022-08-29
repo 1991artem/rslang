@@ -1,10 +1,9 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IUserSettings } from "./interfaces";
+import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
 export class API {
   static url: string;
-  //Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmY2NDQzZTRlMGM3MDAxNmQ1ZGE1NiIsImlhdCI6MTY2MTMxOTk1NywiZXhwIjoxNjYxMzM0MzU3fQ.DZho5jalR2rIP1tTdtgPEKbEGvytAWQUTmOIaxsubjQ
   constructor(url: string) {
     API.url = url;
   }
@@ -25,20 +24,24 @@ export class API {
       .then((data: IUserDataToken) => {
         console.log(data);
         DataStorage.userData = data;
-        if(!sessionStorage.getItem(`${data.userId}`)){
-          sessionStorage.setItem(`${data.userId}`,JSON.stringify(data));
+        if(!sessionStorage.getItem(`user`)){
+          sessionStorage.setItem(`user`,JSON.stringify(data));
         } else {
           API.checkToken();
         }
         AutorisationForm.closeModalWindow();
+        AutorisationForm.checkAutorisation();
       })
       .catch((err) => {
         console.log("Не удалось найти такого пользователя!!! Повторите попытку");
       });
   }
   static async createUsersOnServer(data: string): Promise<void> {
-    await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
+    await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json"}, body: data })
       .then((response) => this.errorHandler(response))
+      .then((data) => {
+        AutorisationForm.closeModalWindow();
+      })
       .catch((err) => console.log("create User Error", err));
   }
 
@@ -143,13 +146,12 @@ export class API {
 
   // ================================== Users/Statistic ===========================================================
 
-  static async getUserStatisticFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
+  static async getUserStatisticFromServer(userId: string): Promise<IStatistic | void> {
+    return await fetch(`${this.url}/users/${userId}/statistics`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IUserStatistic) => {
-        DataStorage.userStatistics = data;
-        console.log(data);
+      .then((data: IStatistic) => {
+        return data;
       })
       .catch((err) => console.log("load agregated word Error", err));
   }
@@ -213,15 +215,15 @@ export class API {
     if(DataStorage.userData){
       DataStorage.userData.refreshToken = <string>DataStorage.newToken?.refreshToken;
       DataStorage.userData.token = <string>DataStorage.newToken?.token;
-      sessionStorage.setItem(`${DataStorage.userData.userId}`,JSON.stringify(DataStorage.userData));
-      console.log(sessionStorage.getItem(DataStorage.userData.userId));
+      sessionStorage.setItem(`user`,JSON.stringify(DataStorage.userData));
     }
 
   }
   static getToken(): string | undefined{
     if(DataStorage.userData){
-      let user = sessionStorage.getItem(DataStorage.userData.userId);
+      let user = sessionStorage.getItem('user');
       if(user){
+        console.log(JSON.parse(user).token)
         return JSON.parse(user).token;
       }
     }
