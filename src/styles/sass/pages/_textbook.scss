@@ -124,11 +124,13 @@ p.transcription {
 }
 
 .groups {
+  position: fixed;
+  left: 0;
+  top: 0;
   display: flex;
-  justify-content: center;
-  flex-direction: row;
+  flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  justify-content: space-between;
 }
 
 .active-group {
@@ -149,7 +151,7 @@ p.transcription {
   border-radius: 0.5rem;
   color: #2c2647;
   font-size: 1rem;
-  font-family: 'Gilroy-Heavy';
+  font-family: Roboto, sans-serif;
   justify-content: space-between;
   padding: 0.5rem;
   padding-left: 1rem;
@@ -160,5 +162,7 @@ p.transcription {
   border: none;
   cursor: pointer;
   transition: all easy 0.5s;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  border-radius: 10px;
 }
 
