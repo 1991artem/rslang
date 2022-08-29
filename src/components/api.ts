@@ -30,14 +30,18 @@ export class API {
           API.checkToken();
         }
         AutorisationForm.closeModalWindow();
+        AutorisationForm.checkAutorisation();
       })
       .catch((err) => {
         console.log("Не удалось найти такого пользователя!!! Повторите попытку");
       });
   }
   static async createUsersOnServer(data: string): Promise<void> {
-    await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
+    await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json"}, body: data })
       .then((response) => this.errorHandler(response))
+      .then((data) => {
+        AutorisationForm.closeModalWindow();
+      })
       .catch((err) => console.log("create User Error", err));
   }
 

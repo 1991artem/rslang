@@ -5,19 +5,19 @@ export class ModalWindow {
     this.singin = true;
   }
   active(){
-    const login = () => {
-      console.log('click');
-      if(this.singin){
+    const login = (e: Event) => {
+      if((e.target as HTMLElement).id === 'sing-up'){
         (document.querySelector(".login-form-container") as HTMLElement).style.cssText = "display: none;";
         (document.querySelector(".signup-form-container") as HTMLElement).style.cssText = "display: block;";
         this.singin = false;
-      } else {
+      }
+      if((e.target as HTMLElement).id === 'sing-in') {
         (document.querySelector(".signup-form-container") as HTMLElement).style.cssText = "display: none;";
         (document.querySelector(".login-form-container") as HTMLElement).style.cssText = "display: block;";
         this.singin = true;
       }
     }
-        document.querySelector('.signup-link')?.addEventListener('click', login);
+        document.querySelector('.modal-content')?.addEventListener('click', login);
   }
 }
 
