@@ -20,16 +20,17 @@ test.active();
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
-const pagination = document.querySelector("#pagination") as HTMLElement;
+let pagination = document.querySelector("#pagination") as HTMLElement;
 const quantityPages = 30;
 const quantityGroups = 6;
 
-function dinamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
+
+function dynamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
   for(let i = 1; i <= maxValue; i++) {
     const element = document.createElement(elementName);
     element.classList.add(className);
     element.innerText = String(i);
-    containerForElement.insertAdjacentElement("beforeend", element)
+    containerForElement.insertAdjacentElement("beforeend", element);
   }
 }
 
@@ -46,8 +47,8 @@ nav?.addEventListener("click", async (event) => {
     case "textbook":
       const dataCards = await API.loadWordsFromServer(0, 0);
       renderCards(dataCards as IWordsData[]);
-      dinamicList(quantityPages, "li", "pagination_number", pagination!);
-      dinamicList(quantityGroups, "button", "groups_list__item", groups!);
+      dynamicList(quantityPages, "li", "pagination_number", pagination!);
+      dynamicList(quantityGroups, "button", "groups_list__item", groups!);
       item.classList.add('active');
       btn.classList.add('active');
       const firstPaginatioElement = pagination.querySelector(".pagination_number") as HTMLElement;
@@ -100,4 +101,3 @@ pagination?.addEventListener("click", async (event: Event) => {
     renderCards(nextPageData as IWordsData[]);
   }
 });
-

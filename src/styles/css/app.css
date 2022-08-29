@@ -691,6 +691,15 @@ li {
   color: #000;
 }
 
+.active {
+  color: red;
+  pointer-events: none;
+}
+
+.act::after {
+  content: none;
+}
+
 .sticky {
   position: fixed;
   top: 0;
@@ -786,6 +795,7 @@ body {
 
 #pagination {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   padding: 0;
   list-style-type: none;
@@ -795,15 +805,53 @@ body {
   margin: 10px;
   padding: 10px;
   border: 1px solid black;
+  cursor: pointer;
+}
+
+.active-page {
+  background-color: coral;
+}
+
+.textbook-list {
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 3rem;
 }
 
 .textbook-list_item {
-  margin: 0 25%;
-  text-align: center;
-  border: 2px solid black;
+  width: 55rem;
+  height: 19rem;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
   border-radius: 10px;
-  margin-bottom: 15px;
-  box-shadow: inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgb(255, 255, 255);
+  padding: 0;
+  background-color: rgb(250, 252, 254);
+}
+
+.textbook-card-img {
+  width: 28rem;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.textbook-list_item__wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  padding: 1.2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.word,
+p.description,
+p.description-translate,
+p.example,
+p.example-translate {
+  margin: 0;
 }
 
 .bnt-textbook {
@@ -813,16 +861,34 @@ body {
 .groups {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  flex-direction: row;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.active-group {
+  background-color: coral;
 }
 
 .groups_list__item {
-  margin: 10px;
-  width: 55px;
-  height: 55px;
-  border: 2px solid rgb(51, 68, 84);
-  border-radius: 50%;
-  background-color: transparent;
+  height: 70px;
+  width: 220px;
+  background-color: #f3f4f8;
+  display: flex;
+  border-radius: 0.5rem;
+  color: #2c2647;
+  font-size: 1rem;
+  font-family: "Gilroy-Heavy";
+  justify-content: space-between;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1.2rem;
+  position: relative;
+  align-items: center;
+  overflow: hidden;
+  border: none;
+  cursor: pointer;
+  transition: all easy 0.5s;
 }
 
 .advantages-container {
