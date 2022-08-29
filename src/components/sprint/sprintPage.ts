@@ -1,5 +1,4 @@
 import { StartPageListener } from "../startPageListener";
-import "./sprint.scss"
 
 export class SprintPage {
     build(){

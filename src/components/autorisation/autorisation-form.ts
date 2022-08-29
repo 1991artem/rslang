@@ -2,11 +2,14 @@ import { StartPageListener } from "../startPageListener";
 import { IUserData } from '../interfaces';
 import { API } from '../api';
 import '../../styles/sass/pages/_authorization.scss';
+import { DataStorage } from '../dataStorage';
+import { IUserDataToken } from '../interfaces';
 
 
 export class AutorisationForm {
     buttonAutorisationForm(){
         StartPageListener.listen();
+        this.checkAutorisation();
         this.singinClick();
         const onClick = (event: Event) => {
             event.preventDefault();
@@ -41,6 +44,16 @@ export class AutorisationForm {
         }
         if(StartPageListener.AUTORISATION_SINGIN){
             StartPageListener.AUTORISATION_SINGIN.addEventListener('click', onClick)
+        }
+    }
+    checkAutorisation(){
+        let userInfo: string | null = sessionStorage.getItem('user');
+        if(userInfo){
+            DataStorage.userData = JSON.parse(userInfo) as IUserDataToken;
+            if(StartPageListener.AUTORISATION_SINGIN){
+                StartPageListener.AUTORISATION_SINGIN.innerHTML = 'LOG OUT';
+                StartPageListener.AUTORISATION_SINGIN.classList.add('true');
+            }
         }
     }
 }

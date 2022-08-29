@@ -1,5 +1,4 @@
 import { StartPageListener } from "../startPageListener";
-import "./statistics.scss"
 import { DataStorage } from '../dataStorage';
 import { API } from "../api";
 import { IStatistic } from "../interfaces";

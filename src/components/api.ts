@@ -4,7 +4,6 @@ import { AutorisationForm } from "./autorisation/autorisation-form";
 
 export class API {
   static url: string;
-  //Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYyZmY2NDQzZTRlMGM3MDAxNmQ1ZGE1NiIsImlhdCI6MTY2MTMxOTk1NywiZXhwIjoxNjYxMzM0MzU3fQ.DZho5jalR2rIP1tTdtgPEKbEGvytAWQUTmOIaxsubjQ
   constructor(url: string) {
     API.url = url;
   }
@@ -25,8 +24,8 @@ export class API {
       .then((data: IUserDataToken) => {
         console.log(data);
         DataStorage.userData = data;
-        if(!sessionStorage.getItem(`${data.userId}`)){
-          sessionStorage.setItem(`${data.userId}`,JSON.stringify(data));
+        if(!sessionStorage.getItem(`user`)){
+          sessionStorage.setItem(`user`,JSON.stringify(data));
         } else {
           API.checkToken();
         }
@@ -212,14 +211,13 @@ export class API {
     if(DataStorage.userData){
       DataStorage.userData.refreshToken = <string>DataStorage.newToken?.refreshToken;
       DataStorage.userData.token = <string>DataStorage.newToken?.token;
-      sessionStorage.setItem(`${DataStorage.userData.userId}`,JSON.stringify(DataStorage.userData));
-      console.log(sessionStorage.getItem(DataStorage.userData.userId));
+      sessionStorage.setItem(`user`,JSON.stringify(DataStorage.userData));
     }
 
   }
   static getToken(): string | undefined{
     if(DataStorage.userData){
-      let user = sessionStorage.getItem(DataStorage.userData.userId);
+      let user = sessionStorage.getItem('user');
       if(user){
         console.log(JSON.parse(user).token)
         return JSON.parse(user).token;
