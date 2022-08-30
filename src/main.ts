@@ -50,9 +50,9 @@ nav?.addEventListener("click", async (event) => {
       dinamicList(quantityGroups, "button", "groups_list__item", groups!);
       item.classList.add('active');
       btn.classList.add('active');
-      const firstPaginatioElement = pagination.querySelector(".pagination_number") as HTMLElement;
+      const firstPaginationElement = pagination.querySelector(".pagination_number") as HTMLElement;
       const firstGroupsElement = groups?.querySelector(".groups_list__item") as HTMLElement;
-      firstPaginatioElement.classList.add("active-page");
+      firstPaginationElement.classList.add("active-page");
       firstGroupsElement.classList.add("active-group");
       break;
 
