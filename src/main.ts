@@ -4,32 +4,42 @@ import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
 import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
-import { Test } from './components/test';
 import './styles/app.scss'
+import { StatisticPage } from './components/statistic/staticticPage';
+import { SprintPage } from './components/sprint/sprintPage';
+import { SprintGame } from "./components/sprint/sprintGame";
+import { ModalWindow } from "./components/modal";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
+const modalWindow:ModalWindow = new ModalWindow();
+modalWindow.active();
 const autorisationForm: AutorisationForm = new AutorisationForm();
 const dataStorage: DataStorage = new DataStorage();
 const startPageListener: StartPageListener = new StartPageListener();
 const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
-// API.loadWordsFromServer(0,1)
-const test = new Test();
-test.active();
+const statistic: StatisticPage = new StatisticPage();
+statistic.build();
+const sprintPage: SprintPage = new SprintPage();
+sprintPage.build();
+const sprintGame: SprintGame = new SprintGame();
+sprintGame.btnClick();
+
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
-const pagination = document.querySelector("#pagination") as HTMLElement;
+let pagination = document.querySelector("#pagination") as HTMLElement;
 const quantityPages = 30;
 const quantityGroups = 6;
 
-function dinamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
+
+function dynamicList(maxValue: number, elementName: string, className: string, containerForElement: Element) {
   for(let i = 1; i <= maxValue; i++) {
     const element = document.createElement(elementName);
     element.classList.add(className);
     element.innerText = String(i);
-    containerForElement.insertAdjacentElement("beforeend", element)
+    containerForElement.insertAdjacentElement("beforeend", element);
   }
 }
 
@@ -46,8 +56,8 @@ nav?.addEventListener("click", async (event) => {
     case "textbook":
       const dataCards = await API.loadWordsFromServer(0, 0);
       renderCards(dataCards as IWordsData[]);
-      dinamicList(quantityPages, "li", "pagination_number", pagination!);
-      dinamicList(quantityGroups, "button", "groups_list__item", groups!);
+      dynamicList(quantityPages, "li", "pagination_number", pagination!);
+      dynamicList(quantityGroups, "button", "groups_list__item", groups!);
       item.classList.add('active');
       btn.classList.add('active');
       const firstPaginationElement = pagination.querySelector(".pagination_number") as HTMLElement;
@@ -100,4 +110,3 @@ pagination?.addEventListener("click", async (event: Event) => {
     renderCards(nextPageData as IWordsData[]);
   }
 });
-

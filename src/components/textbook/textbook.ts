@@ -22,36 +22,48 @@ export class Card {
   }
 
   createCardTemplate(): string {
-    return `<div class="textbook">
-        <ul class="textbook-list">
-          <li class="textbook-list_item">
-            <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}">
-            <div class="textbook-list_item__wrapper">
-              <h2 class="word">${this.wordData.word} ${this.wordData.transcription} ${this.wordData.wordTranslate}</h2>
-              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Word
-                <audio id="sound">
-                <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audio}">
-                </audio>
-              </button>
-              <p class="description">${this.wordData.textMeaning}</p>
-              <p class="description-translate">${this.wordData.textMeaningTranslate}</p>
-              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Description
-                <audio id="sound">
-                <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioMeaning}">
-                </audio>
-              </button>
-              <p class="example">${this.wordData.textExample}</p>
-              <p class="example-translate">${this.wordData.textExampleTranslate}</p>
-              <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Example
-                <audio id="sound">
-                <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioExample}">
-                </audio>
-              </button>
-              
-            </div>
-          </li>
-        </ul>
-        </div>`;
+    return `<ul class="wrapper textbook-list">
+                <li class="textbook-list_item">
+                  <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}" class="textbook-card-img">
+                  <div class="textbook-list_item__wrapper">
+                  <div class="upper_card-row">
+                   <div class="upper_card-box">
+                      <div class="word-wrapper">
+                        <h2 class="word">${this.wordData.word} <p class="transcription">${this.wordData.transcription}</p></h2>
+                      </div>
+                      <div class="translate">${this.wordData.wordTranslate}</div>
+                    </div>
+                    <button data-audio="audioBtn" class="btn-basic bnt-textbook">&#128264; Word
+                    <audio id="sound">
+                    <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audio}">
+                    </audio>
+                   </button>
+                  </div>
+                  <div class="upper_card-row">
+                    <div class="lower_card-box">
+                      <p class="description">${this.wordData.textMeaning}</p>
+                      <p class="description-translate">${this.wordData.textMeaningTranslate}</p>
+                    </div>
+                    <button data-audio="audioBtn" class="btn-basic bnt-bell">&#128264;
+                      <audio id="sound">
+                      <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioMeaning}">
+                      </audio>
+                    </button>
+                  </div>
+                  <div class="upper_card-row">
+                    <div class="lower_card-box">
+                      <p class="example">${this.wordData.textExample}</p>
+                      <p class="example-translate">${this.wordData.textExampleTranslate}</p>
+                      </div>
+                      <button data-audio="audioBtn" class="btn-basic bnt-bell">&#128264;
+                        <audio id="sound">
+                        <source type="audio/mp3" src="https://rs-lang-react.herokuapp.com/${this.wordData.audioExample}">
+                        </audio>
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              </ul>`;
   }
 }
 
