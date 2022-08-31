@@ -30,8 +30,11 @@ const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
 const pagination = document.querySelector("#pagination") as HTMLElement;
 const quantityPages = 30;
+const visiblePages = 6;
 const quantityGroups = 6;
-const englishLevel = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const englishLevel = ["Easy - A1", "Easy - A2", "Medium - B1", "Medium - B2", "Hard - C1", "Hard - C2"];
+
+
 
 function dynamicList(maxValue: number, elementNameFirst: string, className: string, containerForElement: Element, groupsLevel?: string[], elementNameSecond?: string
 ) {
@@ -48,6 +51,70 @@ function dynamicList(maxValue: number, elementNameFirst: string, className: stri
   }
 }
 
+let btnNumber = 1;
+let btnGroupNumber = 1;
+
+
+
+async function handleNextClick() {
+  const allPages = document.querySelectorAll("li.pagination_number") as NodeListOf<Element>;
+  const lastPage = allPages[5];
+  const firstPage = allPages[0];
+  let nextPage = document.getElementsByClassName('active-page')[0].nextElementSibling as HTMLElement;
+  let active = document.querySelector(".active-page") as HTMLElement;
+  if(active.innerHTML === lastPage.innerHTML && +active.innerHTML !== quantityPages) {
+    btnNumber += 1;
+    for(let i = 0; i < allPages.length && (i + btnNumber) <= quantityPages; i++) {
+      allPages[i].innerHTML = String(btnNumber + i);
+    }
+    if (active != null) {
+      active.classList.remove("active-page");
+    }
+    firstPage.classList.add("active-page");
+    const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
+    renderCards(nextPageData as IWordsData[]);
+  } 
+  else {
+    btnNumber = +nextPage.innerText;
+    if (active != null && active.innerHTML !== String(quantityPages)) {
+      active.classList.remove("active-page");
+      nextPage.classList.add("active-page");
+    }
+    const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
+    renderCards(nextPageData as IWordsData[]);
+  }
+}
+
+async function handlePrevClick() {
+  const allPages = document.querySelectorAll("li.pagination_number") as NodeListOf<Element>;
+  const lastPage = allPages[5];
+  const firstPage = allPages[0];
+  let prevPage = document.getElementsByClassName('active-page')[0].previousElementSibling as HTMLElement;
+  let active = document.querySelector(".active-page") as HTMLElement;
+  if(active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1) {
+    btnNumber -= 1;
+    for(let i = 0; i < allPages.length && (btnNumber - i) >= 1; i++) {
+      allPages[allPages.length - i - 1].innerHTML = String(btnNumber - i);
+    }
+    if (active != null) {
+      active.classList.remove("active-page");
+    }
+    lastPage.classList.add("active-page");
+    const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
+    renderCards(nextPageData as IWordsData[]);
+  } 
+  else {
+    btnNumber = +prevPage.innerText;
+    if (active != null && +active.innerHTML !== 1) {
+      active.classList.remove("active-page");
+      prevPage.classList.add("active-page");
+    }
+    const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
+    renderCards(nextPageData as IWordsData[]);
+  }
+}
+
+
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
   const item = btn.parentElement as HTMLElement;
@@ -62,7 +129,19 @@ nav?.addEventListener("click", async (event) => {
       const dataCards = await API.loadWordsFromServer(0, 0);
       renderCards(dataCards as IWordsData[]);
       dynamicList(quantityGroups, "button", "groups_list__item", groups, englishLevel, "id");
-      dynamicList(quantityPages, "li", "pagination_number", pagination);
+      dynamicList(visiblePages, "li", "pagination_number", pagination);
+      // create prev & next buttons
+      const btnNext = document.createElement("li");
+      const btnPrev = document.createElement("li");
+      btnNext.classList.add("next-btn");
+      btnPrev.classList.add("prev-btn");
+      btnNext.innerHTML = "&#8594;";
+      btnPrev.innerHTML = "&#8592;";
+      pagination.insertAdjacentElement("afterbegin", btnPrev);
+      pagination.insertAdjacentElement("beforeend", btnNext);
+      btnNext.addEventListener("click", handleNextClick);
+      btnPrev.addEventListener("click", handlePrevClick);
+      //
       item.classList.add("active");
       btn.classList.add("active");
       const firstPaginationElement = pagination.querySelector(".pagination_number") as HTMLElement;
@@ -85,12 +164,21 @@ nav?.addEventListener("click", async (event) => {
   }
 });
 
-let btnNumber = 1;
-let btnGroupNumber = 1;
 
 groups?.addEventListener("click", async (event) => {
   const btnGroup = event?.target as HTMLElement;
   if (btnGroup.classList.contains("groups_list__item")) {
+    const allPages = document.querySelectorAll("li.pagination_number") as NodeListOf<Element>;
+    const firstPage = allPages[0];
+    let activeBtn = document.querySelector(".active-page") as HTMLElement;
+    if (+activeBtn.innerHTML !== 1) {
+      btnNumber = 1;
+      for(let i = 0; i < allPages.length; i++) {
+        allPages[i].innerHTML = String(btnNumber + i);
+      }
+      activeBtn.classList.remove("active-page");
+      firstPage.classList.add("active-page");
+    }
     btnGroupNumber = +btnGroup.id
     let active = document.querySelector(".active-group") as HTMLElement;
     if (active != null) {
