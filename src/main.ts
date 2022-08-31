@@ -25,6 +25,7 @@ const sprintPage: SprintPage = new SprintPage();
 sprintPage.build();
 const sprintGame: SprintGame = new SprintGame();
 sprintGame.btnClick();
+API.getUserWordsFromServer('630e0fee95c3540016e52c97')
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
@@ -69,6 +70,7 @@ nav?.addEventListener("click", async (event) => {
       const firstGroupsElement = groups?.querySelector(".groups_list__item") as HTMLElement;
       firstPaginationElement.classList.add("active-page");
       firstGroupsElement.classList.add("active-group");
+      
       break;
 
     case "games":
