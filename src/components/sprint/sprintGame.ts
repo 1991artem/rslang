@@ -30,6 +30,7 @@ export class SprintGame {
 
         }
     }
+
     buildGamePage(){
         console.log(this.wordArray)
         let game: HTMLElement = document.createElement('div');

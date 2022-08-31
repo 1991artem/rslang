@@ -8,20 +8,25 @@ export class SprintPage {
             SPRINT.id = 'sprint-game'
             SPRINT.innerHTML = `
             <div class="sprintGameInfo">
-            <p>Игра "Спринт"</p>
-            <p>Тренировка Спринт поможет тебе проверить знаешь ли ты правильный перевод.
-            Игра длится 1 минуту или пока не закончаться слова.</p>
-            <p>Чтобы дать ответ, кликай по нему мышкой или нажимай клавиши-стрелки</p>
-            <p>Выберите уровень сложности</p>
+            <div class="sprint-title-frame">
+            <div class="game-icon-box">
+            <img class="sprint-title-icon" src="../../assets/svg/sprint.png" alt="game icon">
+            </div>
+            <p class="game-title">Sprint</p>
+            </div>
+            <p class="paragraph-text sprint-game-description">Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys.</p>
+            <p class="game-level-select">Select the Level</p>
+            <div class="sprint-level-box">
             <select class="select-level-sprint" name="level-english">
-                <option value="level-1" selected="selected">1 уровень сложности</option>
-                <option value="level-2" selected="selected">2 уровень сложности</option>
-                <option value="level-3" selected="selected">3 уровень сложности</option>
-                <option value="level-4" selected="selected">4 уровень сложности</option>
-                <option value="level-5" selected="selected">5 уровень сложности</option>
-                <option value="level-6" selected="selected">6 уровень сложности</option>
+                <option class="level-option" value="level-1" selected="selected">A1</option>
+                <option class="level-option" value="level-2" selected="selected">A2</option>
+                <option class="level-option" value="level-3" selected="selected">B1</option>
+                <option class="level-option" value="level-4" selected="selected">B2</option>
+                <option class="level-option" value="level-5" selected="selected">C1</option>
+                <option class="level-option" value="level-6" selected="selected">C2</option>
             </select>
-            <button class="sprint-game-btn">Lets go!!!</button>
+            <button class="sprint-game-btn btn-basic cta-btn">Let's go!</button>
+            </div>
             </div>
             `;
             StartPageListener.MAIN.before(SPRINT);
