@@ -9,15 +9,35 @@
   list-style-type: none;
 }
 
-.pagination_number {
-  margin: 10px;
-  padding: 10px;
-  border: 1px solid black;
-  cursor: pointer;
+.pagination_number,
+.prev-btn,
+.next-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    margin: 0px 8px;
+    background: #3f5069;
+    color: #fff;
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+    user-select: none;
+    transition: color 0.3s ease 0s;
+    outline: none;
+    cursor: pointer;
+}
+
+.prev-btn:hover,
+.next-btn:hover {
+  background-color: #ffb108;
 }
 
 .active-page {
-  background-color: coral;
+  background-color: #ffb108;
 }
 
 
@@ -133,36 +153,35 @@ p.transcription {
   justify-content: space-between;
 }
 
-.active-group {
-  background-color: coral;
-}
-
 .groups_list__item {
-  // margin: 10px;
-  // width: 55px;
-  // height: 55px;
-  // border: 2px solid rgb(51, 68, 84);
-  // border-radius: 50%;
-  // cursor: pointer;
   height: 70px;
-  width: 220px;
-  background-color: #f3f4f8;
+  width: 215px;
+  background-color: #3f5069;
   display: flex;
-  border-radius: 0.5rem;
-  color: #2c2647;
-  font-size: 1rem;
-  font-family: Roboto, sans-serif;
-  justify-content: space-between;
-  padding: 0.5rem;
-  padding-left: 1rem;
-  padding-right: 1.2rem;
-  position: relative;
+  justify-content: center;
   align-items: center;
+  font-family: Roboto, sans-serif;
+  font-weight: 500;
+  border-radius: 3px;
+  padding: 0 16px;
+  border-radius: 4px;
+  color: #fff;
+  line-height: 1.15;
+  font-size: 1.4rem;
   overflow: hidden;
   border: none;
   cursor: pointer;
   transition: all easy 0.5s;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
   border-radius: 10px;
+}
+
+.groups_list__item:hover {
+  background: #ffb108;
+  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);
+}
+
+.active-group {
+  background-color: #ffb108;
 }
 
