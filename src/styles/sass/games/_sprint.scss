@@ -74,55 +74,64 @@
     }
 }
 .result-window{
-    width: 600px !important;
-    height: 300px;
-    border: solid 1px red;
-    overflow: scroll;
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 30px !important;
+  width: 600px;
+  height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  margin-bottom: 3rem;
+  border-radius: 25px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  background-color: #3F5069;
+  color: #fff;
+  overflow: scroll;
+  padding: 2rem;
+  
     .resultSprint {
         display: flex;
-        flex-direction: row !important;
-        justify-content: space-around !important;
-        width: 550px !important;
-        height: 50px !important;
-        margin: 0 !important;
-        padding: 0 !important;
-        text-align: start;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: 550px;
+        height: 50px;
+        margin: 0;
+        padding: 0;
         .point-result{
-            width: 10px !important;
-            height: 10px !important;
-            border-radius: 10px !important;
-            margin-top: 20px !important;
-            padding: 0 !important;
+          width: 10px;
+          height: 10px;
+          border-radius: 10px;
+          margin: 10px;
         }
         .result-word{
-            width: 250px !important;
-            height: 50px !important;
-            margin: 0 !important;
-            padding: 0 !important;
+          width: 20vw;
+          font-family: Roboto, sans-serif;
+          font-size: 1.3rem;
+          text-align: start;
             p{
-                margin: 0 !important;
-                padding: 0 !important;
+                margin: 0;
+                padding: 0;
             }
         }
     }
 }
 .correct-result-percent{
-    margin: 0 auto !important;
-    padding: 0 !important;
+    margin: 0 auto;
+    padding: 0;
     p{
-        margin: 0 !important;
-        padding: 0 !important;
+        margin: 0;
+        padding: 0;
     }
 }
 
 .true {
-    background-color: greenyellow;
+  background-color: greenyellow;
 }
+
 .false {
-    background-color: red;
+  background-color: red;
 }
 
 .sprintGameInfo {
