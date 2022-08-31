@@ -25,7 +25,7 @@ const sprintPage: SprintPage = new SprintPage();
 sprintPage.build();
 const sprintGame: SprintGame = new SprintGame();
 sprintGame.btnClick();
-API.getUserWordsFromServer('630e0fee95c3540016e52c97')
+// API.getUserWordsFromServer('630e0fee95c3540016e52c97')
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;
@@ -35,16 +35,20 @@ const visiblePages = 6;
 const quantityGroups = 6;
 const englishLevel = ["Easy - A1", "Easy - A2", "Medium - B1", "Medium - B2", "Hard - C1", "Hard - C2"];
 
-
-
-function dynamicList(maxValue: number, elementNameFirst: string, className: string, containerForElement: Element, groupsLevel?: string[], elementNameSecond?: string
+function dynamicList(
+  maxValue: number,
+  elementNameFirst: string,
+  className: string,
+  containerForElement: Element,
+  groupsLevel?: string[],
+  elementNameSecond?: string
 ) {
   for (let i = 1; i <= maxValue; i++) {
     const element = document.createElement(elementNameFirst);
     element.classList.add(className);
     if (groupsLevel) {
       element.innerText = groupsLevel[i - 1];
-      element.setAttribute(elementNameSecond as string, String(i))
+      element.setAttribute(elementNameSecond as string, String(i));
     } else {
       element.innerText = String(i);
     }
@@ -55,17 +59,15 @@ function dynamicList(maxValue: number, elementNameFirst: string, className: stri
 let btnNumber = 1;
 let btnGroupNumber = 1;
 
-
-
 async function handleNextClick() {
   const allPages = document.querySelectorAll("li.pagination_number") as NodeListOf<Element>;
   const lastPage = allPages[5];
   const firstPage = allPages[0];
-  let nextPage = document.getElementsByClassName('active-page')[0].nextElementSibling as HTMLElement;
+  let nextPage = document.getElementsByClassName("active-page")[0].nextElementSibling as HTMLElement;
   let active = document.querySelector(".active-page") as HTMLElement;
-  if(active.innerHTML === lastPage.innerHTML && +active.innerHTML !== quantityPages) {
+  if (active.innerHTML === lastPage.innerHTML && +active.innerHTML !== quantityPages) {
     btnNumber += 1;
-    for(let i = 0; i < allPages.length && (i + btnNumber) <= quantityPages; i++) {
+    for (let i = 0; i < allPages.length && i + btnNumber <= quantityPages; i++) {
       allPages[i].innerHTML = String(btnNumber + i);
     }
     if (active != null) {
@@ -73,16 +75,15 @@ async function handleNextClick() {
     }
     firstPage.classList.add("active-page");
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextPageData as IWordsData[]);
-  } 
-  else {
+    renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+  } else {
     btnNumber = +nextPage.innerText;
     if (active != null && active.innerHTML !== String(quantityPages)) {
       active.classList.remove("active-page");
       nextPage.classList.add("active-page");
     }
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextPageData as IWordsData[]);
+    renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
   }
 }
 
@@ -90,11 +91,11 @@ async function handlePrevClick() {
   const allPages = document.querySelectorAll("li.pagination_number") as NodeListOf<Element>;
   const lastPage = allPages[5];
   const firstPage = allPages[0];
-  let prevPage = document.getElementsByClassName('active-page')[0].previousElementSibling as HTMLElement;
+  let prevPage = document.getElementsByClassName("active-page")[0].previousElementSibling as HTMLElement;
   let active = document.querySelector(".active-page") as HTMLElement;
-  if(active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1) {
+  if (active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1) {
     btnNumber -= 1;
-    for(let i = 0; i < allPages.length && (btnNumber - i) >= 1; i++) {
+    for (let i = 0; i < allPages.length && btnNumber - i >= 1; i++) {
       allPages[allPages.length - i - 1].innerHTML = String(btnNumber - i);
     }
     if (active != null) {
@@ -102,19 +103,17 @@ async function handlePrevClick() {
     }
     lastPage.classList.add("active-page");
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextPageData as IWordsData[]);
-  } 
-  else {
+    renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+  } else {
     btnNumber = +prevPage.innerText;
     if (active != null && +active.innerHTML !== 1) {
       active.classList.remove("active-page");
       prevPage.classList.add("active-page");
     }
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextPageData as IWordsData[]);
+    renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
   }
 }
-
 
 nav?.addEventListener("click", async (event) => {
   const btn = event.target as HTMLElement;
@@ -128,7 +127,7 @@ nav?.addEventListener("click", async (event) => {
 
     case "textbook":
       const dataCards = await API.loadWordsFromServer(0, 0);
-      renderCards(dataCards as IWordsData[]);
+      renderCards(dataCards as IWordsData[], DataStorage.isUserAutorized);
       dynamicList(quantityGroups, "button", "groups_list__item", groups, englishLevel, "id");
       dynamicList(visiblePages, "li", "pagination_number", pagination);
       // create prev & next buttons
@@ -149,7 +148,7 @@ nav?.addEventListener("click", async (event) => {
       const firstGroupsElement = groups?.querySelector(".groups_list__item") as HTMLElement;
       firstPaginationElement.classList.add("active-page");
       firstGroupsElement.classList.add("active-group");
-      
+
       break;
 
     case "games":
@@ -166,7 +165,6 @@ nav?.addEventListener("click", async (event) => {
   }
 });
 
-
 groups?.addEventListener("click", async (event) => {
   const btnGroup = event?.target as HTMLElement;
   if (btnGroup.classList.contains("groups_list__item")) {
@@ -175,20 +173,20 @@ groups?.addEventListener("click", async (event) => {
     let activeBtn = document.querySelector(".active-page") as HTMLElement;
     if (+activeBtn.innerHTML !== 1) {
       btnNumber = 1;
-      for(let i = 0; i < allPages.length; i++) {
+      for (let i = 0; i < allPages.length; i++) {
         allPages[i].innerHTML = String(btnNumber + i);
       }
       activeBtn.classList.remove("active-page");
       firstPage.classList.add("active-page");
     }
-    btnGroupNumber = +btnGroup.id
+    btnGroupNumber = +btnGroup.id;
     let active = document.querySelector(".active-group") as HTMLElement;
     if (active != null) {
       active.classList.remove("active-group");
     }
     btnGroup.classList.add("active-group");
     const nextGroupData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextGroupData as IWordsData[]);
+    renderCards(nextGroupData as IWordsData[], DataStorage.isUserAutorized);
   }
 });
 
@@ -202,6 +200,23 @@ pagination?.addEventListener("click", async (event: Event) => {
     }
     btn.classList.add("active-page");
     const nextPageData = await API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1);
-    renderCards(nextPageData as IWordsData[]);
+    renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
   }
 });
+
+console.log(StartPageListener.SINGIN);
+
+StartPageListener.SINGIN?.addEventListener("click", checkAutorization);
+StartPageListener.AUTORISATION_SINGIN?.addEventListener('click', checkAutorization);
+
+async function checkAutorization() {
+  console.log('check', AutorisationForm.isAutorized)
+  if (AutorisationForm.isAutorized === undefined) return;
+  await AutorisationForm.isAutorized.then((isAutorized) => {
+    console.log(isAutorized)
+    DataStorage.isUserAutorized = isAutorized;
+    // if (location.hash === "#textbook") {
+      renderCards(DataStorage.allWordsStorage, isAutorized);
+    // }
+  });
+}

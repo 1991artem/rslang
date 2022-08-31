@@ -17,8 +17,8 @@ export class API {
 
   // ================================== USERS ===========================================================
 
-  static async signinUsersFromServer(data: string): Promise<void> {
-    await fetch(`${this.url}/signin`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
+  static async signinUsersFromServer(data: string): Promise<boolean | void> {
+    return await fetch(`${this.url}/signin`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserDataToken) => {
@@ -30,12 +30,14 @@ export class API {
           API.checkToken();
         }
         AutorisationForm.closeModalWindow();
-        AutorisationForm.checkAutorisation();
+        return AutorisationForm.checkAutorisation();
       })
       .catch((err) => {
         console.log("Не удалось найти такого пользователя!!! Повторите попытку");
       });
+      console.log('End')
   }
+
   static async createUsersOnServer(data: string): Promise<void> {
     await fetch(`${this.url}/users`, { method: "POST", headers: {"Content-Type": "application/json", 'Accept': "application/json"}, body: data })
       .then((response) => this.errorHandler(response))
@@ -188,6 +190,7 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData[]) => {
+        DataStorage.allWordsStorage = data;
         return data;
       })
       .catch((err) => console.log("Add User Error", err));
@@ -203,6 +206,7 @@ export class API {
       })
       .catch((err) => console.log("load word Error", err));
   }
+
   static checkToken(){
       if(DataStorage.userData?.userId){
         API.getNewUserTokenFromServer(DataStorage.userData?.userId)
