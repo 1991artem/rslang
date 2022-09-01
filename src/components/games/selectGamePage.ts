@@ -3,11 +3,14 @@ import { StartPageListener } from "../startPageListener";
 export class SelectGamePage {
     build(){
         if(StartPageListener.MAIN){
-            const SPRINT = document.createElement('div');
-            SPRINT.classList.add('display_none');
-            SPRINT.id = 'game-page';
-            SPRINT.innerHTML = this.buildSprintGame() + this.buildAudioGame();
-            StartPageListener.MAIN.before(SPRINT);
+            const WRAPPER_GAME = document.createElement('div');
+            const GAMES = document.createElement('div');
+            WRAPPER_GAME.classList.add('display_none');
+            GAMES.id = 'game-page';
+            WRAPPER_GAME.id = 'game-page-wrapper';
+            GAMES.innerHTML = this.buildSprintGame() + this.buildAudioGame();
+            StartPageListener.MAIN.before(WRAPPER_GAME);
+            WRAPPER_GAME.append(GAMES)
         }
         StartPageListener.listen();
         this.buildSprintGamePage();
@@ -127,7 +130,7 @@ export class SelectGamePage {
     showGamePage(){
         if(StartPageListener.MAIN){
             StartPageListener.MAIN.classList.add('display_none');
-            StartPageListener.GAME_PAGE?.classList.remove('display_none');
+            StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
             document.querySelector('.sprintGameInfo')?.classList.remove('display_none');
             document.querySelector('.audioGameInfo')?.classList.remove('display_none');
