@@ -28,7 +28,7 @@ export class SelectGamePage {
         </div>
         <p class="game-title">Sprint</p>
         </div>
-        <p class="paragraph-text game-description">Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys.</p>
+        <p class="paragraph-text game-description">Sprint is a practice for repeating the learned words from your vocabulary. Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys. Enjoy!</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-sprint" name="level-english">
@@ -53,7 +53,7 @@ export class SelectGamePage {
         </div>
         <p class="game-title">Audio Challenge</p>
         </div>
-        <p class="paragraph-text game-description">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess.</p>
+        <p class="paragraph-text game-description">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. Click on the sound icon, listen to the word, then select the appropriate word from the list and click on it. Enjoy!</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-audio" name="level-english">
@@ -74,6 +74,7 @@ export class SelectGamePage {
         game.id = 'sprint-game-window';
         game.classList.add('display_none')
         game.innerHTML = `
+        <div class="sprint-flex-wrapper">
         <div class="sprint-game-timer"><p></p></div>
         <div class="sprint-game-window-active">
             <div class="sprint-progress"></div>
@@ -82,11 +83,12 @@ export class SelectGamePage {
             <p class="translate-word"></p>
             </div>
             <div class="btn-sprint">
-            <button class="btn-prev"><</button>
-            <button class="btn-no">No</button>
-            <button class="btn-yes">Yes</button>
-            <button class="btn-next">></button>
+            <button id="game-btn" class="btn-prev">&#8592;</button>
+            <button id="game-btn" class="btn-no">Wrong</button>
+            <button id="game-btn" class="btn-yes">Right</button>
+            <button id="game-btn" class="btn-next">&#8594;</button>
             </div>
+        </div>
         </div>
         `;
         document.querySelector('.sprintGameInfo')?.after(game);
@@ -96,12 +98,11 @@ export class SelectGamePage {
         let game: HTMLElement = document.createElement('div');
         game.id = 'audio-game-window';
         game.innerHTML = `
-        <div class="audio-game-timer"><p></p></div>
         <div class="audio-game-window-active">
             <div class="audio-progress"></div>
             <div class="main-audio">
             <div class="audio-place">
-            <img src="./assets/image/zvuk.png">
+            <img src="../../assets/svg/audio.png" class="audio-game-icon">
             </div>
             <div class="btn-audio">
 
