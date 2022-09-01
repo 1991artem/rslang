@@ -157,11 +157,13 @@ export class SprintGame {
                 let result: string = '';
                 this.resultArray.forEach((element: IResSprint) => {
                     result +=`
-                    <div class="resultSprint">
+                    <div class="gameResult">
+                    <div class="result-left-side">
                     <div class="point-result ${element.result}">
                     </div>
-                    <div class="result-word"><p>Word: ${element.word}</p></div>
-                    <div class="result-word"><p>Сorrect: ${element.wordTranslate}</p></div>
+                    <div class="result-word-left"><span class="result-word-span">Word:</span><span> ${element.word}</span></div>
+                    </div>
+                    <div class="result-word"><span class="result-word-span-right">Correct:</span><span> ${element.wordTranslate}</span></div>
                     </div>
                     `;
                 });
@@ -183,15 +185,18 @@ export class SprintGame {
 
             if (this.resultArray.length === 1) {
               StartPageListener.GAME_PAGE.innerHTML=`
+              <div class="game-result-wrapper">
               <div class="result-window">${dataResult()}</div>
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
-              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>`;
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>;
+              </div>`
             } else {
               StartPageListener.GAME_PAGE.innerHTML=`
-            <div class="result-window">${dataResult()}</div>
-            <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
-            <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
-            `;
+              <div class="game-result-wrapper">
+              <div class="result-window">${dataResult()}</div>
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              </div>`;
             }
         }
     }

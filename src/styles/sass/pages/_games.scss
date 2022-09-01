@@ -29,6 +29,7 @@
         .sprint-game-timer {
             width: 50px;
             height: 50px;
+            margin: 0 auto;
             border-radius: 25px;
             text-align: center;
             border: solid 1px;
@@ -40,6 +41,7 @@
         .sprint-game-window-active {
             width: 400px;
             height: 300px;
+            margin: 0 auto;
             background-color: beige;
             border: solid 1px red;
             display: flex;
@@ -78,15 +80,20 @@
         }
     }
 }
+
+.game-result-wrapper {
+  display: flex;
+  flex-direction: column;
+  row-gap: 3rem;
+}
 .result-window{
-  width: 600px;
-  height: 300px;
+  width: 80vw;
+  height: 67vh;
   display: flex;
   flex-direction: column;
   align-content: center;
   align-items: center;
   justify-content: center;
-  margin: 0 auto;
   margin-bottom: 3rem;
   border-radius: 25px;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
@@ -95,30 +102,51 @@
   overflow: scroll;
   padding: 2rem;
   
-    .resultSprint {
+    .gameResult {
         display: flex;
         flex-direction: row;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
-        width: 550px;
-        height: 50px;
+        width: 80vw;
+        height: auto;
         margin: 0;
         padding: 0;
+      
+        .result-left-side {
+          display: flex;
+        }
         .point-result{
-          width: 10px;
-          height: 10px;
+          width: 15px;
+          height: 15px;
           border-radius: 10px;
           margin: 10px;
         }
-        .result-word{
-          width: 20vw;
+        .result-word-left {
+          display: flex;
+          flex-direction: row;
+          column-gap: 1rem;
+          width: 26vw;
           font-family: Roboto, sans-serif;
-          font-size: 1.3rem;
+          font-size: 2rem;
+          font-weight: 300;
           text-align: start;
-            p{
-                margin: 0;
-                padding: 0;
-            }
+          .result-word-span {
+            color: $color-accent;
+          }
+        }
+        .result-word{
+          display: flex;
+          flex-direction: row;
+          column-gap: 1rem;
+          width: 37vw;
+          font-family: Roboto, sans-serif;
+          font-size: 2rem;
+          font-weight: 300;
+          line-height: 4rem;
+          text-align: start;
+          .result-word-span-right {
+            color: greenyellow;
+          }
         }
     }
 }
