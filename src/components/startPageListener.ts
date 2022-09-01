@@ -8,14 +8,16 @@ export class StartPageListener {
     static MAIN: HTMLElement | null;
     static STATISTIC: HTMLElement | null;
     static NAV: HTMLElement | null;
-    static SPRINT: HTMLElement | null;
+    static GAME_PAGE: HTMLElement | null;
     static TIMER: HTMLElement | null;
     static SPRINT_WINDOW: HTMLElement | null;
+    static AUDIO_WINDOW: HTMLElement | null;
     static SINGUP: HTMLElement | null;
     static SINGIN: HTMLElement | null;
     static SINGUP_FORM_NAME: HTMLElement | null;
     static SINGUP_FORM_EMAIL: HTMLElement | null;
     static SINGUP_FORM_PASSWORD: HTMLElement | null;
+    static GAME_ICON: HTMLElement | null;
 
     static listen(){
         StartPageListener.AUTORISATION_SINGIN = document.getElementById('autorisation-button');
@@ -30,9 +32,11 @@ export class StartPageListener {
         StartPageListener.MAIN = document.querySelector('.main');
         StartPageListener.STATISTIC = document.getElementById('statistic');
         StartPageListener.NAV = document.querySelector('.nav');
-        StartPageListener.SPRINT = document.getElementById('sprint-game');
+        StartPageListener.GAME_PAGE = document.getElementById('game-page');
         StartPageListener.TIMER = document.querySelector('.sprint-game-timer');
-        StartPageListener.SPRINT_WINDOW = document.querySelector('.sprint-game-window-active');
+        StartPageListener.SPRINT_WINDOW = document.querySelector('#sprint-game-window');
+        StartPageListener.AUDIO_WINDOW = document.querySelector('#audio-game-window');
+        StartPageListener.GAME_ICON = document.querySelector('#game-main-card');
     }
 
 }

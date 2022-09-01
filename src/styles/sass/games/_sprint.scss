@@ -1,9 +1,9 @@
-#sprint-game {
+#game-page {
   max-width: 1440px;
   height: 100vh;
   margin: 0 auto;
   text-align: center;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
     // div {
     //     display: flex;
@@ -135,8 +135,6 @@
 }
 
 .sprintGameInfo {
-  display: flex;
-  flex-direction: column;
   margin: 4rem 0 4rem 0;
 }
 
