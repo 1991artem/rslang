@@ -9,6 +9,7 @@ export class StartPageListener {
     static STATISTIC: HTMLElement | null;
     static NAV: HTMLElement | null;
     static GAME_PAGE: HTMLElement | null;
+    static GAME_PAGE_WRAPPER: HTMLElement | null;
     static TIMER: HTMLElement | null;
     static SPRINT_WINDOW: HTMLElement | null;
     static AUDIO_WINDOW: HTMLElement | null;
@@ -33,6 +34,7 @@ export class StartPageListener {
         StartPageListener.STATISTIC = document.getElementById('statistic');
         StartPageListener.NAV = document.querySelector('.nav');
         StartPageListener.GAME_PAGE = document.getElementById('game-page');
+        StartPageListener.GAME_PAGE_WRAPPER = document.getElementById('game-page-wrapper');
         StartPageListener.TIMER = document.querySelector('.sprint-game-timer');
         StartPageListener.SPRINT_WINDOW = document.querySelector('#sprint-game-window');
         StartPageListener.AUDIO_WINDOW = document.querySelector('#audio-game-window');
