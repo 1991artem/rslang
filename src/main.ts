@@ -6,9 +6,11 @@ import { renderCards } from "./components/textbook/textbook";
 import { IWordsData } from "./components/interfaces";
 import "./styles/app.scss";
 import { StatisticPage } from "./components/statistic/staticticPage";
-import { SprintPage } from "./components/sprint/sprintPage";
-import { SprintGame } from "./components/sprint/sprintGame";
+import { SelectGamePage } from "./components/games/selectGamePage";
+import { SprintGame } from "./components/games/sprint/sprintGame";
+import { AudioGame } from "./components/games/audio/audioGame";
 import { ModalWindow } from "./components/modal";
+import { NavClick } from './components/navClick';
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
@@ -21,10 +23,14 @@ const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
 const statistic: StatisticPage = new StatisticPage();
 statistic.build();
-const sprintPage: SprintPage = new SprintPage();
-sprintPage.build();
+const navClick: NavClick = new NavClick();
+navClick.active();
+const selectGame: SelectGamePage = new SelectGamePage();
+selectGame.build();
 const sprintGame: SprintGame = new SprintGame();
 sprintGame.btnClick();
+const audioGame: AudioGame = new AudioGame();
+audioGame.btnClick();
 
 const nav = document.querySelector(".nav");
 const groups = document.querySelector(".groups") as HTMLElement;

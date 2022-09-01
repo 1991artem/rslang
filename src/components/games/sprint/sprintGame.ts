@@ -1,7 +1,7 @@
-import { API } from '../api';
-import { IWordsData, IResSprint } from 'src/components/interfaces';
-import { StartPageListener } from '../startPageListener';
-import { DataStorage } from '../dataStorage';
+import { API } from '../../api';
+import { IWordsData, IResSprint, IStatistic } from 'src/components/interfaces';
+import { StartPageListener } from '../../startPageListener';
+import { DataStorage } from '../../dataStorage';
 
 export class SprintGame {
     wordArray: IWordsData[];
@@ -11,6 +11,7 @@ export class SprintGame {
         this.resultArray = [];
     }
     btnClick(){
+        StartPageListener.listen();
         const onClick = () => {
             this.startGame();
         }
@@ -25,40 +26,18 @@ export class SprintGame {
             let page: number = Math.floor(Math.random()*10);
             (async () => {
                 this.wordArray = (await API.loadWordsFromServer(level-1, page) as IWordsData[]);
-                setTimeout(()=> this.buildGamePage(),1500);
+                document.querySelector('.sprintGameInfo')?.classList.add('display_none');
+                document.querySelector('.audioGameInfo')?.classList.add('display_none');
+                StartPageListener.SPRINT_WINDOW?.classList.remove('display_none');
+                this.setTimer();
+                this.choiseWords();
             })();
 
         }
     }
 
-    buildGamePage(){
-        console.log(this.wordArray)
-        let game: HTMLElement = document.createElement('div');
-        game.id = 'sprint-game-window';
-        game.innerHTML = `
-        <div class="sprint-game-timer"><p>60</p></div>
-        <div class="sprint-game-window-active">
-            <div class="sprint-progress"></div>
-            <div class="main-sprint">
-            <p class="english-word"></p>
-            <p class="translate-word"></p>
-            </div>
-            <div class="btn-sprint">
-            <button class="btn-prev"><</button>
-            <button class="btn-no">No</button>
-            <button class="btn-yes">Yes</button>
-            <button class="btn-next">></button>
-            </div>
-        </div>
-        `;
-        document.querySelector('.sprintGameInfo')?.after(game);
-        document.querySelector('.sprintGameInfo')?.remove();
-        StartPageListener.listen()
-        this.setTimer();
-        this.choiseWords();
-    }
     setTimer(){
-        let timer: number = 5;
+        let timer: number = 60;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -173,7 +152,7 @@ export class SprintGame {
         }
     }
     showResult(){
-        if(StartPageListener.SPRINT){
+        if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
                 let result: string = '';
                 this.resultArray.forEach((element: IResSprint) => {
@@ -201,15 +180,14 @@ export class SprintGame {
             //     elem.appendChild(stateIcon);
             //   }
             // })
-            
 
             if (this.resultArray.length === 1) {
-              StartPageListener.SPRINT.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML=`
               <div class="result-window">${dataResult()}</div>
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>`;
             } else {
-              StartPageListener.SPRINT.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML=`
             <div class="result-window">${dataResult()}</div>
             <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
             <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
@@ -219,16 +197,24 @@ export class SprintGame {
     }
     calculateResult(): number{
         let result = 0;
+        let statistic = 0;
+        if(DataStorage.userData){
+            (async ()=> statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic).learnedWords)()
+        }
         this.resultArray.forEach((element: IResSprint) => {
             if(element.result){
                 result++;
             }
         })
-        let data = {
-                learnedWords: this.resultArray.length,
+
+        if(DataStorage.userData) {
+            let data = {
+                learnedWords: this.resultArray.length + statistic,
                 optional: {}
         }
-        if(DataStorage.userData) API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data));
+            API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data))
+        };
+        if(result === 0) return 0;
         return Math.floor((result / this.resultArray.length)*100);
     }
 }

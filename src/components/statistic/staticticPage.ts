@@ -28,7 +28,7 @@ export class StatisticPage {
                 if(StartPageListener.MAIN){
                     StartPageListener.MAIN.classList.add('display_none');
                     StartPageListener.STATISTIC?.classList.remove('display_none');
-                    StartPageListener.SPRINT?.classList.add('display_none');
+                    StartPageListener.GAME_PAGE?.classList.add('display_none');
                     console.log(StartPageListener.STATISTIC?.children[0].children[2]);
                     document.querySelector('.get-statistic')?.addEventListener('click', getDataCtatistic);
                     }
