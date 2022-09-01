@@ -19,16 +19,16 @@ export class SelectGamePage {
     buildSprintGame(): string{
         return `
         <div class="sprintGameInfo">
-        <div class="sprint-title-frame">
+        <div class="game-title-frame">
         <div class="game-icon-box">
         <img class="sprint-title-icon" src="../../assets/svg/sprint.png" alt="game icon">
         </div>
         <p class="game-title">Sprint</p>
         </div>
-        <p class="paragraph-text sprint-game-description">Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys.</p>
+        <p class="paragraph-text game-description">Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys.</p>
         <p class="game-level-select">Select the Level</p>
-        <div class="sprint-level-box">
-        <select class="select-level-sprint" name="level-english">
+        <div class="game-level-box">
+        <select class="select-level" name="level-english">
             <option class="level-option" value="level-1" selected="selected">A1</option>
             <option class="level-option" value="level-2" selected="selected">A2</option>
             <option class="level-option" value="level-3" selected="selected">B1</option>
@@ -44,16 +44,16 @@ export class SelectGamePage {
     buildAudioGame(){
        return `
         <div class="audioGameInfo">
-        <div class="audio-title-frame">
+        <div class="game-title-frame">
         <div class="game-icon-box">
-        <img class="audio-title-icon" src="" alt="game icon">
+        <img class="sprint-title-icon" src="../../assets/svg/listen.png" alt="game icon">
         </div>
-        <p class="game-title">Audio</p>
+        <p class="game-title">Audio Challenge</p>
         </div>
-        <p class="paragraph-text audio-game-description">Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys.</p>
+        <p class="paragraph-text game-description">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess.</p>
         <p class="game-level-select">Select the Level</p>
-        <div class="audio-level-box">
-        <select class="select-level-audio" name="level-english">
+        <div class="game-level-box">
+        <select class="select-level" name="level-english">
             <option class="level-option" value="level-1" selected="selected">A1</option>
             <option class="level-option" value="level-2" selected="selected">A2</option>
             <option class="level-option" value="level-3" selected="selected">B1</option>
