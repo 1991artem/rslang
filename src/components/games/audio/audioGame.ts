@@ -131,20 +131,31 @@ export class AudioGame {
             //   }
             // })
 
-            if (this.resultArray.length === 1) {
+            if (this.resultArray.length === 0 || this.calculateResult() === 0) {
               StartPageListener.GAME_PAGE.innerHTML=`
               <div class="game-result-wrapper">
-              <div class="result-window">${dataResult()}</div>
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
-              </div>`;
+              <div class="result-window">
+              <img src="../../../assets/svg/gamer.png" alt="sad boy icon" class="sad-boy-icon">
+              </div>
+              </div>;`
+            } else if (this.resultArray.length === 1) {
+              StartPageListener.GAME_PAGE.innerHTML=`
+              <div class="game-result-wrapper">
+              <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="result-window">${dataResult()}</div>
+              </div>;`
             } else {
               StartPageListener.GAME_PAGE.innerHTML=`
-              <div> class="game-result-wrapper">
-              <div class="result-window">${dataResult()}</div>
+              <div class="game-result-wrapper">
+              <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
-              </div>`;
+              <div class="result-window">${dataResult()}</div>
+              </div>;`;
             }
         }
     }

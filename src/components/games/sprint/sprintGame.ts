@@ -64,7 +64,7 @@ export class SprintGame {
 
                 if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
                 if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
-                if(((<HTMLElement>(e.target)).innerHTML === 'Yes') && position < this.wordArray?.length) {
+                if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
                     this.userAnswerYes(<string>translateWord?.innerHTML, position);
                     position++;
                     if((this.wordArray.length - position) < 2){
@@ -73,7 +73,7 @@ export class SprintGame {
                         })();
                     }
                 };
-                if(((<HTMLElement>(e.target)).innerHTML === 'No') && position > 0) {
+                if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position > 0) {
                     this.userAnswerNo(<string>translateWord?.innerHTML, position);
                     position++;
                     if((this.wordArray.length - position) < 2){
@@ -182,21 +182,31 @@ export class SprintGame {
             //     elem.appendChild(stateIcon);
             //   }
             // })
-
-            if (this.resultArray.length === 1) {
+            if (this.resultArray.length === 0 || this.calculateResult() === 0) {
               StartPageListener.GAME_PAGE.innerHTML=`
               <div class="game-result-wrapper">
-              <div class="result-window">${dataResult()}</div>
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
-              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>;
-              </div>`
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="result-window">
+              <img src="../../../assets/svg/gamer.png" alt="sad boy icon" class="sad-boy-icon">
+              </div>
+              </div>;`
+            } else if (this.resultArray.length === 1) {
+              StartPageListener.GAME_PAGE.innerHTML=`
+              <div class="game-result-wrapper">
+              <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="result-window">${dataResult()}</div>
+              </div>;`
             } else {
               StartPageListener.GAME_PAGE.innerHTML=`
               <div class="game-result-wrapper">
-              <div class="result-window">${dataResult()}</div>
+              <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
-              </div>`;
+              <div class="result-window">${dataResult()}</div>
+              </div>;`;
             }
         }
     }
