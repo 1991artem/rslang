@@ -2,6 +2,7 @@ import { API } from '../../api';
 import { IWordsData, IResSprint, IStatistic } from 'src/components/interfaces';
 import { StartPageListener } from '../../startPageListener';
 import { DataStorage } from '../../dataStorage';
+import { SelectGamePage } from '../selectGamePage';
 
 export class SprintGame {
     wordArray: IWordsData[];
@@ -61,7 +62,6 @@ export class SprintGame {
         }
         const onClick = (e:Event) => {
             if(this.wordArray){
-
                 if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
                 if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
                 if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
@@ -86,12 +86,49 @@ export class SprintGame {
                 if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
                 if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
             }
-            console.log(this.resultArray)
         }
 
         if(btnPlace){
             btnPlace.addEventListener('click', onClick)
         }
+
+        const buttonClick = (translateWord: Element, answer: boolean) => {
+            console.log('click')
+            let element: HTMLElement | null = null;
+            if(answer){
+                element = document.querySelector('.btn-yes');
+            } else {
+                element = document.querySelector('.btn-no');
+            }
+            element?.classList.add('btn-click')
+            setTimeout(()=>{
+                element?.classList.remove('btn-click');
+            },300);
+            this.userAnswerYes(<string>translateWord?.innerHTML, position);
+            position++;
+            if((this.wordArray.length - position) < 2){
+                (async () => {
+                    this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                })();
+            }
+        }
+        const keyboardHehdler = (e:KeyboardEvent) => {
+            e.preventDefault();
+            if(position === 19) this.showResult();
+                if(translateWord){
+                switch(e.code){
+                    case 'KeyY': buttonClick(translateWord, true); break;
+                    case 'KeyN': buttonClick(translateWord, false); break;
+                    case 'ArrowLeft': if(position > 0) position--; break;
+                    case 'ArrowRight': if(position < this.wordArray?.length) position++; break;
+                    case 'Escape': SelectGamePage.showGamePage(); break;
+                    }
+                }
+                if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
+                if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
+        }
+
+        document.addEventListener('keydown', keyboardHehdler)
 
     }
     userAnswerYes(translateWord: string, position: number){

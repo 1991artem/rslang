@@ -116,7 +116,7 @@ export class SelectGamePage {
     buttonClick(){
         const onClick = (e:Event) => {
             if((<HTMLElement>e.target).innerHTML == 'Games'){
-                this.showGamePage()
+                SelectGamePage.showGamePage()
             } else {
                 StartPageListener.GAME_PAGE?.classList.add('display_none');
             }
@@ -125,10 +125,10 @@ export class SelectGamePage {
             StartPageListener.NAV.addEventListener('click', onClick);
         }
         if(StartPageListener.GAME_ICON){
-            StartPageListener.GAME_ICON.addEventListener('click', this.showGamePage);
+            StartPageListener.GAME_ICON.addEventListener('click', SelectGamePage.showGamePage);
         }
     }
-    showGamePage(){
+    static showGamePage(){
         if(StartPageListener.MAIN){
             StartPageListener.MAIN.classList.add('display_none');
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
