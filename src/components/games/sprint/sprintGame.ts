@@ -170,34 +170,45 @@ export class SprintGame {
                 return result;
             }
 
-            // let stateIconBox = document.querySelectorAll(".point-result");
-            // stateIconBox.forEach(function(elem) {
-            //   if (elem?.classList.contains("true")) {
-            //     const stateIcon = document.createElement("img") as HTMLElement;
-            //     stateIcon.classList.add(".good-result-icon");
-            //     elem.appendChild(stateIcon);
-            //   } else if (elem?.classList.contains("false")) {
-            //     const stateIcon = document.createElement("img") as HTMLElement;
-            //     stateIcon.classList.add(".bad-result-icon");
-            //     elem.appendChild(stateIcon);
-            //   }
-            // })
-            if (this.resultArray.length === 0 || this.calculateResult() === 0) {
+            
+            if (this.resultArray.length === 0 && this.calculateResult() === 0) {
               StartPageListener.GAME_PAGE.innerHTML=`
               <div class="game-result-wrapper">
-              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
               <div class="result-window">
               <img src="../../../assets/svg/gamer.png" alt="sad boy icon" class="sad-boy-icon">
               </div>
+              <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
-            } else if (this.resultArray.length === 1) {
+            } else if (this.resultArray.length === 1 && this.calculateResult() === 0) {
+              StartPageListener.GAME_PAGE.innerHTML=`
+              <div class="game-result-wrapper">
+              <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Mistakes:  </p></div>
+              <div class="result-window">${dataResult()}</div>
+              <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
+              </div>;`
+            } else if (this.resultArray.length > 1 && this.calculateResult() === 0) {
+              StartPageListener.GAME_PAGE.innerHTML=`
+              <div class="game-result-wrapper">
+              <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
+              <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Mistakes:  </p></div>
+              <div class="result-window">${dataResult()}</div>
+              <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
+              </div>;`
+            } else if (this.resultArray.length === 1 && this.calculateResult() > 0) {
               StartPageListener.GAME_PAGE.innerHTML=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
               <div class="result-window">${dataResult()}</div>
+              <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else {
               StartPageListener.GAME_PAGE.innerHTML=`
@@ -205,7 +216,9 @@ export class SprintGame {
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
+              <div class="correct-result-percent"><p class="game-level-select">Mistakes:  </p></div>
               <div class="result-window">${dataResult()}</div>
+              <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`;
             }
         }
