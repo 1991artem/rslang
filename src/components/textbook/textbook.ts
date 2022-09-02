@@ -130,7 +130,7 @@ export class TextbookPage {
         if (StartPageListener.MAIN) {
           StartPageListener.TEXTBOOK_CONTAINER?.classList.remove("display_none");
           StartPageListener.STATISTIC?.classList.add("display_none");
-          StartPageListener.SPRINT?.classList.add("display_none");
+          StartPageListener.GAME_PAGE_WRAPPER?.classList.add("display_none");
           StartPageListener.HERO_PAGE?.classList.add("display_none");
           StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
           StartPageListener.ABOUT_PAGE?.classList.add("display_none");

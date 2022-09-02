@@ -2,11 +2,11 @@ import { AutorisationForm } from "./components/autorisation/autorisation-form";
 import { API } from "./components/api";
 import { DataStorage } from "./components/dataStorage";
 import { StartPageListener } from "./components/startPageListener";
-import { IWordsData } from "./components/interfaces";
 import "./styles/app.scss";
 import { StatisticPage } from "./components/statistic/staticticPage";
-import { SprintPage } from "./components/sprint/sprintPage";
-import { SprintGame } from "./components/sprint/sprintGame";
+import { SelectGamePage } from "./components/games/selectGamePage";
+import { SprintGame } from "./components/games/sprint/sprintGame";
+import { AudioGame } from "./components/games/audio/audioGame";
 import { ModalWindow } from "./components/modal";
 import { TextbookPage } from "./components/textbook/textbook";
 
@@ -23,10 +23,12 @@ const textbook: TextbookPage = new TextbookPage();
 textbook.build()
 const statistic: StatisticPage = new StatisticPage();
 statistic.build();
-const sprintPage: SprintPage = new SprintPage();
-sprintPage.build();
+const selectGame: SelectGamePage = new SelectGamePage();
+selectGame.build();
 const sprintGame: SprintGame = new SprintGame();
 sprintGame.btnClick();
+const audioGame: AudioGame = new AudioGame();
+audioGame.btnClick();
 
 
 
