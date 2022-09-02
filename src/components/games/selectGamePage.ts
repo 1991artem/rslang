@@ -98,6 +98,7 @@ export class SelectGamePage {
         let game: HTMLElement = document.createElement('div');
         game.id = 'audio-game-window';
         game.innerHTML = `
+        <div class="audio-game-wrapper">
         <div class="audio-game-window-active">
             <div class="audio-progress"></div>
             <div class="main-audio">
@@ -108,6 +109,7 @@ export class SelectGamePage {
 
             </div>
             </div>
+        </div>
         </div>
         `;
         document.querySelector('.audioGameInfo')?.after(game);
