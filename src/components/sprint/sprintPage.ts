@@ -29,7 +29,7 @@ export class SprintPage {
             </div>
             </div>
             `;
-            StartPageListener.MAIN.before(SPRINT);
+            StartPageListener.TEXTBOOK_CONTAINER?.after(SPRINT);
         }
         StartPageListener.listen();
         this.buttonClick();
@@ -39,8 +39,11 @@ export class SprintPage {
         const onClick = (e:Event) => {
             if((<HTMLElement>e.target).innerHTML == 'Games'){
                 if(StartPageListener.MAIN){
-                    StartPageListener.MAIN.classList.add('display_none');
                     StartPageListener.SPRINT?.classList.remove('display_none');
+                    StartPageListener.HERO_PAGE?.classList.add("display_none");
+                    StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
+                    StartPageListener.ABOUT_PAGE?.classList.add("display_none");
+                    StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
                     StartPageListener.STATISTIC?.classList.add('display_none');
                     }
             }
