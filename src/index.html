@@ -11,6 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <title>RSlang</title>
 </head>
+
 <body>
   <header class="header" id="pageHeader">
     <div class="wrapper header-container">
@@ -22,7 +23,7 @@
         <nav class="nav__container">
           <ul class="nav">
             <li data-nav="home" class="nav-item">
-              <a href="/" class="nav-link">Home</a>
+              <a href="#home" class="nav-link">Home</a>
             </li>
             <li data-nav="textbook" class="nav-item">
               <a href="#textbook" class="nav-link">Textbook</a>
@@ -150,14 +151,12 @@
         </div>
       </div>
     </section>
+    
     <!-- Textbook -->
-    <div class="groups">
-    </div>
-    <ul id="pagination">
-    </ul>
-    <div class="main_container">
-    </div>
+    <button id="test">Test</button>
+    <div id="textbook-wrapper" class="textbook_container"></div>
   </main>
+
   <!-- footer -->
   <footer class="footer">
     <div class="wrapper footer-container">
@@ -174,6 +173,7 @@
       </a>
     </div>
   </footer>
+
   <!-- modal window -->
   <div id="openModal" class="modal overlay__modal closeModal">
     <a href="#close" class="modal-out-area"></a>
@@ -196,12 +196,12 @@
                 placeholder="Password"></input>
             </div>
             <div class="button-panel">
-              <input id="btn-singin" type="button" class="button-sign-in" title="Sign In"
-                value="Sign In"></input>
+              <input id="btn-singin" type="button" class="button-sign-in" title="Sign In" value="Sign In"></input>
             </div>
           </form>
           <div class="form-footer">
-            <p class="signup-link"><a id="sing-up" href="#openModal" myClick="changeLoginWindow">Don't have an account? Sign Up</a></p>
+            <p class="signup-link"><a id="sing-up" href="#openModal" myClick="changeLoginWindow">Don't have an account?
+                Sign Up</a></p>
           </div>
         </div>
         <div class="form-wrapper signup-form-container">
@@ -216,22 +216,25 @@
             </div>
             <div class="form-item">
               <label for="email"></label>
-              <input id="singup-form-email" type="email" name="email" required="required" placeholder="Email Address"></input>
+              <input id="singup-form-email" type="email" name="email" required="required"
+                placeholder="Email Address"></input>
             </div>
             <div class="form-item">
               <label for="password"></label>
-              <input id="singup-form-password" type="password" name="password" required="required" placeholder="Password"></input>
+              <input id="singup-form-password" type="password" name="password" required="required"
+                placeholder="Password"></input>
             </div>
             <div class="button-panel">
-              <input id="btn-singup" type="submit" class="button-sign-up" title="Sign Up" value="Sign Up""></input>
+              <input id="btn-singup" type="submit" class="button-sign-up" title="Sign Up" value="Sign Up"></input>
             </div>
           </form>
           <div class="form-footer">
-            <p class="signup-link"><a id="sing-in" href="#openModal"">Do you have an account? Sign In</a></p>
+            <p class="signup-link"><a id="sing-in" href="#openModal">Do you have an account? Sign In</a></p>
           </div>
         </div>
       </div>
     </div>
   </div>
 </body>
+
 </html>

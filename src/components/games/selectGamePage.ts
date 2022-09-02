@@ -9,7 +9,7 @@ export class SelectGamePage {
             GAMES.id = 'game-page';
             WRAPPER_GAME.id = 'game-page-wrapper';
             GAMES.innerHTML = this.buildSprintGame() + this.buildAudioGame();
-            StartPageListener.MAIN.before(WRAPPER_GAME);
+            StartPageListener.TEXTBOOK_CONTAINER?.after(WRAPPER_GAME);
             WRAPPER_GAME.append(GAMES)
         }
         StartPageListener.listen();
@@ -132,13 +132,13 @@ export class SelectGamePage {
     }
     static showGamePage(){
         if(StartPageListener.MAIN){
-            StartPageListener.MAIN.classList.add('display_none');
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
             document.querySelector('.sprintGameInfo')?.classList.remove('display_none');
             document.querySelector('.audioGameInfo')?.classList.remove('display_none');
             StartPageListener.SPRINT_WINDOW?.classList.add('display_none');
             StartPageListener.AUDIO_WINDOW?.classList.add('display_none');
+            StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
             }
     }
 }

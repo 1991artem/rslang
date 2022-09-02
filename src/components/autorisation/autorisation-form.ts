@@ -7,10 +7,12 @@ import { IUserDataToken } from '../interfaces';
 
 
 export class AutorisationForm {
+    static isAutorized: Promise<boolean> | undefined;
+
     buttonAutorisationForm(){
         StartPageListener.listen();
         AutorisationForm.checkAutorisation();
-        this.singinClick();
+        this.singinClick();   
         const singIn = (event: Event) => {
             event.preventDefault();
             let singinUser: IUserData = {
@@ -19,7 +21,7 @@ export class AutorisationForm {
                 password: this.verificationLengthPassword((<HTMLInputElement>StartPageListener.AUTORISATION_INPUT_PASSWORD).value),
             }
             if(singinUser.password){
-                API.signinUsersFromServer(JSON.stringify(singinUser));
+                AutorisationForm.isAutorized = API.signinUsersFromServer(JSON.stringify(singinUser)) as Promise<boolean>; 
             }
         }
         const singUp = (event: Event) => {
@@ -65,21 +67,28 @@ export class AutorisationForm {
             StartPageListener.AUTORISATION_SINGIN.addEventListener('click', onClick)
         }
     }
-    static checkAutorisation(){
+    static checkAutorisation(): boolean {
         let userInfo: string | null = sessionStorage.getItem('user');
         if(userInfo){
             DataStorage.userData = JSON.parse(userInfo) as IUserDataToken;
-            if(StartPageListener.AUTORISATION_SINGIN){
+            if (StartPageListener.AUTORISATION_SINGIN) {
                 StartPageListener.AUTORISATION_SINGIN.innerHTML = 'LOG OUT';
                 StartPageListener.AUTORISATION_SINGIN.classList.add('true');
             }
         }
+        return Boolean(userInfo)
     }
+
     logOut(){
         sessionStorage.clear();
+
         if(StartPageListener.AUTORISATION_SINGIN){
             StartPageListener.AUTORISATION_SINGIN.innerHTML = 'SIGN IN';
             StartPageListener.AUTORISATION_SINGIN.classList.remove('true');
         }
+
+        AutorisationForm.isAutorized = new Promise((res) => {
+            res(false);
+        })
     }
 }

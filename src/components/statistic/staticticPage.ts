@@ -15,7 +15,7 @@ export class StatisticPage {
             <div class="statistic-result"><p>Не хватает данных по статистике</p></div>
             </div>
             `;
-            StartPageListener.MAIN.before(STATISTIC);
+            StartPageListener.TEXTBOOK_CONTAINER?.after(STATISTIC);
             STATISTIC.classList.add('display_none');
         }
         StartPageListener.listen();
@@ -26,9 +26,13 @@ export class StatisticPage {
         const onClick = (e:Event) => {
             if((<HTMLElement>e.target).innerHTML == 'Statistics'){
                 if(StartPageListener.MAIN){
-                    StartPageListener.MAIN.classList.add('display_none');
                     StartPageListener.STATISTIC?.classList.remove('display_none');
-                    StartPageListener.GAME_PAGE?.classList.add('display_none');
+                    StartPageListener.HERO_PAGE?.classList.add("display_none");
+                    StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
+                    StartPageListener.ABOUT_PAGE?.classList.add("display_none");
+                    StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none')
+                    StartPageListener.GAME_PAGE_WRAPPER?.classList.add('display_none');
+
                     console.log(StartPageListener.STATISTIC?.children[0].children[2]);
                     document.querySelector('.get-statistic')?.addEventListener('click', getDataCtatistic);
                     }
