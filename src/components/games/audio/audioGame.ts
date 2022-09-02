@@ -2,6 +2,7 @@ import { API } from '../../api';
 import { IWordsData, IResSprint, IStatistic } from 'src/components/interfaces';
 import { StartPageListener } from '../../startPageListener';
 import { DataStorage } from '../../dataStorage';
+import { SelectGamePage } from '../selectGamePage';
 
 export class AudioGame {
     wordArray: IWordsData[];
@@ -47,10 +48,36 @@ export class AudioGame {
         }
 
         const audioHandler = () => {
-            console.log(this.wordArray[position].audio)
             let playAudio: HTMLAudioElement = new Audio(`https://rs-lang-react.herokuapp.com/${this.wordArray[position].audio}`);
             playAudio.play();
             playAudio.played;
+        }
+        const buttonClick = (element: Element, position: number) => {
+            element.classList.add('btn-click')
+            setTimeout(()=>{
+                element.classList.remove('btn-click');
+                position++; this.correctAnswer(element.innerHTML, position);
+                this.showWord(position);
+            },300)
+        }
+        const keyboardHehdler = (e:KeyboardEvent) => {
+            e.preventDefault();
+            if(position === 19) this.showResult();
+            if(e.code === 'Space'){
+                audioHandler();
+            } else {
+                let answerArray = document.querySelector('.btn-audio');
+                if(answerArray){
+                switch(e.code){
+                    case 'Digit1'||'Numpad1': buttonClick(answerArray.children[0], position); break;
+                    case 'Digit2'||'Numpad2': buttonClick(answerArray.children[1], position); break;
+                    case 'Digit3'||'Numpad3': buttonClick(answerArray.children[2], position); break;
+                    case 'Digit4'||'Numpad4': buttonClick(answerArray.children[3], position); break;
+                    case 'Digit5'||'Numpad5': buttonClick(answerArray.children[4], position); break;
+                    case 'Escape': SelectGamePage.showGamePage(); break;
+                    }
+                }
+            }
         }
         if(btnPlace){
             btnPlace.addEventListener('click', onClick)
@@ -58,6 +85,7 @@ export class AudioGame {
         if(audioPlace){
             audioPlace.addEventListener('click', audioHandler)
         }
+        document.addEventListener('keydown', keyboardHehdler)
 
     }
     showWord(pos:number){
