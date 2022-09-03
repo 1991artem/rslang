@@ -10,6 +10,7 @@
     "server": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
     "stats": "webpack --json > stats.json && webpack-bundle-analyzer stats.json",
     "lint": "eslint \"**/*.{js,ts}\" --quiet --fix",
+    "deploy": "gh-pages -d dist",
     "start": "webpack-dev-server"
   },
   "author": "Artem Puzik",

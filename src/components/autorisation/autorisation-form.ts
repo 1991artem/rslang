@@ -66,7 +66,7 @@ export class AutorisationForm {
         }
     }
     static checkAutorisation(){
-        let userInfo: string | null = sessionStorage.getItem('user');
+        let userInfo: string | null = localStorage.getItem('user');
         if(userInfo){
             DataStorage.userData = JSON.parse(userInfo) as IUserDataToken;
             if(StartPageListener.AUTORISATION_SINGIN){
@@ -76,7 +76,7 @@ export class AutorisationForm {
         }
     }
     logOut(){
-        sessionStorage.clear();
+        localStorage.clear();
         if(StartPageListener.AUTORISATION_SINGIN){
             StartPageListener.AUTORISATION_SINGIN.innerHTML = 'SIGN IN';
             StartPageListener.AUTORISATION_SINGIN.classList.remove('true');
