@@ -1,12 +1,12 @@
 import { API } from '../../api';
-import { IWordsData, IResSprint, IStatistic } from 'src/components/interfaces';
+import { IWordsData, IResGame, IStatistic } from 'src/components/interfaces';
 import { StartPageListener } from '../../startPageListener';
 import { DataStorage } from '../../dataStorage';
 import { SelectGamePage } from '../selectGamePage';
 
 export class AudioGame {
     wordArray: IWordsData[];
-    resultArray: IResSprint[];
+    resultArray: IResGame[];
     constructor(){
         this.wordArray = []
         this.resultArray = [];
@@ -128,10 +128,13 @@ export class AudioGame {
     }
 
     showResult(){
+        if(document.querySelector('.sprint-flex-wrapper')){
+            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).innerHTML = '';
+        }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
                 let result: string = '';
-                this.resultArray.forEach((element: IResSprint) => {
+                this.resultArray.forEach((element: IResGame) => {
                     result +=`
                     <div class="gameResult">
                     <div class="result-left-side">
@@ -198,6 +201,7 @@ export class AudioGame {
               </div>;`;
             }
         }
+        SelectGamePage.playAgain();
     }
     calculateResult(): number{
         let result = 0;
@@ -205,7 +209,7 @@ export class AudioGame {
         if(DataStorage.userData){
             (async ()=> statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic).learnedWords)()
         }
-        this.resultArray.forEach((element: IResSprint) => {
+        this.resultArray.forEach((element: IResGame) => {
             if(element.result){
                 result++;
             }

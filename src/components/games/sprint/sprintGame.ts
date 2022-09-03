@@ -1,12 +1,12 @@
 import { API } from '../../api';
-import { IWordsData, IResSprint, IStatistic } from 'src/components/interfaces';
+import { IWordsData, IResGame, IStatistic } from 'src/components/interfaces';
 import { StartPageListener } from '../../startPageListener';
-import { DataStorage } from '../../dataStorage';
 import { SelectGamePage } from '../selectGamePage';
+import { StatisticPage } from '../../statistic/staticticPage';
 
 export class SprintGame {
     wordArray: IWordsData[];
-    resultArray: IResSprint[];
+    resultArray: IResGame[];
     constructor(){
         this.wordArray = []
         this.resultArray = [];
@@ -189,10 +189,13 @@ export class SprintGame {
         }
     }
     showResult(){
+        if(document.querySelector('.sprint-flex-wrapper')){
+            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).innerHTML = '';
+        }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
                 let result: string = '';
-                this.resultArray.forEach((element: IResSprint) => {
+                this.resultArray.forEach((element: IResGame) => {
                     result +=`
                     <div class="gameResult">
                     <div class="result-left-side">
@@ -207,9 +210,8 @@ export class SprintGame {
                 return result;
             }
 
-            
             if (this.resultArray.length === 0 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
@@ -219,7 +221,7 @@ export class SprintGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length === 1 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
@@ -229,7 +231,7 @@ export class SprintGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length > 1 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
@@ -239,7 +241,7 @@ export class SprintGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length === 1 && this.calculateResult() > 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
@@ -248,7 +250,7 @@ export class SprintGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
@@ -259,29 +261,16 @@ export class SprintGame {
               </div>;`;
             }
         }
+        StatisticPage.workWithStatistic(this.resultArray, 'sprint')
+        SelectGamePage.playAgain();
     }
     calculateResult(): number{
         let result = 0;
-        let statistic = 0;
-        if(DataStorage.userData){
-            (async ()=> statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic).learnedWords)()
-        }
-        this.resultArray.forEach((element: IResSprint) => {
+        this.resultArray.forEach((element: IResGame) => {
             if(element.result){
                 result++;
             }
-        })
-
-        if(DataStorage.userData) {
-            let data = {
-                learnedWords: this.resultArray.length + statistic,
-                optional: {
-                    a: 1,
-                    b: 2,
-                }
-        }
-            API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data))
-        };
+        });
         if(result === 0) return 0;
         return Math.floor((result / this.resultArray.length)*100);
     }
