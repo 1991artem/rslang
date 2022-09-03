@@ -9,7 +9,7 @@ export class SelectGamePage {
             GAMES.id = 'game-page';
             WRAPPER_GAME.id = 'game-page-wrapper';
             GAMES.innerHTML = this.buildSprintGame() + this.buildAudioGame();
-            StartPageListener.MAIN.before(WRAPPER_GAME);
+            StartPageListener.TEXTBOOK_CONTAINER?.after(WRAPPER_GAME);
             WRAPPER_GAME.append(GAMES)
         }
         StartPageListener.listen();
@@ -29,6 +29,7 @@ export class SelectGamePage {
         <p class="game-title">Sprint</p>
         </div>
         <p class="paragraph-text game-description">Sprint is a practice for repeating the learned words from your vocabulary. Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys. Enjoy!</p>
+        <p class="paragraph-text game-description keyboard-control"><span class="keys-control-title">Keyboard control:</span><br> &#x2022; press Y key to select "right", N key to select "wrong"<br> &#x2022;  left/right arrows to move between words<br> &#x2022;  esc to exit the game</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-sprint" name="level-english">
@@ -54,6 +55,7 @@ export class SelectGamePage {
         <p class="game-title">Audio Challenge</p>
         </div>
         <p class="paragraph-text game-description">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. Click on the sound icon, listen to the word, then select the appropriate word from the list and click on it. Enjoy!</p>
+        <p class="paragraph-text game-description keyboard-control"><span class="keys-control-title">Keyboard control:</span><br> &#x2022; press the space bar to play the word<br> &#x2022; keys 1 - 5 to select the answer<br> &#x2022; esc to exit the game</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-audio" name="level-english">
@@ -98,6 +100,7 @@ export class SelectGamePage {
         let game: HTMLElement = document.createElement('div');
         game.id = 'audio-game-window';
         game.innerHTML = `
+        <div class="audio-game-wrapper">
         <div class="audio-game-window-active">
             <div class="audio-progress"></div>
             <div class="main-audio">
@@ -108,6 +111,7 @@ export class SelectGamePage {
 
             </div>
             </div>
+        </div>
         </div>
         `;
         document.querySelector('.audioGameInfo')?.after(game);
@@ -130,13 +134,13 @@ export class SelectGamePage {
     }
     static showGamePage(){
         if(StartPageListener.MAIN){
-            StartPageListener.MAIN.classList.add('display_none');
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
             document.querySelector('.sprintGameInfo')?.classList.remove('display_none');
             document.querySelector('.audioGameInfo')?.classList.remove('display_none');
             StartPageListener.SPRINT_WINDOW?.classList.add('display_none');
             StartPageListener.AUDIO_WINDOW?.classList.add('display_none');
+            StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
             }
     }
 }

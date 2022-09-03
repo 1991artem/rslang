@@ -6,7 +6,14 @@ export class StartPageListener {
     static AUTORISATION_INPUT_BUTTON: HTMLElement | null;
     static MODAL_WINDOW: HTMLElement | null;
     static MAIN: HTMLElement | null;
+    static HERO_PAGE: HTMLElement | null;
+    static ADVANTAGES_PAGE: HTMLElement | null;
+    static ABOUT_PAGE: HTMLElement | null;
     static STATISTIC: HTMLElement | null;
+    static TEXTBOOK_CONTAINER: HTMLElement | null;
+    static GROUPS: HTMLElement | null;
+    static PAGINATION: HTMLElement | null;
+    static TEXTBOOK: HTMLElement | null
     static NAV: HTMLElement | null;
     static GAME_PAGE: HTMLElement | null;
     static GAME_PAGE_WRAPPER: HTMLElement | null;
@@ -31,7 +38,14 @@ export class StartPageListener {
         StartPageListener.SINGUP_FORM_PASSWORD = document.getElementById('singup-form-password');
         StartPageListener.MODAL_WINDOW = document.getElementById('openModal');
         StartPageListener.MAIN = document.querySelector('.main');
+        StartPageListener.HERO_PAGE = document.querySelector('.hero-page');
+        StartPageListener.ADVANTAGES_PAGE = document.querySelector('.advantages-page');
+        StartPageListener.ABOUT_PAGE = document.querySelector('.about-page');
         StartPageListener.STATISTIC = document.getElementById('statistic');
+        StartPageListener.TEXTBOOK_CONTAINER = document.getElementById('textbook-wrapper');
+        StartPageListener.GROUPS = document.getElementById('groups');
+        StartPageListener.PAGINATION = document.getElementById('pagination');
+        StartPageListener.TEXTBOOK = document.getElementById('textbook');
         StartPageListener.NAV = document.querySelector('.nav');
         StartPageListener.GAME_PAGE = document.getElementById('game-page');
         StartPageListener.GAME_PAGE_WRAPPER = document.getElementById('game-page-wrapper');

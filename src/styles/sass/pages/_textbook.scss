@@ -12,23 +12,23 @@
 .pagination_number,
 .prev-btn,
 .next-btn {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 40px;
-    height: 40px;
-    margin: 0px 8px;
-    background: #3f5069;
-    color: #fff;
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-weight: 400;
-    font-size: 18px;
-    border-radius: 10px;
-    box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
-    user-select: none;
-    transition: color 0.3s ease 0s;
-    outline: none;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 40px;
+  height: 40px;
+  margin: 0px 8px;
+  background: #3f5069;
+  color: #fff;
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-weight: 400;
+  font-size: 18px;
+  border-radius: 10px;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  user-select: none;
+  transition: color 0.3s ease 0s;
+  outline: none;
+  cursor: pointer;
 }
 
 .prev-btn:hover,
@@ -40,11 +40,12 @@
   background-color: #ffb108;
 }
 
-
 .textbook-list {
   padding: 0;
   margin: 0 auto;
   display: flex;
+  flex-direction: column;
+  gap: 25px;
   justify-content: center;
   align-items: center;
   margin-bottom: 3rem;
@@ -185,3 +186,15 @@ p.transcription {
   background-color: #ffb108;
 }
 
+.authorization_block {
+  display: flex;
+  flex-direction: column;
+  align-self: center;
+  gap: 10px;
+  padding: 10px;
+}
+
+.btn_authorization_block {
+  width: 100px;
+  text-align: center;
+}

@@ -1,59 +1,59 @@
 export interface IUserData {
-    id?: string,
-    name: string,
-    email: string,
-    password: string
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
 }
 export interface IWordsData {
-        id: string,
-        group: number,
-        page: number,
-        word: string,
-        image: string,
-        audio: string,
-        audioMeaning: string,
-        audioExample: string,
-        textMeaning: string,
-        textExample: string,
-        transcription: string,
-        wordTranslate: string,
-        textMeaningTranslate: string,
-        textExampleTranslate: string
+  id: string;
+  group: number;
+  page: number;
+  word: string;
+  image: string;
+  audio: string;
+  audioMeaning: string;
+  audioExample: string;
+  textMeaning: string;
+  textExample: string;
+  transcription: string;
+  wordTranslate: string;
+  textMeaningTranslate: string;
+  textExampleTranslate: string;
 }
 
 export interface IUserDataToken {
-    message: string,
-    name: string,
-    refreshToken: string,
-    token: string,
-    userId: string
+  message: string;
+  name: string;
+  refreshToken: string;
+  token: string;
+  userId: string;
 }
 
 export interface IGetUserWords {
-        difficulty: string,
-        optional: {}
+  difficulty: string;
+  optional: {};
 }
 
 export interface IUserStatistic {
-    learnedWords: number,
-    optional: {}
+  learnedWords: number;
+  optional: {};
 }
 
 export interface IUserSettings {
-    wordsPerDay: number,
-    optional: {}
+  wordsPerDay: number;
+  optional: {};
 }
 export interface INewToken {
-    refreshToken: string,
-    token: string
+  refreshToken: string;
+  token: string;
 }
 export interface IResSprint {
-    word: string;
-    wordTranslate: string,
-    answer: string,
-    result: boolean
+  word: string;
+  wordTranslate: string;
+  answer: string;
+  result: boolean;
 }
 export interface IStatistic {
-    id: string,
-    learnedWords: number
+  id: string;
+  learnedWords: number;
 }
