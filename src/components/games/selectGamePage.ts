@@ -29,6 +29,7 @@ export class SelectGamePage {
         <p class="game-title">Sprint</p>
         </div>
         <p class="paragraph-text game-description">Sprint is a practice for repeating the learned words from your vocabulary. Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys. Enjoy!</p>
+        <p class="paragraph-text game-description keyboard-control"><span class="keys-control-title">Keyboard control:</span><br> &#x2022; press Y key to select "right", N key to select "wrong"<br> &#x2022;  left/right arrows to move between words<br> &#x2022;  esc to exit the game</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-sprint" name="level-english">
@@ -54,6 +55,7 @@ export class SelectGamePage {
         <p class="game-title">Audio Challenge</p>
         </div>
         <p class="paragraph-text game-description">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. Click on the sound icon, listen to the word, then select the appropriate word from the list and click on it. Enjoy!</p>
+        <p class="paragraph-text game-description keyboard-control"><span class="keys-control-title">Keyboard control:</span><br> &#x2022; press the space bar to play the word<br> &#x2022; keys 1 - 5 to select the answer<br> &#x2022; esc to exit the game</p>
         <p class="game-level-select">Select the Level</p>
         <div class="game-level-box">
         <select class="select-level-audio" name="level-english">

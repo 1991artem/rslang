@@ -8,7 +8,8 @@
   text-align: center;
   max-width: 1440px;
   height: auto;
-  margin: 8rem 0 10rem 0;
+  // margin: 8rem 0 10rem 0;
+  margin: 2rem 0 4rem 0;
 
     #sprint-game-window {
         width: 100%;
@@ -239,18 +240,22 @@
 }
 
 .sprintGameInfo {
+  width: 40rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 4rem 3rem 6rem 0;
+  margin: 0 2rem 4rem 0rem;
+  padding: 4rem 0 4rem 0;
 }
 .audioGameInfo {
+  width: 40rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 4rem 0 6rem 3rem;
+  margin: 0 0 4rem 2rem;
+  padding: 4rem 0 4rem 0;
 }
 
 .game-title-frame {
@@ -302,8 +307,8 @@ img.sprint-title-icon {
 .game-level-select {
   font-size: 2rem;
   font-family: "Roboto", sans-serif;
-  font-weight: 600;
-  color: $color-accent;
+  font-weight: 400;
+  color: #3d4f69;
 }
 
 .game-level-box {
@@ -317,8 +322,6 @@ img.sprint-title-icon {
 .select-level-sprint {
   cursor: pointer;
     width: 90px;
-    /* min-height: 60px; */
-    /* max-height: 300px; */
     border-radius: 15px;
     background-color: rgb(250, 250, 250);
     box-shadow: 2px 4px 8px #c5c5c5;
@@ -351,11 +354,6 @@ img.sprint-title-icon {
   display: flex;
   align-items: center;
   height: 100vh;
-}
-
-
-.audio-game-window-active {
-  margin-top: -20rem;
 }
 
 .audio-place {
@@ -442,4 +440,39 @@ img.sprint-title-icon {
   height: 10vh;
   font-size: 2rem;
   letter-spacing: normal;
+}
+
+.btn-click {
+  background-color: $color-accent!important;
+  transition: background 0.5s!important;
+  transition: all .2s ease-out!important;
+  background: rgba(198, 238, 36, 0.695) radial-gradient(circle, transparent 55%, rgba(112, 224, 37, 0.713) 1%) center/15000%!important;
+  background-size: 100%!important;
+  transition: background 0s!important;
+}
+
+.keyboard-control {
+  width: 370px;
+  height: 188px;
+  margin: 2rem auto 2rem auto;
+  font-weight: 300;
+  display: block;
+  color: $font-color_light;
+  line-height: 1.9rem;
+  text-align: justify;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  border-radius: 25px;
+  background-color: $color-orange;
+  padding: 1rem;
+}
+
+.keys-control-title {
+  font-weight: 800;
+  color: $font-color_light;
+}
+
+.sprint-game-btn,
+.audio-game-btn {
+  height: 55px;
+  font-size: 20px;
 }
