@@ -213,8 +213,12 @@ p.transcription {
 }
 
 .btn_authorization_block {
-  width: 100px;
-  text-align: center;
+  display: flex;
+  width: 105px;
+  text-transform: none;
+  padding: 0;
+  justify-content: center;
+  align-items: center;
 }
 
 
