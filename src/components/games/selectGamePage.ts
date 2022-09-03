@@ -133,7 +133,11 @@ export class SelectGamePage {
         }
     }
     static showGamePage(){
+        console.log('show')
         if(StartPageListener.MAIN){
+            StartPageListener.HERO_PAGE?.classList.add("display_none");
+            StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
+            StartPageListener.ABOUT_PAGE?.classList.add("display_none");
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
             document.querySelector('.sprintGameInfo')?.classList.remove('display_none');
@@ -141,6 +145,12 @@ export class SelectGamePage {
             StartPageListener.SPRINT_WINDOW?.classList.add('display_none');
             StartPageListener.AUDIO_WINDOW?.classList.add('display_none');
             StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
+            document.querySelector('.game-result-wrapper')?.classList.add('display_none');
             }
+    }
+    static playAgain(){
+        if(document.querySelector('.play-again')){
+            document.querySelector('.play-again')?.addEventListener('click', SelectGamePage.showGamePage)
+        }
     }
 }
