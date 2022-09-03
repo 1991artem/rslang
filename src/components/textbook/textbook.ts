@@ -126,7 +126,7 @@ export class TextbookPage {
     this.getWordsData();
 
     PAGINATION.prepend(btnPrev);
-    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group", StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
+    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
 
@@ -205,7 +205,8 @@ export class TextbookPage {
     activeClass: string,
     containerForElement: Element,
     groupsLevel?: string[],
-    attribute?: string
+    attribute?: string,
+    id?: string
   ) {
     for (let i = 1; i <= maxValue; i++) {
       const element = document.createElement(elementName);
