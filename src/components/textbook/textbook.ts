@@ -1,17 +1,15 @@
-import { IWordsData } from "../interfaces";
+import { IGetUserWords, IUserData, IWordsData } from "../interfaces";
 import "../../styles/sass/pages/_textbook.scss";
 import { StartPageListener } from "../startPageListener";
 import { API } from "../api";
 import { DataStorage } from "../dataStorage";
 import { AutorisationForm } from "../autorisation/autorisation-form";
 
-class Card {
+export class Card {
   wordData: IWordsData;
-  isAutorized: boolean;
 
-  constructor(container: HTMLElement, wordData: IWordsData, isAutorized: boolean) {
+  constructor(container: HTMLElement, wordData: IWordsData) {
     this.wordData = wordData;
-    this.isAutorized = isAutorized;
     container.onclick = this.onClick.bind(this);
   }
 
@@ -24,17 +22,17 @@ class Card {
     if (targetElement.dataset.audio === "audioBtn") {
       this.playAudio(targetElement.firstElementChild as HTMLAudioElement);
     }
+    if (targetElement.dataset.btn === "difficultWord") {
+      const wordId = targetElement.parentElement?.parentElement?.id as string;
+      const userId = DataStorage.userData?.userId as string;
+      API.createUsersWordsOnServer(userId, wordId);
+    }
   }
 
   createCardTemplate(): string {
-    const additionalButtons = `<div class="authorization_block">
-    <buttom class="btn-basic btn_authorization_block">Hard word</buttom>
-    <buttom class="btn-basic btn_authorization_block">Delete word</buttom>
-  </div>`;
-    return `<li class="textbook-list_item">
-                  <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${
-      this.wordData.word
-    }" class="textbook-card-img">
+    return `<li id="${this.wordData.id}" class="textbook-list_item">
+                  <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}" class="textbook-card-img">
+
                   <div class="textbook-list_item__wrapper">
                   <div class="upper_card-row">
                    <div class="upper_card-box">
@@ -72,7 +70,7 @@ class Card {
                       </button>
                     </div>
                   </div>
-                  ${this.isAutorized ? additionalButtons : ""}
+                  <div class="authorization_block"></div>
                 </li>
               </ul>`;
   }
@@ -118,27 +116,32 @@ export class TextbookPage {
       StartPageListener.TEXTBOOK_CONTAINER?.append(TEXTBOOK);
       StartPageListener.TEXTBOOK_CONTAINER?.append(topBtn);
       StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
-      StartPageListener.SINGIN?.addEventListener("click", () => this.checkAutorization(this.renderCards));
-      StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", () => this.checkAutorization(this.renderCards));
+      StartPageListener.SINGIN?.addEventListener("click", () => this.checkAutorization());
+      StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", () => this.checkAutorization());
     }
     StartPageListener.listen();
-    this.buttonClick();
-    this.getWordsData();
 
     PAGINATION.prepend(btnPrev);
     this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
+    this.buttonClick();
+    this.getWordsData();
 
     btnNext.addEventListener("click", () => this.handleNextClick(this.renderCards));
     btnPrev.addEventListener("click", () => this.handlePrevClick(this.renderCards));
   }
 
   buttonClick() {
-    const onClick = (e: Event) => {
+    const onClick = async (e: Event) => {
       if ((<HTMLElement>e.target).textContent === "Textbook") {
+        if (!StartPageListener.BUTTONS_CONTAINER?.item(0)?.children.length) {
+          await this.checkAutorization();
+          this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
+        }
         if (StartPageListener.MAIN) {
           StartPageListener.TEXTBOOK_CONTAINER?.classList.remove("display_none");
+          StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none")
           StartPageListener.STATISTIC?.classList.add("display_none");
           StartPageListener.GAME_PAGE_WRAPPER?.classList.add("display_none");
           StartPageListener.HERO_PAGE?.classList.add("display_none");
@@ -156,7 +159,9 @@ export class TextbookPage {
             }
             btn.classList.add("active-page");
             const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
-            this.renderCards(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+            this.renderCards(nextPageData as IWordsData[]);
+            await this.checkAutorization();
+            this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
           }
         });
 
@@ -181,7 +186,9 @@ export class TextbookPage {
             }
             btnGroup.classList.add("active-group");
             const nextGroupData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
-            this.renderCards(nextGroupData as IWordsData[], DataStorage.isUserAutorized);
+            this.renderCards(nextGroupData as IWordsData[]);
+            await this.checkAutorization();
+            this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
           }
         });
       }
@@ -191,10 +198,21 @@ export class TextbookPage {
     }
   }
 
+  addButtonsForAuthUsers(isAutorized: boolean): void {
+    if (!isAutorized) return;
+    const additionalButtons = `
+    <buttom data-btn="difficultWord" class="btn-basic btn_authorization_block">Сложное слово</buttom>
+    <buttom data-btn="deleteWord" class="btn-basic btn_authorization_block">Удалить слово</buttom>
+  `;
+    Array.from(StartPageListener.BUTTONS_CONTAINER as HTMLCollectionOf<Element>).forEach((element) => {
+      element.insertAdjacentHTML("afterbegin", additionalButtons);
+    });
+  }
+
   async getWordsData(): Promise<void> {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
       const allWords = await API.loadWordsFromServer(0, 0);
-      this.renderCards(allWords as IWordsData[], DataStorage.isUserAutorized);
+      this.renderCards(allWords as IWordsData[]);
     }
   }
 
@@ -239,6 +257,8 @@ export class TextbookPage {
       firstPage.classList.add("active-page");
       const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
       renderCardsFn(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+      await this.checkAutorization();
+      this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
     } else {
       this.btnNumber = +nextPage.innerText;
       if (active != null && active.innerHTML !== String(this.quantityPages)) {
@@ -247,6 +267,8 @@ export class TextbookPage {
       }
       const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
       renderCardsFn(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+      await this.checkAutorization();
+      this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
     }
   }
 
@@ -267,6 +289,8 @@ export class TextbookPage {
       lastPage.classList.add("active-page");
       const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
       renderCardsFn(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+      await this.checkAutorization();
+      this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
     } else {
       this.btnNumber = +prevPage.innerText;
       if (active != null && +active.innerHTML !== 1) {
@@ -274,14 +298,17 @@ export class TextbookPage {
         prevPage.classList.add("active-page");
       }
       const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
+      this.checkAutorization()
       renderCardsFn(nextPageData as IWordsData[], DataStorage.isUserAutorized);
+      await this.checkAutorization();
+      this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
     }
   }
 
-  renderCards(cards: IWordsData[], isAutorized: boolean) {
+  renderCards(cards: IWordsData[]) {
     const ulElement = StartPageListener.TEXTBOOK as HTMLElement;
     const result = cards.reduce((prevValue, currValue) => {
-      const card: Card = new Card(ulElement, currValue, isAutorized);
+      const card: Card = new Card(ulElement, currValue);
       let template = card.createCardTemplate();
       return prevValue + template;
     }, "");
@@ -290,16 +317,11 @@ export class TextbookPage {
     }
   }
 
-  async checkAutorization(renderCardsFn: any) {
-    if (AutorisationForm.isAutorized === undefined) return;
-    await AutorisationForm.isAutorized.then((isAutorized) => {
-      console.log("check: ", isAutorized);
-      DataStorage.isUserAutorized = isAutorized;
-      renderCardsFn(DataStorage.allWordsStorage, isAutorized);
-      // if (location.hash === "#textbook") {
-      //   console.log('ok')
-      // renderCardsFn(DataStorage.allWordsStorage, isAutorized);
-      // }
+  async checkAutorization() {
+    const token = API.getToken();
+    const promiseToken = Promise.resolve(Boolean(token));
+    await Promise.all([promiseToken, AutorisationForm.isAutorized]).then((data) => {
+      DataStorage.isUserAutorized = data.some((item) => item === true);
     });
   }
 }

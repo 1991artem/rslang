@@ -13,7 +13,10 @@ export class StartPageListener {
     static TEXTBOOK_CONTAINER: HTMLElement | null;
     static GROUPS: HTMLElement | null;
     static PAGINATION: HTMLElement | null;
-    static TEXTBOOK: HTMLElement | null
+    static TEXTBOOK: HTMLElement | null;
+    static DICTIONARY_CONTAINER: HTMLElement | null;
+    static DICTIONARY: HTMLElement | null;
+    static BUTTONS_CONTAINER: HTMLCollectionOf<Element>| null;
     static NAV: HTMLElement | null;
     static GAME_PAGE: HTMLElement | null;
     static GAME_PAGE_WRAPPER: HTMLElement | null;
@@ -46,6 +49,9 @@ export class StartPageListener {
         StartPageListener.GROUPS = document.getElementById('groups');
         StartPageListener.PAGINATION = document.getElementById('pagination');
         StartPageListener.TEXTBOOK = document.getElementById('textbook');
+        StartPageListener.DICTIONARY_CONTAINER = document.getElementById('dictionary-wrapper');
+        StartPageListener.DICTIONARY = document.getElementById('dictionary');
+        StartPageListener.BUTTONS_CONTAINER = document.getElementsByClassName('authorization_block');
         StartPageListener.NAV = document.querySelector('.nav');
         StartPageListener.GAME_PAGE = document.getElementById('game-page');
         StartPageListener.GAME_PAGE_WRAPPER = document.getElementById('game-page-wrapper');

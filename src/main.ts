@@ -9,6 +9,7 @@ import { SprintGame } from "./components/games/sprint/sprintGame";
 import { AudioGame } from "./components/games/audio/audioGame";
 import { ModalWindow } from "./components/modal";
 import { TextbookPage } from "./components/textbook/textbook";
+import { Dictionary } from "./components/dictionary/dictionary";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
@@ -21,6 +22,8 @@ const api: API = new API(server);
 autorisationForm.buttonAutorisationForm();
 const textbook: TextbookPage = new TextbookPage();
 textbook.build()
+const dictionary: Dictionary = new Dictionary();
+dictionary.build()
 const statistic: StatisticPage = new StatisticPage();
 statistic.build();
 const selectGame: SelectGamePage = new SelectGamePage();
