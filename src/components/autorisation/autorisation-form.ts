@@ -7,7 +7,7 @@ import { IUserDataToken } from '../interfaces';
 
 
 export class AutorisationForm {
-    static isAutorized: Promise<boolean> | undefined;
+    static isAutorized = Promise.resolve(false);
 
     buttonAutorisationForm(){
         StartPageListener.listen();

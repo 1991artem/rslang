@@ -93,8 +93,8 @@ export class API {
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
 
-  static async createUsersWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
+  static async createUsersWordsOnServer(userId: string, wordId: string, data = {difficulty: 'hard'}): Promise<void> {
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify(data) })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
