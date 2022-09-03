@@ -4,6 +4,10 @@
   margin: 0 auto;
 }
 
+html {
+ scroll-behavior: smooth;
+}
+
 body {
   scroll-behavior: smooth;
   background-color: $color-primary;

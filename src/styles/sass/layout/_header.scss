@@ -9,12 +9,17 @@
   padding: 20px 0;
   font-size: 1rem;
   font-family: $font-stack;
+  height: 120px;
 }
 
 .header-left {
   display: flex;
   justify-content: center;
   align-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  height: 40px;
 }
 
 .logo {
@@ -60,6 +65,19 @@
   position: relative;
 }
 
+.header-left::after {
+  position: absolute;
+  content: "";
+  top: 120%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: $color-dark;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.5s ease-out 0.3s;
+}
+
 .nav-item::after {
   position: absolute;
   content: "";
@@ -73,6 +91,7 @@
   transition: transform 0.5s;
 }
 
+.header-left:hover::after,
 .nav-item:hover::after{
   transform: scaleX(1);
   transform-origin: left;

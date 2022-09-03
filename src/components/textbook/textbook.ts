@@ -32,6 +32,7 @@ export class Card {
   createCardTemplate(): string {
     return `<li id="${this.wordData.id}" class="textbook-list_item">
                   <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}" class="textbook-card-img">
+
                   <div class="textbook-list_item__wrapper">
                   <div class="upper_card-row">
                    <div class="upper_card-box">
@@ -91,6 +92,8 @@ export class TextbookPage {
     const TEXTBOOK = document.createElement("ul");
     const btnNext = document.createElement("li");
     const btnPrev = document.createElement("li");
+    const topBtn = document.createElement("div");
+    const topLink = document.createElement("a");
     GROUPS.id = "groups";
     PAGINATION.id = "pagination";
     TEXTBOOK.id = "textbook";
@@ -98,12 +101,20 @@ export class TextbookPage {
     TEXTBOOK.className = "wrapper textbook-list";
     btnNext.className = "next-btn";
     btnPrev.className = "prev-btn";
-    btnNext.innerHTML = "&#8594;";
-    btnPrev.innerHTML = "&#8592;";
+    topBtn.className = "back-to-top-wrapper";
+    topLink.className = "back-to-top-link"
+    btnNext.innerHTML = "Next &rsaquo;";
+    btnPrev.innerHTML = "&lsaquo; Previous";
+    topLink.innerHTML = "Scroll to top";
+    topLink.href = "#pageHeader";
+    topBtn.insertAdjacentElement("afterbegin", topLink);
+
+    
     if (StartPageListener.MAIN) {
       StartPageListener.TEXTBOOK_CONTAINER?.append(GROUPS);
       StartPageListener.TEXTBOOK_CONTAINER?.append(PAGINATION);
       StartPageListener.TEXTBOOK_CONTAINER?.append(TEXTBOOK);
+      StartPageListener.TEXTBOOK_CONTAINER?.append(topBtn);
       StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
       StartPageListener.SINGIN?.addEventListener("click", () => this.checkAutorization());
       StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", () => this.checkAutorization());
@@ -111,15 +122,7 @@ export class TextbookPage {
     StartPageListener.listen();
 
     PAGINATION.prepend(btnPrev);
-    this.dynamicList(
-      this.quantityGroups,
-      "button",
-      "groups_list__item",
-      "active-group",
-      StartPageListener.GROUPS as HTMLElement,
-      this.englishLevel,
-      "id"
-    );
+    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
     this.buttonClick();
@@ -220,7 +223,8 @@ export class TextbookPage {
     activeClass: string,
     containerForElement: Element,
     groupsLevel?: string[],
-    attribute?: string
+    attribute?: string,
+    id?: string
   ) {
     for (let i = 1; i <= maxValue; i++) {
       const element = document.createElement(elementName);
