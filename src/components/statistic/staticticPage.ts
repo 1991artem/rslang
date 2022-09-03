@@ -32,7 +32,6 @@ export class StatisticPage {
                     StartPageListener.ABOUT_PAGE?.classList.add("display_none");
                     StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none')
                     StartPageListener.GAME_PAGE_WRAPPER?.classList.add('display_none');
-
                     console.log(StartPageListener.STATISTIC?.children[0].children[2]);
                     document.querySelector('.get-statistic')?.addEventListener('click', getDataCtatistic);
                     }
@@ -42,6 +41,7 @@ export class StatisticPage {
             if(DataStorage.userData){
                 if(StartPageListener.STATISTIC){
                     let statistic = await API.getUserStatisticFromServer(DataStorage.userData.userId);
+                    console.log(statistic)
                     StartPageListener.STATISTIC.children[0].children[2].innerHTML = (<IStatistic>statistic).learnedWords.toString()
                 }
             }

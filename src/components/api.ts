@@ -22,10 +22,9 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IUserDataToken) => {
-        console.log(data);
         DataStorage.userData = data;
-        if(!sessionStorage.getItem(`user`)){
-          sessionStorage.setItem(`user`,JSON.stringify(data));
+        if(!localStorage.getItem(`user`)){
+          localStorage.setItem(`user`,JSON.stringify(data));
         } else {
           API.checkToken();
         }
@@ -53,7 +52,6 @@ export class API {
       .then((response) => response.json())
       .then((data: IUserData) => {
         DataStorage.getUsers = data;
-        console.log(data);
       })
       .catch((err) => {
         console.log("GET USER Error", err)
@@ -90,7 +88,6 @@ export class API {
       .then((response) => response.json())
       .then((data: IGetUserWords) => {
         DataStorage.userWords = data;
-        console.log(data);
       })
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
@@ -106,7 +103,6 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IGetUserWords) => {
-        console.log(data);
       })
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
@@ -131,7 +127,6 @@ export class API {
       .then((response) => response.json())
       .then((data: IWordsData) => {
         DataStorage.allAgregatedWords = data;
-        console.log(data);
       })
       .catch((err) => console.log("load agregated word Error", err));
   }
@@ -141,7 +136,6 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
-        console.log(data);
       })
       .catch((err) => console.log("load agregated word Error", err));
   }
@@ -172,7 +166,6 @@ export class API {
       .then((response) => response.json())
       .then((data: IUserSettings) => {
         DataStorage.userSettings = data;
-        console.log(data);
       })
       .catch((err) => console.log("load agregated word Error", err));
   }
@@ -202,7 +195,6 @@ export class API {
       .then((response) => response.json())
       .then((data: IWordsData) => {
         DataStorage.wordId = data;
-        console.log(data);
       })
       .catch((err) => console.log("load word Error", err));
   }
@@ -219,15 +211,14 @@ export class API {
     if(DataStorage.userData){
       DataStorage.userData.refreshToken = <string>DataStorage.newToken?.refreshToken;
       DataStorage.userData.token = <string>DataStorage.newToken?.token;
-      sessionStorage.setItem(`user`,JSON.stringify(DataStorage.userData));
+      localStorage.setItem(`user`,JSON.stringify(DataStorage.userData));
     }
 
   }
   static getToken(): string | undefined{
     if(DataStorage.userData){
-      let user = sessionStorage.getItem('user');
+      let user = localStorage.getItem('user');
       if(user){
-        console.log(JSON.parse(user).token)
         return JSON.parse(user).token;
       }
     }

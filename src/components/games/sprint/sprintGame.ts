@@ -38,7 +38,7 @@ export class SprintGame {
     }
 
     setTimer(){
-        let timer: number = 60;
+        let timer: number = 6;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -275,7 +275,10 @@ export class SprintGame {
         if(DataStorage.userData) {
             let data = {
                 learnedWords: this.resultArray.length + statistic,
-                optional: {}
+                optional: {
+                    a: 1,
+                    b: 2,
+                }
         }
             API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data))
         };
