@@ -94,6 +94,8 @@ export class TextbookPage {
     const TEXTBOOK = document.createElement("ul");
     const btnNext = document.createElement("li");
     const btnPrev = document.createElement("li");
+    const topBtn = document.createElement("div");
+    const topLink = document.createElement("a");
     GROUPS.id = "groups";
     PAGINATION.id = "pagination";
     TEXTBOOK.id = "textbook";
@@ -101,12 +103,20 @@ export class TextbookPage {
     TEXTBOOK.className = "wrapper textbook-list";
     btnNext.className = "next-btn";
     btnPrev.className = "prev-btn";
-    btnNext.innerHTML = "&#8594;";
-    btnPrev.innerHTML = "&#8592;";
+    topBtn.className = "back-to-top-wrapper";
+    topLink.className = "back-to-top-link"
+    btnNext.innerHTML = "Next &rsaquo;";
+    btnPrev.innerHTML = "&lsaquo; Previous";
+    topLink.innerHTML = "Scroll to top";
+    topLink.href = "#pageHeader";
+    topBtn.insertAdjacentElement("afterbegin", topLink);
+
+    
     if (StartPageListener.MAIN) {
       StartPageListener.TEXTBOOK_CONTAINER?.append(GROUPS);
       StartPageListener.TEXTBOOK_CONTAINER?.append(PAGINATION);
       StartPageListener.TEXTBOOK_CONTAINER?.append(TEXTBOOK);
+      StartPageListener.TEXTBOOK_CONTAINER?.append(topBtn);
       StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
       StartPageListener.SINGIN?.addEventListener("click", () => this.checkAutorization(this.renderCards));
       StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", () => this.checkAutorization(this.renderCards));
