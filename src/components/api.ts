@@ -23,6 +23,7 @@ export class API {
       .then((response) => response.json())
       .then((data: IUserDataToken) => {
         DataStorage.userData = data;
+         console.log(data);
         if(!localStorage.getItem(`user`)){
           localStorage.setItem(`user`,JSON.stringify(data));
         } else {
@@ -34,7 +35,6 @@ export class API {
       .catch((err) => {
         console.log("Не удалось найти такого пользователя!!! Повторите попытку");
       });
-      console.log('End')
   }
 
   static async createUsersOnServer(data: string): Promise<void> {
@@ -59,7 +59,8 @@ export class API {
   }
 
   static async updateUserOnServer(id: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch((err) =>
+    await fetch(`${this.url}/users/`, { method: "PUT", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data })
+    .catch((err) =>
       console.log("create User Error", err)
     );
   }

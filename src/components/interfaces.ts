@@ -47,13 +47,33 @@ export interface INewToken {
   refreshToken: string;
   token: string;
 }
-export interface IResSprint {
+export interface IResGame {
   word: string;
   wordTranslate: string;
   answer: string;
   result: boolean;
 }
 export interface IStatistic {
-  id: string;
+  id?: string;
   learnedWords: number;
+  optional: {
+    learnedWords?: string;
+    sprint?: IGameStatictic | {};
+    audio?: IGameStatictic | {};
+  }
+}
+export interface IGameStatictic {
+  gameResArray?: IGameResArray;
+  miniRes?: {
+    date: string;
+    true: number;
+    false: number
+  }
+}
+export interface IGameResArray {
+  miniRes: {
+    date: string;
+    true: number;
+    false: number
+  }
 }
