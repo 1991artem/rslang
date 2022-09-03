@@ -28,8 +28,8 @@ class Card {
 
   createCardTemplate(): string {
     const additionalButtons = `<div class="authorization_block">
-    <buttom class="btn-basic btn_authorization_block">Сложное слово</buttom>
-    <buttom class="btn-basic btn_authorization_block">Удалить слово</buttom>
+    <buttom class="btn-basic btn_authorization_block">Hard word</buttom>
+    <buttom class="btn-basic btn_authorization_block">Delete word</buttom>
   </div>`;
     return `<li class="textbook-list_item">
                   <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${
