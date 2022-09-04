@@ -1,0 +1,109 @@
+.display_none {
+  display: none;
+}
+
+#statistic {
+  width: 100vw;
+  height: 100vh;
+  margin-bottom: 8rem!important;
+}
+
+.statistic-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin-top: 4rem;
+}
+
+.get-statistic {
+  @include btn-primary;
+  min-height: 36px;
+  &:hover {
+    background-color: $color-accent;
+    box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);
+  }
+}
+
+.statistic-result {
+  width: 50vw;
+  height: auto;
+  display: grid;
+  grid-template-columns: 17rem 15rem 15rem;
+  // grid-template-rows: 20rem;
+  row-gap: 1.5rem;
+  justify-content: center;
+  margin: 4rem 0 8rem 0;
+}
+
+.statistic-info_sprint{
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;
+  border-radius: 0 10px 10px 0;
+  p {
+    margin: 0;
+    font-size: 20px;
+    color: $color-accent;
+  }
+}
+
+.statistic-info_audio {
+  width: 15rem;
+  height: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;
+  border-radius: 0 10px 10px 0;
+  p {
+    margin: 0;
+    font-size: 20px;
+    color: $color-accent;
+  }
+}
+
+.stat-title {
+  margin: 0;
+}
+
+.stat-grid-item1 {
+  width: 90%;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;
+  color: $color-accent;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+.sprint-grid-padding {
+  // text-align: center;
+  padding: 1rem 0 0 1rem;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;
+  color: $color-accent;
+  font-weight: 600;
+  border-radius: 10px 0 0 10px;
+}
+
+.audio-grid-padding {
+  // text-align: center;
+  padding: 1rem 0 0 1rem;
+  background-color: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;
+  color: $color-accent;
+  font-weight: 600;
+  border-radius: 10px 0 0 10px;
+}
+
+.stat-span {
+  color: $color-dark;
+  font-weight: 300;
+}
