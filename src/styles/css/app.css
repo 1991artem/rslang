@@ -804,8 +804,8 @@ body {
 }
 
 .rss-logo:hover {
-  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
-  transition: 0.5s;
+  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);
+  transition: 0.4s;
 }
 
 .wrongPassword {
@@ -821,7 +821,7 @@ body {
 }
 
 .textbook_container {
-  margin-top: 8rem;
+  padding-top: 6rem;
 }
 
 #textbook-wrapper {
@@ -1155,6 +1155,14 @@ button.groups_list__item.active-group {
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
   background-color: rgb(255, 255, 255);
+  cursor: pointer;
+}
+.advantages-card:hover {
+  box-shadow: 0px 2px 35px 14px rgba(20, 20, 20, 0.04);
+  background-color: #fff;
+}
+.advantages-card:hover .adv-card-title {
+  color: #ffb108;
 }
 
 .adv-card-title {
@@ -1228,8 +1236,8 @@ button.groups_list__item.active-group {
 }
 
 .github-icon:hover {
-  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
-  transition: 0.5s;
+  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);
+  transition: 0.4s;
 }
 
 .about-name {
@@ -1807,7 +1815,7 @@ img.sprint-title-icon {
   text-align: center;
   box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
   transition: all 0.2s ease-out;
-  min-height: 36px;
+  min-height: 44px;
 }
 .get-statistic:hover {
   background-color: #ffb108;
