@@ -9,10 +9,10 @@ export class StatisticPage {
             const STATISTIC = document.createElement('div');
             STATISTIC.id = 'statistic'
             STATISTIC.innerHTML = `
-            <div>
-            <p>Статистика</p>
-            <button class="get-statistic">Статистика за день</button>
-            <div class="statistic-result"><p>Не хватает данных по статистике</p></div>
+            <div class="wrapper statistic-wrapper">
+            <h2 class="section-title">Statistics</h2>
+            <button class="get-statistic">Today's stats</button>
+            <div class="statistic-result"></div>
             </div>
             `;
             StartPageListener.TEXTBOOK_CONTAINER?.after(STATISTIC);
@@ -43,9 +43,9 @@ export class StatisticPage {
                         let statistic: IStatistic = await API.getUserStatisticFromServer(DataStorage.userData.userId) as IStatistic;
                         console.log(statistic)
                         StartPageListener.STATISTIC.children[0].children[2].innerHTML = `
-                        <p>Lern words: ${(<IStatistic>statistic).learnedWords}</p>
-                        <p>Statistic "Sprint": ${this.sprintStatictic(statistic)}</p>
-                        <p>Statistic "Audio": ${this.audiotStatictic(statistic)}</p>
+                        <p class="card-title stat-title stat-grid-item1">Words learned: ${(<IStatistic>statistic).learnedWords}</p>
+                        <p class="card-title stat-title sprint-grid-padding">Sprint: ${this.sprintStatictic(statistic)}</p>
+                        <p class="card-title stat-title audio-grid-padding">Audio Challenge: ${this.audiotStatictic(statistic)}</p>
                         `
                     }
                 }
@@ -150,22 +150,26 @@ export class StatisticPage {
     sprintStatictic(stat: IStatistic):string {
         if(JSON.stringify(stat.optional.sprint) && (stat.optional.sprint as IGameStatictic).miniRes){
             return `
-            <p>Date: ${(stat.optional.sprint as IGameStatictic).miniRes?.date}</p>
-            <p>Done: ${(stat.optional.sprint as IGameStatictic).miniRes?.true}</p>
-            <p>Mistakes: ${(stat.optional.sprint as IGameStatictic).miniRes?.false}</p>
-            <p>Long series: ${(stat.optional.sprint as IGameStatictic).miniRes?.longseries}</p>
-            <p>Done percent: ${(stat.optional.sprint as IGameStatictic).miniRes?.truePercent} %</p>
+            <div class="statistic-info_sprint">
+            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.date}</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.true}</p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.false}</p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.longseries}</p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.truePercent} %</p>
+            </div>
             `
         } else return 'Not result';
     }
     audiotStatictic(stat: IStatistic):string {
         if(JSON.stringify(stat.optional.audio) && (stat.optional.audio as IGameStatictic).miniRes){
             return `
-            <p>Date: ${(stat.optional.audio as IGameStatictic).miniRes?.date}</p>
-            <p>Done: ${(stat.optional.audio as IGameStatictic).miniRes?.true}</p>
-            <p>Mistakes: ${(stat.optional.audio as IGameStatictic).miniRes?.false}</p>
-            <p>Long series: ${(stat.optional.audio as IGameStatictic).miniRes?.longseries}</p>
-            <p>Done percent: ${(stat.optional.audio as IGameStatictic).miniRes?.truePercent} %</p>
+            <div class="statistic-info_audio">
+            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.date}</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.true}</p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.false}</p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.longseries}</p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.truePercent} %</p>
+            </div>
             `
         } else return 'Not result';
     }
