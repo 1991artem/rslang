@@ -71,3 +71,7 @@ export interface IGameStatictic {
     truePercent?: number,
   }
 }
+export interface ICalculateResult {
+  percent: number;
+  mistakes: number
+}

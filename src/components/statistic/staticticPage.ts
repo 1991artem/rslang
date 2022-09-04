@@ -96,16 +96,16 @@ export class StatisticPage {
                             sprint: {} as IGameStatictic,
                         }
                     }
-                    // if(game === 'sprint'){
-                    //     dataGame.miniRes.longseries = newTrueArray.length;
-                    //     dataGame.miniRes.truePercent = Math.floor((newTrueArray.length / array.length)*100);
-                    // data.optional.sprint = dataGame;
-                    // }
-                    // if(game === 'audio'){
-                    //     dataGame.miniRes.longseries = newTrueArray.length;
-                    //     dataGame.miniRes.truePercent =  Math.floor((newTrueArray.length / array.length)*100);
-                    //     data.optional.audio = dataGame;
-                    // }
+                    if(game === 'sprint'){
+                        dataGame.miniRes.longseries = newTrueArray.length;
+                        dataGame.miniRes.truePercent = Math.floor((newTrueArray.length / array.length)*100);
+                    data.optional.sprint = dataGame;
+                    }
+                    if(game === 'audio'){
+                        dataGame.miniRes.longseries = newTrueArray.length;
+                        dataGame.miniRes.truePercent =  Math.floor((newTrueArray.length / array.length)*100);
+                        data.optional.audio = dataGame;
+                    }
                 } else {
                     wordArrayFromServer = statistic.optional.learnedWords? statistic.optional.learnedWords.split(';'): [];
                     resultArray = statistic.optional.learnedWords? wordArrayFromServer.concat(newTrueArray):newTrueArray;
@@ -148,12 +148,13 @@ export class StatisticPage {
 
     }
     sprintStatictic(stat: IStatistic):string {
-        console.log(stat.optional.sprint as IGameStatictic)
         if(JSON.stringify(stat.optional.sprint) && (stat.optional.sprint as IGameStatictic).miniRes){
             return `
             <p>Date: ${(stat.optional.sprint as IGameStatictic).miniRes?.date}</p>
             <p>Done: ${(stat.optional.sprint as IGameStatictic).miniRes?.true}</p>
             <p>Mistakes: ${(stat.optional.sprint as IGameStatictic).miniRes?.false}</p>
+            <p>Long series: ${(stat.optional.sprint as IGameStatictic).miniRes?.longseries}</p>
+            <p>Done percent: ${(stat.optional.sprint as IGameStatictic).miniRes?.truePercent} %</p>
             `
         } else return 'Not result';
     }
@@ -163,6 +164,8 @@ export class StatisticPage {
             <p>Date: ${(stat.optional.audio as IGameStatictic).miniRes?.date}</p>
             <p>Done: ${(stat.optional.audio as IGameStatictic).miniRes?.true}</p>
             <p>Mistakes: ${(stat.optional.audio as IGameStatictic).miniRes?.false}</p>
+            <p>Long series: ${(stat.optional.audio as IGameStatictic).miniRes?.longseries}</p>
+            <p>Done percent: ${(stat.optional.audio as IGameStatictic).miniRes?.truePercent} %</p>
             `
         } else return 'Not result';
     }
