@@ -29,6 +29,14 @@
   border-radius: 10px;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
   background-color: rgb(255, 255, 255);
+  cursor: pointer;
+  &:hover {
+    box-shadow: 0px 2px 35px 14px rgba(20, 20, 20, 0.04);
+    background-color: #fff;
+    .adv-card-title {
+      color: $color-accent;
+    }
+  }
 }
 
 .adv-card-title {
@@ -100,8 +108,8 @@
 }
 
 .github-icon:hover {
-  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);
-  transition: 0.5s;
+  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);
+  transition: 0.4s;
 }
 
 .about-name {
