@@ -58,22 +58,20 @@ export interface IStatistic {
   learnedWords: number;
   optional: {
     learnedWords?: string;
-    sprint?: IGameStatictic | {};
-    audio?: IGameStatictic | {};
+    sprint: IGameStatictic;
+    audio: IGameStatictic;
   }
 }
 export interface IGameStatictic {
-  gameResArray?: IGameResArray;
-  miniRes?: {
-    date: string;
-    true: number;
-    false: number
-  }
-}
-export interface IGameResArray {
   miniRes: {
     date: string;
     true: number;
     false: number
+    longseries?: number,
+    truePercent?: number,
   }
+}
+export interface ICalculateResult {
+  percent: number;
+  mistakes: number
 }

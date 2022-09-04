@@ -133,7 +133,6 @@ export class SelectGamePage {
         }
     }
     static showGamePage(){
-        console.log('show')
         if(StartPageListener.MAIN){
             StartPageListener.HERO_PAGE?.classList.add("display_none");
             StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");

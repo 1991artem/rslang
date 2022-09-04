@@ -1,8 +1,8 @@
 import { API } from '../../api';
-import { IWordsData, IResGame, IStatistic } from 'src/components/interfaces';
+import { IWordsData, IResGame} from 'src/components/interfaces';
 import { StartPageListener } from '../../startPageListener';
-import { DataStorage } from '../../dataStorage';
 import { SelectGamePage } from '../selectGamePage';
+import { StatisticPage } from '../../statistic/staticticPage';
 
 export class AudioGame {
     wordArray: IWordsData[];
@@ -41,9 +41,9 @@ export class AudioGame {
         let position: number = 0;
         this.showWord(position);
         const onClick = (e:Event) => {
-            if(position === 19) this.showResult();
-            position++;
+            if(position === 9) this.showResult();
             this.correctAnswer((e.target as HTMLElement).innerHTML, position)
+            position++;
             this.showWord(position);
         }
 
@@ -56,7 +56,8 @@ export class AudioGame {
             element.classList.add('btn-click')
             setTimeout(()=>{
                 element.classList.remove('btn-click');
-                position++; this.correctAnswer(element.innerHTML, position);
+                this.correctAnswer(element.innerHTML, position);
+                position++;
                 this.showWord(position);
             },300)
         }
@@ -201,27 +202,16 @@ export class AudioGame {
               </div>;`;
             }
         }
+        StatisticPage.workWithStatistic(this.resultArray, 'audio')
         SelectGamePage.playAgain();
     }
     calculateResult(): number{
         let result = 0;
-        let statistic = 0;
-        if(DataStorage.userData){
-            (async ()=> statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic).learnedWords)()
-        }
         this.resultArray.forEach((element: IResGame) => {
             if(element.result){
                 result++;
             }
-        })
-
-        if(DataStorage.userData) {
-            let data = {
-                learnedWords: this.resultArray.length + statistic,
-                optional: {}
-        }
-            API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data))
-        };
+        });
         if(result === 0) return 0;
         return Math.floor((result / this.resultArray.length)*100);
     }
