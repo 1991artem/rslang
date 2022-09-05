@@ -138,7 +138,7 @@ export class SprintGame {
             }
         }
         const keyboardHehdler = (e:KeyboardEvent) => {
-            e.preventDefault();
+            // e.preventDefault();
             if(position === 19) this.showResult();
                 if(translateWord){
                 switch(e.code){
@@ -146,7 +146,9 @@ export class SprintGame {
                     case 'KeyN': buttonClick(translateWord, false); break;
                     case 'ArrowLeft': if(position > 0) position--; break;
                     case 'ArrowRight': if(position < this.wordArray?.length) position++; break;
-                    case 'Escape': SelectGamePage.showGamePage(); break;
+                    case 'Escape': SelectGamePage.showGamePage();
+                    document.removeEventListener('keydown', keyboardHehdler)
+                    break;
                     }
                 }
                 if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
