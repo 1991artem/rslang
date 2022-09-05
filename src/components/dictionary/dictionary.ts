@@ -33,6 +33,7 @@ export class Dictionary {
                     StartPageListener.HERO_PAGE?.classList.add("display_none");
                     StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
                     StartPageListener.ABOUT_PAGE?.classList.add("display_none");
+                    this.getUsersWord()
                 }
             }
         }
@@ -44,9 +45,14 @@ export class Dictionary {
 
     async getUsersWord() {
         const userId = DataStorage.userData?.userId as string;
-        const idWords = await API.getUserWordsFromServer(userId);
-        // по id user получаем id слов которые записаны на user
-        // надо отправить данные id слов, что бы заьбрать карты по этим id
+        await API.getUserWordsFromServer(userId);
+        const userWords = DataStorage.userWords;
+        console.log(userWords)
+        userWords?.forEach( async (el) => {
+           await API.getAllUserAgregatedWordsByIdFromServer(userId, el.wordId);
+           const word = DataStorage.allAgregatedByIdWords as IWordsData[]
+           console.log(word)
+        })
     }
 
     renderCards(cards: IWordsData[]) {

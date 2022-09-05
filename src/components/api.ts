@@ -1,4 +1,4 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings } from "./interfaces";
+import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings, IGetUserWord } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
@@ -87,7 +87,7 @@ export class API {
     await fetch(`${this.url}/users/${id}/words`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IGetUserWords) => {
+      .then((data: IGetUserWord []) => {
         DataStorage.userWords = data;
       })
       .catch((err) => console.log("GET USER WORDS Error", err));
@@ -126,7 +126,7 @@ export class API {
     await fetch(`${this.url}/users/${userId}/aggregatedWords?group=${group}&page=2&wordsPerPage=${page}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IWordsData) => {
+      .then((data: IWordsData[]) => {
         DataStorage.allAgregatedWords = data;
       })
       .catch((err) => console.log("load agregated word Error", err));
@@ -136,7 +136,8 @@ export class API {
     await fetch(`${this.url}/users/${userId}/aggregatedWords/${wordId}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IWordsData) => {
+      .then((data: IWordsData[]) => {
+        DataStorage.allAgregatedByIdWords = data
       })
       .catch((err) => console.log("load agregated word Error", err));
   }
