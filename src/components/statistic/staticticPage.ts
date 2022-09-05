@@ -82,7 +82,6 @@ export class StatisticPage {
         try{
             if(DataStorage.userData) {
                 let statistic: IStatistic | undefined = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
-                console.log(statistic)
                 let date = `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`;
                 let wordArrayFromServer: string[] = [];
                 let data: IStatistic = {} as IStatistic;
@@ -118,11 +117,8 @@ export class StatisticPage {
                     }
                 } else {
                     wordArrayFromServer = statistic.optional.learnedWords? statistic.optional.learnedWords.split(';'): [];
-                    console.log(statistic)
-                    console.log(wordArrayFromServer)
                     resultArray = statistic.optional.learnedWords? wordArrayFromServer.concat(newTrueArray):newTrueArray;
                     let filterArray: string[] = Array.from(new Set(resultArray));
-                    console.log(filterArray)
                     if(statistic){
                         if((statistic.optional.audio && statistic.optional.sprint) && (statistic.optional.audio.miniRes.date != date && statistic.optional.sprint.miniRes.date != date)){
                             data = {

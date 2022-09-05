@@ -64,7 +64,7 @@ export class SprintGame {
 
 
     setTimer(){
-        let timer: number = 6;
+        let timer: number = 60;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;

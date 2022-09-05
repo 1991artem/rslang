@@ -225,7 +225,6 @@ export class TextbookPage {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
         const allWords = await API.loadWordsFromServer(0, 0);
         const words = DataStorage.allWordsStorage
-        console.log('allWords :', words)
         this.renderCards(allWords as IWordsData[]);
     }
   }
@@ -336,7 +335,6 @@ export class TextbookPage {
     const promiseToken = Promise.resolve(Boolean(token));
     await Promise.all([promiseToken, AutorisationForm.isAutorized]).then((data) => {
       DataStorage.isUserAutorized = data.some((item) => item === true);
-      console.log(DataStorage.isUserAutorized)
     });
   }
 
