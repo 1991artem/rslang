@@ -25,8 +25,8 @@ export class Card {
     if (targetElement.dataset.btn === "difficultWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
       const userId = DataStorage.userData?.userId as string;
-      const difficult: string = 'difficult';
-      const searchWordById = DataStorage.allWordsStorage.find(word => word.id === wordId) as IWordsData;
+      const difficult: string = "difficult";
+      const searchWordById = DataStorage.allWordsStorage.find((word) => word.id === wordId) as IWordsData;
       API.createUsersWordsOnServer(userId, wordId, difficult, searchWordById);
     }
     if (targetElement.dataset.btn === "deleteWord") {
@@ -109,7 +109,7 @@ export class TextbookPage {
     btnNext.className = "next-btn";
     btnPrev.className = "prev-btn";
     topBtn.className = "back-to-top-wrapper";
-    topLink.className = "back-to-top-link"
+    topLink.className = "back-to-top-link";
     btnNext.innerHTML = "Next &rsaquo;";
     btnPrev.innerHTML = "&lsaquo; Previous";
     topLink.innerHTML = "Scroll to top";
@@ -122,33 +122,71 @@ export class TextbookPage {
       StartPageListener.TEXTBOOK_CONTAINER?.append(TEXTBOOK);
       StartPageListener.TEXTBOOK_CONTAINER?.append(topBtn);
       StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
-      StartPageListener.SINGIN?.addEventListener("click", () => this.checkAutorization());
-      StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", () => this.checkAutorization());
+      StartPageListener.SINGIN?.addEventListener("click", async () => {
+        console.log("SINGIN");
+        console.log("s 1");
+        await this.checkAutorization();
+        console.log("s 2");
+        if (DataStorage.isUserAutorized) {
+          console.log("add brns");
+          this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
+        }
+      });
+      StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", async () => {
+        console.log("AUTORISATION_SINGIN");
+        console.log("a 1");
+
+        await this.checkAutorization();
+        if (!DataStorage.isUserAutorized) {
+          console.log("rerender");
+
+          this.renderCards(DataStorage.allWordsStorage);
+        }
+        console.log("a 2");
+      });
     }
     StartPageListener.listen();
 
     PAGINATION.prepend(btnPrev);
-    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
+    this.dynamicList(
+      this.quantityGroups,
+      "button",
+      "groups_list__item",
+      "active-group",
+      StartPageListener.GROUPS as HTMLElement,
+      this.englishLevel,
+      "id"
+    );
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
-    this.checkAutorization()
+    this.checkAutorization();
     this.buttonClick();
     this.getWordsData();
 
-    btnNext.addEventListener("click", () => this.handleNextClick(this.renderCards));
-    btnPrev.addEventListener("click", () => this.handlePrevClick(this.renderCards));
+    btnNext.addEventListener("click", async () => {
+      await this.checkAutorization();
+      this.handleNextClick(this.renderCards);
+    });
+    btnPrev.addEventListener("click", async () => {
+      await this.checkAutorization();
+      this.handlePrevClick(this.renderCards);
+    });
   }
 
   buttonClick() {
     const onClick = async (e: Event) => {
-      if ((<HTMLElement>e.target).textContent === "Textbook" || (<HTMLElement>e.target).id === "lets-start" || (<HTMLElement>e.target).id === "textbook-main-card") {
+      if (
+        (<HTMLElement>e.target).textContent === "Textbook" ||
+        (<HTMLElement>e.target).id === "lets-start" ||
+        (<HTMLElement>e.target).id === "textbook-main-card"
+      ) {
         if (!StartPageListener.BUTTONS_CONTAINER?.item(0)?.children.length) {
           await this.checkAutorization();
           this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
         }
         if (StartPageListener.MAIN) {
           StartPageListener.TEXTBOOK_CONTAINER?.classList.remove("display_none");
-          StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none")
+          StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none");
           StartPageListener.STATISTIC?.classList.add("display_none");
           StartPageListener.GAME_PAGE_WRAPPER?.classList.add("display_none");
           StartPageListener.HERO_PAGE?.classList.add("display_none");
@@ -166,8 +204,8 @@ export class TextbookPage {
             }
             btn.classList.add("active-page");
             const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
-            this.renderCards(nextPageData as IWordsData[]);
             await this.checkAutorization();
+            this.renderCards(nextPageData as IWordsData[]);
             this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
           }
         });
@@ -203,11 +241,11 @@ export class TextbookPage {
     if (StartPageListener.NAV) {
       StartPageListener.NAV.addEventListener("click", onClick);
     }
-    if(document.querySelector('#lets-start')){
-      document.querySelector('#lets-start')?.addEventListener('click', onClick)
+    if (document.querySelector("#lets-start")) {
+      document.querySelector("#lets-start")?.addEventListener("click", onClick);
     }
-    if(document.querySelector('#textbook-main-card')){
-      document.querySelector('#textbook-main-card')?.addEventListener('click', onClick)
+    if (document.querySelector("#textbook-main-card")) {
+      document.querySelector("#textbook-main-card")?.addEventListener("click", onClick);
     }
   }
 
@@ -224,8 +262,8 @@ export class TextbookPage {
 
   async getWordsData(): Promise<void> {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
-        const allWords = await API.loadWordsFromServer(0, 0);
-        this.renderCards(allWords as IWordsData[]);
+      const allWords = await API.loadWordsFromServer(0, 0);
+      this.renderCards(allWords as IWordsData[]);
     }
   }
 
@@ -311,7 +349,6 @@ export class TextbookPage {
         prevPage.classList.add("active-page");
       }
       const nextPageData = await API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1);
-      this.checkAutorization()
       renderCardsFn(nextPageData as IWordsData[], DataStorage.isUserAutorized);
       await this.checkAutorization();
       this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
@@ -335,8 +372,7 @@ export class TextbookPage {
     const promiseToken = Promise.resolve(Boolean(token));
     await Promise.all([promiseToken, AutorisationForm.isAutorized]).then((data) => {
       DataStorage.isUserAutorized = data.some((item) => item === true);
+      console.log(DataStorage.isUserAutorized);
     });
   }
 }
-
-
