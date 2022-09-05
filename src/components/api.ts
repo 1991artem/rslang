@@ -93,8 +93,8 @@ export class API {
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
 
-  static async createUsersWordsOnServer(userId: string, wordId: string, data = {difficulty: 'hard'}): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify(data) })
+  static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string): Promise<void> {
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify({difficulty: difficulty}) })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
@@ -122,8 +122,8 @@ export class API {
 
   // ================================== Users/AggregatedWords ===========================================================
 
-  static async getAllUserAgregatedWordsFromServer(userId: string) {
-    await fetch(`${this.url}/users/${userId}/aggregatedWords`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
+  static async getAllUserAgregatedWordsFromServer(userId: string, group: number, page: number) {
+    await fetch(`${this.url}/users/${userId}/aggregatedWords?group=${group}&page=2&wordsPerPage=${page}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
