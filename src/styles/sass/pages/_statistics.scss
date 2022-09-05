@@ -15,6 +15,10 @@
   align-items: center;
   height: 100vh;
   margin-top: 4rem;
+  @media (max-width: 800px) {
+    justify-content: space-around;
+    margin-top: 10rem;
+  }
 }
 
 .get-statistic {
@@ -31,10 +35,16 @@
   height: auto;
   display: grid;
   grid-template-columns: 17rem 15rem 15rem;
-  // grid-template-rows: 20rem;
   row-gap: 1.5rem;
   justify-content: center;
   margin: 4rem 0 8rem 0;
+  @media (max-width: 800px) {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 }
 
 .statistic-info_sprint{
@@ -50,6 +60,17 @@
     margin: 0;
     font-size: 20px;
     color: $color-accent;
+  }
+  @media (max-width: 800px) {
+    width: 20rem;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    height: 50rem;
+    margin-top: -1.6rem;
+    justify-content: center;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
   }
 }
 
@@ -67,6 +88,17 @@
     font-size: 20px;
     color: $color-accent;
   }
+  @media (max-width: 800px) {
+    width: 20rem;
+    align-items: center;
+    border-radius: 0 0 10px 10px;
+    height: 50rem;
+    margin-top: -1.6rem;
+    justify-content: center;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
+  }
 }
 
 .stat-title {
@@ -81,26 +113,53 @@
   color: $color-accent;
   font-weight: 600;
   border-radius: 10px;
+  @media (max-width: 800px) {
+    width: 20rem;
+    text-align: center;
+    height: 5rem;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
+  }
 }
 
 .sprint-grid-padding {
-  // text-align: center;
   padding: 1rem 0 0 1rem;
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;
   color: $color-accent;
   font-weight: 600;
   border-radius: 10px 0 0 10px;
+  @media (max-width: 800px) {
+    width: 20rem;
+    height: 9rem;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    box-shadow: rgb(0 0 0 / 15%) 2px 2px 5px;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
+  }
 }
 
 .audio-grid-padding {
-  // text-align: center;
   padding: 1rem 0 0 1rem;
   background-color: #fff;
   box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;
   color: $color-accent;
   font-weight: 600;
   border-radius: 10px 0 0 10px;
+  @media (max-width: 800px) {
+    width: 20rem;
+    height: 9rem;
+    text-align: center;
+    border-radius: 10px 10px 0 0;
+    box-shadow: rgb(0 0 0 / 15%) 2px 2px 5px;
+    margin-top: -3rem;
+  }
+  @media (max-width: 375px) {
+    width: 15rem;
+  }
 }
 
 .stat-span {
