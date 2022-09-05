@@ -1,25 +1,24 @@
 import { StartPageListener } from "../startPageListener";
+import { AudioGame } from "./audio/audioGame";
+import { SprintGame } from "./sprint/sprintGame";
 
 export class SelectGamePage {
-    build(){
+    static build(){
         if(StartPageListener.MAIN){
             const WRAPPER_GAME = document.createElement('div');
             const GAMES = document.createElement('div');
             WRAPPER_GAME.classList.add('display_none');
             GAMES.id = 'game-page';
             WRAPPER_GAME.id = 'game-page-wrapper';
-            GAMES.innerHTML = this.buildSprintGame() + this.buildAudioGame();
+            GAMES.innerHTML = SelectGamePage.buildSprintGame() + SelectGamePage.buildAudioGame();
             StartPageListener.TEXTBOOK_CONTAINER?.after(WRAPPER_GAME);
             WRAPPER_GAME.append(GAMES)
         }
         StartPageListener.listen();
-        this.buildSprintGamePage();
-        this.buildAudioGamePage();
-        StartPageListener.listen();
-        this.buttonClick();
+        SelectGamePage.buttonClick();
 
     }
-    buildSprintGame(): string{
+    static buildSprintGame(): string{
         return `
         <div class="sprintGameInfo">
         <div class="game-title-frame">
@@ -45,7 +44,7 @@ export class SelectGamePage {
         </div>
         `;
     }
-    buildAudioGame(){
+    static buildAudioGame(){
        return `
         <div class="audioGameInfo">
         <div class="game-title-frame">
@@ -71,53 +70,8 @@ export class SelectGamePage {
         </div>
         `;
     }
-    buildSprintGamePage(){
-        let game: HTMLElement = document.createElement('div');
-        game.id = 'sprint-game-window';
-        game.classList.add('display_none')
-        game.innerHTML = `
-        <div class="sprint-flex-wrapper">
-        <div class="sprint-game-timer"><p></p></div>
-        <div class="sprint-game-window-active">
-            <div class="sprint-progress"></div>
-            <div class="main-sprint">
-            <p class="english-word"></p>
-            <p class="translate-word"></p>
-            </div>
-            <div class="btn-sprint">
-            <button id="game-btn" class="btn-prev">&#8592;</button>
-            <button id="game-btn" class="btn-no">Wrong</button>
-            <button id="game-btn" class="btn-yes">Right</button>
-            <button id="game-btn" class="btn-next">&#8594;</button>
-            </div>
-        </div>
-        </div>
-        `;
-        document.querySelector('.sprintGameInfo')?.after(game);
-    }
 
-    buildAudioGamePage(){
-        let game: HTMLElement = document.createElement('div');
-        game.id = 'audio-game-window';
-        game.innerHTML = `
-        <div class="audio-game-wrapper">
-        <div class="audio-game-window-active">
-            <div class="audio-progress"></div>
-            <div class="main-audio">
-            <div class="audio-place">
-            <img src="../../assets/svg/audio.png" class="audio-game-icon">
-            </div>
-            <div class="btn-audio">
-
-            </div>
-            </div>
-        </div>
-        </div>
-        `;
-        document.querySelector('.audioGameInfo')?.after(game);
-    }
-
-    buttonClick(){
+    static buttonClick(){
         const onClick = (e:Event) => {
             if((<HTMLElement>e.target).innerHTML == 'Games'){
                 SelectGamePage.showGamePage()
@@ -133,23 +87,25 @@ export class SelectGamePage {
         }
     }
     static showGamePage(){
+        document.querySelector('#game-page-wrapper')?.remove();
+        SelectGamePage.build();
         if(StartPageListener.MAIN){
             StartPageListener.HERO_PAGE?.classList.add("display_none");
             StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
             StartPageListener.ABOUT_PAGE?.classList.add("display_none");
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
-            document.querySelector('.sprintGameInfo')?.classList.remove('display_none');
-            document.querySelector('.audioGameInfo')?.classList.remove('display_none');
-            StartPageListener.SPRINT_WINDOW?.classList.add('display_none');
-            StartPageListener.AUDIO_WINDOW?.classList.add('display_none');
             StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
-            document.querySelector('.game-result-wrapper')?.classList.add('display_none');
             }
+            const sprintGame: SprintGame = new SprintGame();
+            sprintGame.btnClick();
+            const audioGame: AudioGame = new AudioGame();
+            audioGame.btnClick();
     }
     static playAgain(){
-        if(document.querySelector('.play-again')){
-            document.querySelector('.play-again')?.addEventListener('click', SelectGamePage.showGamePage)
+        StartPageListener.listen();
+        if(StartPageListener.AGAIN_BTN){
+            StartPageListener.AGAIN_BTN?.addEventListener('click', SelectGamePage.showGamePage)
         }
     }
 }

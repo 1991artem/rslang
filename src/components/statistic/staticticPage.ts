@@ -41,7 +41,6 @@ export class StatisticPage {
                 if(DataStorage.userData){
                     if(StartPageListener.STATISTIC){
                         let statistic: IStatistic = await API.getUserStatisticFromServer(DataStorage.userData.userId) as IStatistic;
-                        console.log(statistic)
                         StartPageListener.STATISTIC.children[0].children[2].innerHTML = `
                         <p class="card-title stat-title stat-grid-item1">Words learned: ${(<IStatistic>statistic).learnedWords}</p>
                         <p class="card-title stat-title sprint-grid-padding">Sprint: ${this.sprintStatictic(statistic)}</p>
@@ -73,7 +72,8 @@ export class StatisticPage {
 
         try{
             if(DataStorage.userData) {
-                let statistic: IStatistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
+                let statistic: IStatistic | undefined = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
+                let date = `${new Date().getDate()}.${new Date().getMonth()}.${new Date().getFullYear()}`;
                 let wordArrayFromServer: string[] = [];
                 let data: IStatistic = {} as IStatistic;
                 let dataGame: IGameStatictic = {
@@ -99,7 +99,7 @@ export class StatisticPage {
                     if(game === 'sprint'){
                         dataGame.miniRes.longseries = newTrueArray.length;
                         dataGame.miniRes.truePercent = Math.floor((newTrueArray.length / array.length)*100);
-                    data.optional.sprint = dataGame;
+                        data.optional.sprint = dataGame;
                     }
                     if(game === 'audio'){
                         dataGame.miniRes.longseries = newTrueArray.length;
@@ -110,6 +110,44 @@ export class StatisticPage {
                     wordArrayFromServer = statistic.optional.learnedWords? statistic.optional.learnedWords.split(';'): [];
                     resultArray = statistic.optional.learnedWords? wordArrayFromServer.concat(newTrueArray):newTrueArray;
                     let filterArray: string[] = Array.from(new Set(resultArray));
+                    if(statistic){
+                        if((statistic.optional.audio && statistic.optional.sprint) && (statistic.optional.audio.miniRes.date != date && statistic.optional.sprint.miniRes.date != date)){
+                            data = {
+                                learnedWords: 0,
+                                optional: {
+                                    learnedWords: " ",
+                                    audio: {} as IGameStatictic,
+                                    sprint: {} as IGameStatictic,
+                                }
+                            }
+                            await API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data));
+                            statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
+                        }
+                        if(!statistic.optional.audio || statistic.optional.audio.miniRes.date != date){
+                            let data = {
+                            learnedWords: filterArray.length,
+                            optional: {
+                                learnedWords: filterArray.join('+'),
+                                audio: {} as IGameStatictic,
+                                sprint: statistic.optional? statistic.optional.sprint: {} as IGameStatictic,
+                            }
+                        }
+                        await API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data));
+                        statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
+                    }
+                    if(!statistic.optional.sprint || statistic.optional.sprint.miniRes.date != date){
+                        let data = {
+                        learnedWords: filterArray.length,
+                        optional: {
+                            learnedWords: filterArray.join('+'),
+                            audio: statistic.optional? statistic.optional.audio: {} as IGameStatictic,
+                            sprint: {} as IGameStatictic,
+                        }
+                    }
+                    await API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data));
+                    statistic = (await API.getUserStatisticFromServer(DataStorage.userData!.userId) as IStatistic);
+                }
+                }
                     data = {
                         learnedWords: filterArray.length,
                         optional: {
@@ -139,7 +177,6 @@ export class StatisticPage {
                         data.optional.audio = dataGame;
                     }
                 }
-                console.log(JSON.stringify(data))
                 await API.updateUserStatisticFromServer(DataStorage.userData?.userId, JSON.stringify(data))
             };
         } catch (e) {
@@ -158,7 +195,15 @@ export class StatisticPage {
             <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.truePercent} %</p>
             </div>
             `
-        } else return 'Not result';
+        } else return `
+            <div class="statistic-info_sprint">
+            <p class="paragraph-text"><span class="stat-span">Date:</span> Not result</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> 0 %</p>
+            </div>
+            `;
     }
     audiotStatictic(stat: IStatistic):string {
         if(JSON.stringify(stat.optional.audio) && (stat.optional.audio as IGameStatictic).miniRes){
@@ -171,6 +216,14 @@ export class StatisticPage {
             <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.truePercent} %</p>
             </div>
             `
-        } else return 'Not result';
+        } else return `
+            <div class="statistic-info_sprint">
+            <p class="paragraph-text"><span class="stat-span">Date:</span> Not result</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> 0 </p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> 0 %</p>
+            </div>
+            `;
     }
 }

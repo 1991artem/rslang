@@ -15,6 +15,7 @@ export class SprintGame {
         StartPageListener.listen();
         const onClick = () => {
             this.startGame();
+            console.log(document.querySelectorAll('.sprint-game-btn'))
         }
         if(document.querySelector('.sprint-game-btn')){
             document.querySelector('.sprint-game-btn')?.addEventListener('click', onClick)
@@ -29,7 +30,8 @@ export class SprintGame {
                 this.wordArray = (await API.loadWordsFromServer(level-1, page) as IWordsData[]);
                 document.querySelector('.sprintGameInfo')?.classList.add('display_none');
                 document.querySelector('.audioGameInfo')?.classList.add('display_none');
-                StartPageListener.SPRINT_WINDOW?.classList.remove('display_none');
+                this.buildSprintGamePage();
+                StartPageListener.listen();
                 this.setTimer();
                 this.choiseWords();
             })();
@@ -37,8 +39,33 @@ export class SprintGame {
         }
     }
 
+    buildSprintGamePage(){
+        let game: HTMLElement = document.createElement('div');
+        game.id = 'sprint-game-window';
+        game.innerHTML = `
+        <div class="sprint-flex-wrapper">
+        <div class="sprint-game-timer"><p></p></div>
+        <div class="sprint-game-window-active">
+            <div class="sprint-progress"></div>
+            <div class="main-sprint">
+            <p class="english-word"></p>
+            <p class="translate-word"></p>
+            </div>
+            <div class="btn-sprint">
+            <button id="game-btn" class="btn-prev">&#8592;</button>
+            <button id="game-btn" class="btn-no">Wrong</button>
+            <button id="game-btn" class="btn-yes">Right</button>
+            <button id="game-btn" class="btn-next">&#8594;</button>
+            </div>
+        </div>
+        </div>
+        `;
+        document.querySelector('.sprintGameInfo')?.after(game);
+    }
+
+
     setTimer(){
-        let timer: number = 6;
+        let timer: number = 60;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -93,7 +120,6 @@ export class SprintGame {
         }
 
         const buttonClick = (translateWord: Element, answer: boolean) => {
-            console.log('click')
             let element: HTMLElement | null = null;
             if(answer){
                 element = document.querySelector('.btn-yes');
@@ -190,7 +216,7 @@ export class SprintGame {
     }
     showResult(){
         if(document.querySelector('.sprint-flex-wrapper')){
-            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).innerHTML = '';
+            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).classList.add('display_none');
         }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
