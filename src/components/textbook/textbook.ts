@@ -25,7 +25,7 @@ export class Card {
     if (targetElement.dataset.btn === "difficultWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
       const userId = DataStorage.userData?.userId as string;
-      API.createUsersWordsOnServer(userId, wordId);
+      API.createUsersWordsOnServer(userId, wordId, 'A1');
     }
   }
 

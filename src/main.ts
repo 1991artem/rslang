@@ -27,11 +27,7 @@ dictionary.build()
 const statistic: StatisticPage = new StatisticPage();
 statistic.build();
 const selectGame: SelectGamePage = new SelectGamePage();
-selectGame.build();
-const sprintGame: SprintGame = new SprintGame();
-sprintGame.btnClick();
-const audioGame: AudioGame = new AudioGame();
-audioGame.btnClick();
+SelectGamePage.build();
 
 
 

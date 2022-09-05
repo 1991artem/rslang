@@ -10,14 +10,14 @@ export class AudioGame {
     constructor(){
         this.wordArray = []
         this.resultArray = [];
+        StartPageListener.SPRINT_WINDOW?.remove();
     }
     btnClick(){
         const onClick = () => {
-            console.log('audioGAme')
             this.startGame();
         }
-        if(document.querySelector('.audio-game-btn')){
-            document.querySelector('.audio-game-btn')?.addEventListener('click', onClick)
+        if(StartPageListener.AUDIO_START_BTN){
+            StartPageListener.AUDIO_START_BTN.addEventListener('click', onClick)
         }
     }
     startGame(){
@@ -29,11 +29,35 @@ export class AudioGame {
                 this.wordArray = (await API.loadWordsFromServer(level-1, page) as IWordsData[]);
                 document.querySelector('.sprintGameInfo')?.classList.add('display_none');
                 document.querySelector('.audioGameInfo')?.classList.add('display_none');
-                StartPageListener.AUDIO_WINDOW?.classList.remove('display_none');
+                this.buildAudioGamePage();
+                StartPageListener.listen();
                 this.choiseWords();
             })();
+            if(document.querySelector('.audio-game-wrapper')){
+                (document.querySelector('.audio-game-wrapper') as HTMLElement).classList.remove('display_none');
+            }
 
         }
+    }
+    buildAudioGamePage(){
+        let game: HTMLElement = document.createElement('div');
+        game.id = 'audio-game-window';
+        game.innerHTML = `
+        <div class="audio-game-wrapper">
+        <div class="audio-game-window-active">
+            <div class="audio-progress"></div>
+            <div class="main-audio">
+            <div class="audio-place">
+            <img src="../../assets/svg/audio.png" class="audio-game-icon">
+            </div>
+            <div class="btn-audio">
+
+            </div>
+            </div>
+        </div>
+        </div>
+        `;
+        document.querySelector('.audioGameInfo')?.after(game);
     }
     choiseWords(){
         let audioPlace: HTMLElement | null = document.querySelector('.audio-place');
@@ -63,7 +87,7 @@ export class AudioGame {
         }
         const keyboardHehdler = (e:KeyboardEvent) => {
             e.preventDefault();
-            if(position === 19) this.showResult();
+            if(position === 9) this.showResult();
             if(e.code === 'Space'){
                 audioHandler();
             } else {
@@ -129,8 +153,8 @@ export class AudioGame {
     }
 
     showResult(){
-        if(document.querySelector('.sprint-flex-wrapper')){
-            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).innerHTML = '';
+        if(document.querySelector('.audio-game-wrapper')){
+            (document.querySelector('.audio-game-wrapper') as HTMLElement).classList.add('display_none');
         }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
@@ -152,7 +176,7 @@ export class AudioGame {
 
 
             if (this.resultArray.length === 0 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult()} %</p></div>
@@ -162,7 +186,7 @@ export class AudioGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length === 1 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
@@ -172,7 +196,7 @@ export class AudioGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length > 1 && this.calculateResult() === 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/no.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>
@@ -182,7 +206,7 @@ export class AudioGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else if (this.resultArray.length === 1 && this.calculateResult() > 0) {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} word</p></div>
@@ -191,7 +215,7 @@ export class AudioGame {
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
               </div>;`
             } else {
-              StartPageListener.GAME_PAGE.innerHTML=`
+              StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
               <img src="../../../assets/svg/yes.png" alt="done icon" class="good-result-icon">
               <div class="correct-result-percent"><p id="done-words" class="game-level-select">Done: ${this.resultArray.length} words</p></div>

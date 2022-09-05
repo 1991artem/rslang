@@ -29,6 +29,9 @@ export class StartPageListener {
     static SINGUP_FORM_EMAIL: HTMLElement | null;
     static SINGUP_FORM_PASSWORD: HTMLElement | null;
     static GAME_ICON: HTMLElement | null;
+    static AUDIO_START_BTN: HTMLElement | null;
+    static GAME_RESULT: HTMLElement | null;
+    static AGAIN_BTN: HTMLElement | null;
 
     static listen(){
         StartPageListener.AUTORISATION_SINGIN = document.getElementById('autorisation-button');
@@ -59,6 +62,9 @@ export class StartPageListener {
         StartPageListener.SPRINT_WINDOW = document.querySelector('#sprint-game-window');
         StartPageListener.AUDIO_WINDOW = document.querySelector('#audio-game-window');
         StartPageListener.GAME_ICON = document.querySelector('#game-main-card');
+        StartPageListener.AUDIO_START_BTN = document.querySelector('.audio-game-btn');
+        StartPageListener.GAME_RESULT = document.querySelector('.game-result-wrapper');
+        StartPageListener.AGAIN_BTN = document.querySelector('.play-again');
     }
 
 }
