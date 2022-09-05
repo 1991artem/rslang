@@ -31,14 +31,9 @@ export interface IUserDataToken {
 
 export interface IGetUserWords {
   difficulty: string;
-  optional: {};
-}
-
-export interface IGetUserWord {
-  difficulty: string;
   id: string;
   wordId: string
-
+  optional: {};
 }
 
 export interface IUserStatistic {
@@ -81,4 +76,13 @@ export interface IGameStatictic {
 export interface ICalculateResult {
   percent: number;
   mistakes: number
+}
+
+enum Groups {
+  "Easy - A1", 
+  "Easy - A2", 
+  "Medium - B1", 
+  "Medium - B2", 
+  "Hard - C1", 
+  "Hard - C2"
 }

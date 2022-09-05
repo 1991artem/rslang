@@ -25,8 +25,9 @@ export class Card {
     if (targetElement.dataset.btn === "difficultWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
       const userId = DataStorage.userData?.userId as string;
-      let difficult: string = 'difficult'
-      API.createUsersWordsOnServer(userId, wordId, difficult);
+      const difficult: string = 'difficult';
+      const searchWordById = DataStorage.allWordsStorage.find(word => word.id === wordId) as IWordsData;
+      API.createUsersWordsOnServer(userId, wordId, difficult, searchWordById);
     }
     if (targetElement.dataset.btn === "deleteWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
@@ -36,7 +37,7 @@ export class Card {
   }
 
   createCardTemplate(): string {
-    return `<li id="${this.wordData.id}" class="textbook-list_item">
+    return `<li id="${this.wordData.id}" data-group="${this.wordData.group}" class="textbook-list_item">
                   <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}" class="textbook-card-img">
 
                   <div class="textbook-list_item__wrapper">
@@ -224,7 +225,6 @@ export class TextbookPage {
   async getWordsData(): Promise<void> {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
         const allWords = await API.loadWordsFromServer(0, 0);
-        const words = DataStorage.allWordsStorage
         this.renderCards(allWords as IWordsData[]);
     }
   }
@@ -337,18 +337,6 @@ export class TextbookPage {
       DataStorage.isUserAutorized = data.some((item) => item === true);
     });
   }
-
-  // async getNewWordsData(isAutorized: boolean): Promise<void> {
-  //   if (StartPageListener.TEXTBOOK_CONTAINER) {
-  //     if (!isAutorized) {
-  //       const userId = DataStorage.userData?.userId as string
-  //       await API.getAllUserAgregatedWordsFromServer(userId);
-  //       const allUsersWord = DataStorage.allAgregatedWords as IWordsData[]
-  //       console.log(allUsersWord)
-  //       // console.log ('allUserWords :', allUsersWord)
-  //     }
-  //   }
-  // }
 }
 
 
