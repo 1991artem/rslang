@@ -109,7 +109,6 @@ export class SprintGame {
                             })();
                         }
                     };
-    
                     if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
                     if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
                 }

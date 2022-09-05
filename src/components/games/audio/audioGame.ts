@@ -84,7 +84,10 @@ export class AudioGame {
         }
         const keyboardHehdler = (e:KeyboardEvent) => {
             e.preventDefault();
-            if(this.position === 9) this.showResult();
+            if(this.position === 9) {
+                this.showResult();
+                document.removeEventListener('keydown', keyboardHehdler);
+            };
             if(e.code === 'Space'){
                 audioHandler();
             } else {
@@ -98,7 +101,7 @@ export class AudioGame {
                     case 'Digit5'||'Numpad5': buttonClick(answerArray.children[4]); break;
                     case 'Escape':
                     SelectGamePage.showGamePage();
-                    document.removeEventListener('keydown', keyboardHehdler)
+                    document.removeEventListener('keydown', keyboardHehdler);
                     break;
                     }
                 }
