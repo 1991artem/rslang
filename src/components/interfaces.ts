@@ -34,6 +34,13 @@ export interface IGetUserWords {
   optional: {};
 }
 
+export interface IGetUserWord {
+  difficulty: string;
+  id: string;
+  wordId: string
+
+}
+
 export interface IUserStatistic {
   learnedWords: number;
   optional: {};

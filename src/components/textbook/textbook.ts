@@ -125,6 +125,7 @@ export class TextbookPage {
     this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
+    this.checkAutorization()
     this.buttonClick();
     this.getWordsData();
 
@@ -211,8 +212,10 @@ export class TextbookPage {
 
   async getWordsData(): Promise<void> {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
-      const allWords = await API.loadWordsFromServer(0, 0);
-      this.renderCards(allWords as IWordsData[]);
+        const allWords = await API.loadWordsFromServer(0, 0);
+        const words = DataStorage.allWordsStorage
+        console.log('allWords :', words)
+        this.renderCards(allWords as IWordsData[]);
     }
   }
 
@@ -322,6 +325,21 @@ export class TextbookPage {
     const promiseToken = Promise.resolve(Boolean(token));
     await Promise.all([promiseToken, AutorisationForm.isAutorized]).then((data) => {
       DataStorage.isUserAutorized = data.some((item) => item === true);
+      console.log(DataStorage.isUserAutorized)
     });
   }
+
+  // async getNewWordsData(isAutorized: boolean): Promise<void> {
+  //   if (StartPageListener.TEXTBOOK_CONTAINER) {
+  //     if (!isAutorized) {
+  //       const userId = DataStorage.userData?.userId as string
+  //       await API.getAllUserAgregatedWordsFromServer(userId);
+  //       const allUsersWord = DataStorage.allAgregatedWords as IWordsData[]
+  //       console.log(allUsersWord)
+  //       // console.log ('allUserWords :', allUsersWord)
+  //     }
+  //   }
+  // }
 }
+
+
