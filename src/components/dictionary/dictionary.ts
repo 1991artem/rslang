@@ -36,6 +36,12 @@ export class Dictionary {
             StartPageListener.DICTIONARY_CONTAINER?.append(PAGINATION_DICTIONARY);
             StartPageListener.DICTIONARY_CONTAINER?.append(DICTIONARY);
             StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none")
+            StartPageListener.SINGIN?.addEventListener("click", async () => {
+              await this.checkAutorization()
+              if(DataStorage.isUserAutorized){
+                this.getUsersWord()
+              }
+            })
         }
         StartPageListener.listen();
         PAGINATION_DICTIONARY.prepend(btnPrev);
