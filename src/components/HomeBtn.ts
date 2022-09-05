@@ -4,7 +4,7 @@ import { StartPageListener } from './startPageListener';
 export class HomeBtn {
     active(){
         const onClick = (e: Event) => {
-            if((<HTMLElement>e.target).innerHTML === 'Home' || (<HTMLElement>e.target).innerHTML === 'About Us'){
+            if((<HTMLElement>e.target).className === 'logo-icon' || (<HTMLElement>e.target).innerHTML === 'RSLang' || (<HTMLElement>e.target).innerHTML === 'Home' || (<HTMLElement>e.target).innerHTML === 'About Us'){
                 if (StartPageListener.MAIN) {
                     StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
                     StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none")
@@ -17,8 +17,8 @@ export class HomeBtn {
             }
         }
 
-        if(StartPageListener.NAV){
-            StartPageListener.NAV.addEventListener('click', onClick)
+        if(document.querySelector('#pageHeader')){
+            document.querySelector('#pageHeader')?.addEventListener('click', onClick)
         }
     }
 }
