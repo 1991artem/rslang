@@ -15,6 +15,13 @@
     justify-content: center;
     row-gap: 6rem;
   }
+  @media (max-width: 768px) {
+    gap: 4rem;
+  }
+  @media (max-width: 460px) {
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
 }
 
 .adv-card-icon {
@@ -83,12 +90,29 @@
   background-color: $color-dark;
   border-radius: 10px;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
+  filter: brightness(0.9);
+  @media (max-width: 768px) {
+    max-height: 265px;
+  }
+  @media (max-width: 767px) {
+    max-height: 60rem;
+    max-width: 290px;
+    flex-direction: column;
+    .about-photo {
+      border-radius: 10px;
+      width: 290px;
+    }
+}
 }
 
 .about-content {
   display: flex;
   flex-direction: column;
   padding: 1rem 2.5rem;
+  @media (max-width: 767px) {
+    align-items: center;
+    padding: 1rem;
+  }
 }
 
 .about-name {

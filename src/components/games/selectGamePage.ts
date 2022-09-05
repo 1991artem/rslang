@@ -23,7 +23,7 @@ export class SelectGamePage {
         <div class="sprintGameInfo">
         <div class="game-title-frame">
         <div class="game-icon-box">
-        <img class="sprint-title-icon" src="../../assets/svg/sprint.png" alt="game icon">
+        <img class="sprint-title-icon" src="./assets/svg/sprint.png" alt="game icon">
         </div>
         <p class="game-title">Sprint</p>
         </div>
@@ -49,7 +49,7 @@ export class SelectGamePage {
         <div class="audioGameInfo">
         <div class="game-title-frame">
         <div class="game-icon-box">
-        <img class="sprint-title-icon" src="../../assets/svg/listen.png" alt="game icon">
+        <img class="sprint-title-icon" src="./assets/svg/listen.png" alt="game icon">
         </div>
         <p class="game-title">Audio Challenge</p>
         </div>
@@ -96,6 +96,7 @@ export class SelectGamePage {
             StartPageListener.GAME_PAGE_WRAPPER?.classList.remove('display_none');
             StartPageListener.STATISTIC?.classList.add('display_none');
             StartPageListener.TEXTBOOK_CONTAINER?.classList.add('display_none');
+            StartPageListener.DICTIONARY_CONTAINER?.classList.add("display_none")
             }
             const sprintGame: SprintGame = new SprintGame();
             sprintGame.btnClick();

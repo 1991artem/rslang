@@ -5,8 +5,6 @@ import { StartPageListener } from "./components/startPageListener";
 import "./styles/app.scss";
 import { StatisticPage } from "./components/statistic/staticticPage";
 import { SelectGamePage } from "./components/games/selectGamePage";
-import { SprintGame } from "./components/games/sprint/sprintGame";
-import { AudioGame } from "./components/games/audio/audioGame";
 import { ModalWindow } from "./components/modal";
 import { TextbookPage } from "./components/textbook/textbook";
 import { Dictionary } from "./components/dictionary/dictionary";
