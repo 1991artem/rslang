@@ -24,7 +24,7 @@ export class StatisticPage {
     }
     buttonClick(){
         const onClick = (e:Event) => {
-            if((<HTMLElement>e.target).innerHTML == 'Statistics'){
+            if((<HTMLElement>e.target).innerHTML == 'Statistics' || (<HTMLElement>e.target).id == 'statistic-main-card'){
                 if(StartPageListener.MAIN){
                     StartPageListener.STATISTIC?.classList.remove('display_none');
                     StartPageListener.HERO_PAGE?.classList.add("display_none");
@@ -41,11 +41,17 @@ export class StatisticPage {
                 if(DataStorage.userData){
                     if(StartPageListener.STATISTIC){
                         let statistic: IStatistic = await API.getUserStatisticFromServer(DataStorage.userData.userId) as IStatistic;
-                        StartPageListener.STATISTIC.children[0].children[2].innerHTML = `
-                        <p class="card-title stat-title stat-grid-item1">Words learned: ${(<IStatistic>statistic).learnedWords}</p>
-                        <p class="card-title stat-title sprint-grid-padding">Sprint: ${this.sprintStatictic(statistic)}</p>
-                        <p class="card-title stat-title audio-grid-padding">Audio Challenge: ${this.audiotStatictic(statistic)}</p>
-                        `
+                        if(statistic){
+                            StartPageListener.STATISTIC.children[0].children[2].innerHTML = `
+                            <p class="card-title stat-title stat-grid-item1">Words learned: ${(<IStatistic>statistic).learnedWords}</p>
+                            <p class="card-title stat-title sprint-grid-padding">Sprint: ${this.sprintStatictic(statistic)}</p>
+                            <p class="card-title stat-title audio-grid-padding">Audio Challenge: ${this.audiotStatictic(statistic)}</p>
+                            `
+                        } else {
+                            StartPageListener.STATISTIC.children[0].children[2].innerHTML = `
+                            <p class="card-title stat-title stat-grid-item1"> there are no statistics </p>
+                            `
+                        }
                     }
                 }
             } catch (e) {
@@ -56,6 +62,9 @@ export class StatisticPage {
         if(StartPageListener.NAV){
             StartPageListener.NAV.addEventListener('click', onClick);
         }
+        if(document.querySelector('#statistic-main-card')){
+            document.querySelector('#statistic-main-card')?.addEventListener('click', onClick)
+          }
     }
 
     static async workWithStatistic(array: IResGame[], game: string){
@@ -91,7 +100,7 @@ export class StatisticPage {
                     data = {
                         learnedWords: filterArray.length,
                         optional: {
-                            learnedWords: filterArray.join('+'),
+                            learnedWords: filterArray.join(';'),
                             audio: {} as IGameStatictic,
                             sprint: {} as IGameStatictic,
                         }
@@ -127,7 +136,7 @@ export class StatisticPage {
                             let data = {
                             learnedWords: filterArray.length,
                             optional: {
-                                learnedWords: filterArray.join('+'),
+                                learnedWords: filterArray.join(';'),
                                 audio: {} as IGameStatictic,
                                 sprint: statistic.optional? statistic.optional.sprint: {} as IGameStatictic,
                             }
@@ -139,7 +148,7 @@ export class StatisticPage {
                         let data = {
                         learnedWords: filterArray.length,
                         optional: {
-                            learnedWords: filterArray.join('+'),
+                            learnedWords: filterArray.join(';'),
                             audio: statistic.optional? statistic.optional.audio: {} as IGameStatictic,
                             sprint: {} as IGameStatictic,
                         }
@@ -151,7 +160,7 @@ export class StatisticPage {
                     data = {
                         learnedWords: filterArray.length,
                         optional: {
-                            learnedWords: filterArray.join('+'),
+                            learnedWords: filterArray.join(';'),
                             audio: statistic.optional? statistic.optional.audio: {} as IGameStatictic,
                             sprint: statistic.optional? statistic.optional.sprint: {} as IGameStatictic,
                         }
@@ -188,11 +197,11 @@ export class StatisticPage {
         if(JSON.stringify(stat.optional.sprint) && (stat.optional.sprint as IGameStatictic).miniRes){
             return `
             <div class="statistic-info_sprint">
-            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.date}</p>
-            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.true}</p>
-            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.false}</p>
-            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.longseries}</p>
-            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.sprint as IGameStatictic).miniRes?.truePercent} %</p>
+            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.sprint as IGameStatictic).miniRes.date}</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.sprint as IGameStatictic).miniRes.true}</p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.sprint as IGameStatictic).miniRes.false}</p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.sprint as IGameStatictic).miniRes.longseries}</p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${Math.floor(<number>(stat.optional.sprint as IGameStatictic).miniRes.truePercent)} %</p>
             </div>
             `
         } else return `
@@ -209,11 +218,11 @@ export class StatisticPage {
         if(JSON.stringify(stat.optional.audio) && (stat.optional.audio as IGameStatictic).miniRes){
             return `
             <div class="statistic-info_audio">
-            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.date}</p>
-            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.true}</p>
-            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.false}</p>
-            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.longseries}</p>
-            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${(stat.optional.audio as IGameStatictic).miniRes?.truePercent} %</p>
+            <p class="paragraph-text"><span class="stat-span">Date:</span> ${(stat.optional.audio as IGameStatictic).miniRes.date}</p>
+            <p class="paragraph-text"><span class="stat-span">Done:</span> ${(stat.optional.audio as IGameStatictic).miniRes.true}</p>
+            <p class="paragraph-text"><span class="stat-span">Mistakes:</span> ${(stat.optional.audio as IGameStatictic).miniRes.false}</p>
+            <p class="paragraph-text"><span class="stat-span">In a row:</span> ${(stat.optional.audio as IGameStatictic).miniRes.longseries}</p>
+            <p class="paragraph-text"><span class="stat-span">Accuracy:</span> ${Math.floor(<number>(stat.optional.audio as IGameStatictic).miniRes.truePercent)} %</p>
             </div>
             `
         } else return `

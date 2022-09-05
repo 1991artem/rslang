@@ -15,7 +15,6 @@ export class SprintGame {
         StartPageListener.listen();
         const onClick = () => {
             this.startGame();
-            console.log(document.querySelectorAll('.sprint-game-btn'))
         }
         if(document.querySelector('.sprint-game-btn')){
             document.querySelector('.sprint-game-btn')?.addEventListener('click', onClick)
@@ -88,31 +87,35 @@ export class SprintGame {
             if(translateWord) translateWord.innerHTML = this.wordArray[position].wordTranslate;
         }
         const onClick = (e:Event) => {
-            if(this.wordArray){
-                if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
-                if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
-                if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
-                    this.userAnswerYes(<string>translateWord?.innerHTML, position);
-                    position++;
-                    if((this.wordArray.length - position) < 2){
-                        (async () => {
-                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
-                        })();
-                    }
-                };
-                if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position >= 0) {
-                    this.userAnswerNo(<string>translateWord?.innerHTML, position);
-                    position++;
-                    if((this.wordArray.length - position) < 2){
-                        (async () => {
-                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
-                        })();
-                    }
-                };
-
-                if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
-                if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
+            try{
+                if(this.wordArray){
+                    if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
+                    if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
+                    if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
+                        this.userAnswerYes(<string>translateWord?.innerHTML, position);
+                        position++;
+                        if((this.wordArray.length - position) < 2){
+                            (async () => {
+                                this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                            })();
+                        }
+                    };
+                    if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position >= 0) {
+                        this.userAnswerNo(<string>translateWord?.innerHTML, position);
+                        position++;
+                        if((this.wordArray.length - position) < 2){
+                            (async () => {
+                                this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                            })();
+                        }
+                    };
+                    if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
+                    if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
+                }
+            } catch (e){
+                console.log('Error', e)
             }
+
         }
 
         if(btnPlace){
@@ -139,7 +142,6 @@ export class SprintGame {
             }
         }
         const keyboardHehdler = (e:KeyboardEvent) => {
-            e.preventDefault();
             if(position === 19) this.showResult();
                 if(translateWord){
                 switch(e.code){
@@ -147,7 +149,9 @@ export class SprintGame {
                     case 'KeyN': buttonClick(translateWord, false); break;
                     case 'ArrowLeft': if(position > 0) position--; break;
                     case 'ArrowRight': if(position < this.wordArray?.length) position++; break;
-                    case 'Escape': SelectGamePage.showGamePage(); break;
+                    case 'Escape': SelectGamePage.showGamePage();
+                    document.removeEventListener('keydown', keyboardHehdler)
+                    break;
                     }
                 }
                 if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
@@ -215,8 +219,8 @@ export class SprintGame {
         }
     }
     showResult(){
-        if(document.querySelector('.sprint-flex-wrapper')){
-            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).classList.add('display_none');
+        if(document.querySelector('#sprint-game-window')){
+            (document.querySelector('#sprint-game-window') as HTMLElement).classList.add('display_none');
         }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{

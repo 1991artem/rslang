@@ -1,4 +1,4 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings } from "./interfaces";
+import { IUserData, IUserDataToken, IWordsData, IUserStatistic, IStatistic, IUserSettings, IGetUserWords } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
@@ -87,14 +87,18 @@ export class API {
     await fetch(`${this.url}/users/${id}/words`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IGetUserWords) => {
+      .then((data: IGetUserWords []) => {
         DataStorage.userWords = data;
       })
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
 
-  static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify({difficulty: difficulty}) })
+  static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string, cardData: IWordsData): Promise<void> {
+    let data = {
+      difficulty: difficulty,
+      optional: { ...cardData}
+    }
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify(data) })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
@@ -114,8 +118,10 @@ export class API {
     );
   }
 
-  static async deleteUserWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch(
+  static async deleteUserWordsOnServer(userId: string, wordId: string): Promise<void> {
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}})
+    .then((response) => this.errorHandler(response))
+    .catch(
       (err) => console.log("create User Error", err)
     );
   }
@@ -126,7 +132,7 @@ export class API {
     await fetch(`${this.url}/users/${userId}/aggregatedWords?group=${group}&page=2&wordsPerPage=${page}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IWordsData) => {
+      .then((data: IWordsData[]) => {
         DataStorage.allAgregatedWords = data;
       })
       .catch((err) => console.log("load agregated word Error", err));
@@ -137,6 +143,7 @@ export class API {
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
       .then((data: IWordsData) => {
+        DataStorage.allAgregatedByIdWords = data
       })
       .catch((err) => console.log("load agregated word Error", err));
   }

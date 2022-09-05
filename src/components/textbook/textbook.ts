@@ -25,12 +25,19 @@ export class Card {
     if (targetElement.dataset.btn === "difficultWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
       const userId = DataStorage.userData?.userId as string;
-      API.createUsersWordsOnServer(userId, wordId, 'A1');
+      const difficult: string = 'difficult';
+      const searchWordById = DataStorage.allWordsStorage.find(word => word.id === wordId) as IWordsData;
+      API.createUsersWordsOnServer(userId, wordId, difficult, searchWordById);
+    }
+    if (targetElement.dataset.btn === "deleteWord") {
+      const wordId = targetElement.parentElement?.parentElement?.id as string;
+      const userId = DataStorage.userData?.userId as string;
+      API.deleteUserWordsOnServer(userId, wordId);
     }
   }
 
   createCardTemplate(): string {
-    return `<li id="${this.wordData.id}" class="textbook-list_item">
+    return `<li id="${this.wordData.id}" data-group="${this.wordData.group}" class="textbook-list_item">
                   <img src="https://rs-lang-react.herokuapp.com/${this.wordData.image}" alt="${this.wordData.word}" class="textbook-card-img">
 
                   <div class="textbook-list_item__wrapper">
@@ -109,7 +116,6 @@ export class TextbookPage {
     topLink.href = "#pageHeader";
     topBtn.insertAdjacentElement("afterbegin", topLink);
 
-    
     if (StartPageListener.MAIN) {
       StartPageListener.TEXTBOOK_CONTAINER?.append(GROUPS);
       StartPageListener.TEXTBOOK_CONTAINER?.append(PAGINATION);
@@ -125,6 +131,7 @@ export class TextbookPage {
     this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group",  StartPageListener.GROUPS as HTMLElement, this.englishLevel, "id");
     this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", StartPageListener.PAGINATION as HTMLElement);
     PAGINATION.append(btnNext);
+    this.checkAutorization()
     this.buttonClick();
     this.getWordsData();
 
@@ -134,7 +141,7 @@ export class TextbookPage {
 
   buttonClick() {
     const onClick = async (e: Event) => {
-      if ((<HTMLElement>e.target).textContent === "Textbook") {
+      if ((<HTMLElement>e.target).textContent === "Textbook" || (<HTMLElement>e.target).id === "lets-start" || (<HTMLElement>e.target).id === "textbook-main-card") {
         if (!StartPageListener.BUTTONS_CONTAINER?.item(0)?.children.length) {
           await this.checkAutorization();
           this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
@@ -196,6 +203,12 @@ export class TextbookPage {
     if (StartPageListener.NAV) {
       StartPageListener.NAV.addEventListener("click", onClick);
     }
+    if(document.querySelector('#lets-start')){
+      document.querySelector('#lets-start')?.addEventListener('click', onClick)
+    }
+    if(document.querySelector('#textbook-main-card')){
+      document.querySelector('#textbook-main-card')?.addEventListener('click', onClick)
+    }
   }
 
   addButtonsForAuthUsers(isAutorized: boolean): void {
@@ -211,8 +224,8 @@ export class TextbookPage {
 
   async getWordsData(): Promise<void> {
     if (StartPageListener.TEXTBOOK_CONTAINER) {
-      const allWords = await API.loadWordsFromServer(0, 0);
-      this.renderCards(allWords as IWordsData[]);
+        const allWords = await API.loadWordsFromServer(0, 0);
+        this.renderCards(allWords as IWordsData[]);
     }
   }
 
@@ -325,3 +338,5 @@ export class TextbookPage {
     });
   }
 }
+
+
