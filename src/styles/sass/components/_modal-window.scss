@@ -32,6 +32,21 @@
   width: 45vw;
   display: inline-block;
   vertical-align: middle;
+  @media (max-width: 560px) {
+    width: 55vw;
+  }
+  @media (max-width: 470px) {
+    width: 65vw;
+  }
+  @media (max-width: 410px) {
+    width: 70vw;
+  }
+  @media (max-width: 375px) {
+    width: 75vw;
+  }
+  @media (max-width: 365px) {
+    width: 80vw;
+  }
 }
 
 @media (min-width: 576px) {
