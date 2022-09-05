@@ -64,7 +64,7 @@ export class SprintGame {
 
 
     setTimer(){
-        let timer: number = 60;
+        let timer: number = 6;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -87,31 +87,36 @@ export class SprintGame {
             if(translateWord) translateWord.innerHTML = this.wordArray[position].wordTranslate;
         }
         const onClick = (e:Event) => {
-            if(this.wordArray){
-                if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
-                if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
-                if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
-                    this.userAnswerYes(<string>translateWord?.innerHTML, position);
-                    position++;
-                    if((this.wordArray.length - position) < 2){
-                        (async () => {
-                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
-                        })();
-                    }
-                };
-                if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position >= 0) {
-                    this.userAnswerNo(<string>translateWord?.innerHTML, position);
-                    position++;
-                    if((this.wordArray.length - position) < 2){
-                        (async () => {
-                            this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
-                        })();
-                    }
-                };
-
-                if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
-                if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
+            try{
+                if(this.wordArray){
+                    if(((<HTMLElement>(e.target)).innerHTML === '>') && position < this.wordArray?.length) position++;
+                    if(((<HTMLElement>(e.target)).innerHTML === '<') && position > 0) position--;
+                    if(((<HTMLElement>(e.target)).innerHTML === 'Right') && position < this.wordArray?.length) {
+                        this.userAnswerYes(<string>translateWord?.innerHTML, position);
+                        position++;
+                        if((this.wordArray.length - position) < 2){
+                            (async () => {
+                                this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                            })();
+                        }
+                    };
+                    if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position >= 0) {
+                        this.userAnswerNo(<string>translateWord?.innerHTML, position);
+                        position++;
+                        if((this.wordArray.length - position) < 2){
+                            (async () => {
+                                this.wordArray = await [...this.wordArray, ...(await API.loadWordsFromServer(Math.floor(Math.random()*5), Math.floor(Math.random()*10)) as IWordsData[])];
+                            })();
+                        }
+                    };
+    
+                    if(englishWord) englishWord.innerHTML = this.wordArray[position].word;
+                    if(translateWord) translateWord.innerHTML = this.wordArray[position+Math.floor(Math.random()*2)].wordTranslate;
+                }
+            } catch (e){
+                console.log('Error', e)
             }
+
         }
 
         if(btnPlace){
@@ -138,7 +143,6 @@ export class SprintGame {
             }
         }
         const keyboardHehdler = (e:KeyboardEvent) => {
-            // e.preventDefault();
             if(position === 19) this.showResult();
                 if(translateWord){
                 switch(e.code){
