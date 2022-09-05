@@ -25,7 +25,7 @@ export class Card {
     if (targetElement.dataset.btn === "difficultWord") {
       const wordId = targetElement.parentElement?.parentElement?.id as string;
       const userId = DataStorage.userData?.userId as string;
-      API.createUsersWordsOnServer(userId, wordId);
+      API.createUsersWordsOnServer(userId, wordId, 'A1');
     }
   }
 
@@ -202,8 +202,8 @@ export class TextbookPage {
   addButtonsForAuthUsers(isAutorized: boolean): void {
     if (!isAutorized) return;
     const additionalButtons = `
-    <buttom data-btn="difficultWord" class="btn-basic btn_authorization_block">Сложное слово</buttom>
-    <buttom data-btn="deleteWord" class="btn-basic btn_authorization_block">Удалить слово</buttom>
+    <buttom data-btn="difficultWord" class="btn-basic btn_authorization_block btn-dif-word">Difficult word</buttom>
+    <buttom data-btn="deleteWord" class="btn-basic btn_authorization_block">Delete word</buttom>
   `;
     Array.from(StartPageListener.BUTTONS_CONTAINER as HTMLCollectionOf<Element>).forEach((element) => {
       element.insertAdjacentHTML("afterbegin", additionalButtons);

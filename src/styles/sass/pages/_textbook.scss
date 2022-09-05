@@ -2,14 +2,11 @@
 @import url(http://weloveiconfonts.com/api/?family=fontawesome);
 
 .textbook_container {
-  margin-top: 8rem;
+  padding-top: 6rem;
 }
 
 #textbook-wrapper {
   position: relative;
-  *:last-child {
-    margin-bottom: 0;
-  }
 }
 
 #pagination {
@@ -71,15 +68,15 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 25px;
+  gap: 35px;
   justify-content: center;
   align-items: center;
   margin-bottom: 3rem;
 }
 
 .textbook-list_item {
-  width: 60rem;
-  height: 18rem;
+  width: 67rem;
+  height: 24rem;
   display: flex;
   box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;
   border-radius: 10px;
@@ -100,7 +97,7 @@
 }
 
 .textbook-card-img {
-  width: 28rem;
+  width: 32rem;
   height: 100%;
   border-radius: 10px;
 }
@@ -110,7 +107,8 @@
   flex-direction: column;
   flex: 1 1 auto;
   padding: 1.2rem;
-  justify-content: space-between;
+  padding-right: 0;
+  justify-content: space-around;
   align-items: center;
   line-height: 1.7rem;
 }
@@ -128,6 +126,7 @@
 }
 
 .upper_card-box {
+  width: 12rem;
   border-left: 3px solid #3f5069;
   padding-left: 23px;
 }
@@ -157,11 +156,13 @@ p.transcription {
 }
 
 .bnt-textbook {
-  height: 1.3rem;
+  background-color: rgb(96 164 191);
+  height: 2rem;
   margin: 0.2rem;
 }
 
 .bnt-bell {
+  background-color: rgb(96 164 191);
   min-width: 1.5rem;
   height: 1.5rem;
   margin: 0.2rem;
@@ -241,27 +242,37 @@ button.groups_list__item.active-group  {
 }
 
 .authorization_block {
+  width: 16%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  align-self: center;
-  gap: 10px;
+  justify-content: flex-end;
+  gap: 90px;
   padding: 10px;
+  padding-bottom: 2rem;
 }
 
 .btn_authorization_block {
   display: flex;
-  width: 105px;
+  width: 140px;
+  height: 50px;
+  font-size: 18px;
   text-transform: none;
   padding: 0;
   justify-content: center;
   align-items: center;
+  background-color: rgb(241 105 91);
+}
+
+.btn-dif-word {
+  background-color: rgb(242, 166, 99);
 }
 
 
 .back-to-top-wrapper {
   position: absolute;
   top: 100vh;
-  right: 10rem;
+  right: 7rem;
   bottom: 0em;
   width: 3em;
   pointer-events: none;

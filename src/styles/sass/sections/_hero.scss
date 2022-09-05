@@ -1,12 +1,12 @@
 .hero-container {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: center;
   align-items: center;
 }
 
 .hero-content {
   max-width: 424px;
-  margin: 0 -10rem 20rem 0;
+  margin: 0 -10rem 30rem 0;
 }
 
 .hero-title {
@@ -39,12 +39,11 @@
   margin: 6rem 0rem 7rem 0rem;
 }
 
-.hero-img-guy {
-  width: 30vw;
-  margin-left: 18rem;
+.hero-img-girl {
+  width: 40vw;
+  margin-left: 14rem;
 }
 
-.hero-img-girl {
-  width: 30vw;
-  margin-right: 18rem;
+.hero-img-guy {
+  width: 40vw;
 }
