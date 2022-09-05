@@ -47,11 +47,9 @@ export class Dictionary {
         const userId = DataStorage.userData?.userId as string;
         await API.getUserWordsFromServer(userId);
         const userWords = DataStorage.userWords;
-        console.log('userWords',userWords)
         userWords?.forEach( async (el) => {
            await API.getAllUserAgregatedWordsByIdFromServer(userId, el.wordId);
            const word = DataStorage.allAgregatedByIdWords as IWordsData[]
-           console.log(word)
         })
     }
 

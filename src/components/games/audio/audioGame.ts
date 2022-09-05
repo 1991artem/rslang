@@ -156,7 +156,6 @@ export class AudioGame {
             )
             if(element.parentElement){
                 for(let i = 0; i < element.parentElement.children.length; i++){
-                    console.log(element.parentElement.children[i].innerHTML)
                     if(element.parentElement.children[i].innerHTML.split(' ')[1] === this.wordArray[this.position].wordTranslate){
                         element.parentElement.children[i].classList.add('true-answear');
                         setTimeout(()=>{
