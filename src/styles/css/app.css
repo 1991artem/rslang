@@ -2047,6 +2047,11 @@ button.groups_list__item.active-group {
   margin-bottom: 4rem;
   padding: 4rem 0 4rem 0;
 }
+@media (max-width: 375px) {
+  .sprintGameInfo {
+    padding-top: 0;
+  }
+}
 
 .audioGameInfo {
   width: 40rem;
@@ -2070,6 +2075,12 @@ button.groups_list__item.active-group {
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+}
+@media (max-width: 375px) {
+  .game-title-frame {
+    width: 290px;
+    height: 305px;
+  }
 }
 
 img.sprint-title-icon {
@@ -2103,6 +2114,36 @@ img.sprint-title-icon {
   line-height: 2.4rem;
   letter-spacing: 0.7px;
   margin-bottom: 3rem;
+}
+@media (max-width: 980px) {
+  .game-description {
+    height: 20vh;
+  }
+}
+@media (max-width: 800px) {
+  .game-description {
+    height: 25vh;
+    margin-bottom: 8rem;
+  }
+}
+@media (max-width: 767px) {
+  .game-description {
+    height: 25vh;
+    width: 340px;
+    margin-bottom: 4rem;
+  }
+}
+@media (max-width: 630px) {
+  .game-description {
+    height: 35vh;
+    margin-bottom: 2rem;
+  }
+}
+@media (max-width: 630px) {
+  .game-description {
+    width: 290px;
+    line-height: 2rem;
+  }
 }
 
 .game-level-select {
@@ -2304,6 +2345,22 @@ img.sprint-title-icon {
   border-radius: 10px;
   background-color: #fa6930;
   padding: 1rem;
+}
+@media (max-width: 980px) {
+  .keyboard-control {
+    margin-top: 6rem;
+  }
+}
+@media (max-width: 812px) {
+  .keyboard-control {
+    margin-top: 4rem;
+  }
+}
+@media (max-width: 425px) {
+  .keyboard-control {
+    width: 290px;
+    height: 210px;
+  }
 }
 
 .keys-control-title {
