@@ -94,7 +94,11 @@ export class API {
   }
 
   static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify({difficulty: difficulty}) })
+    let data = {
+      difficulty: difficulty,
+      optional: {}
+    }
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify(data) })
       .then((response) => this.errorHandler(response))
       .catch((err) => console.log("create User Error", err));
   }
@@ -114,8 +118,10 @@ export class API {
     );
   }
 
-  static async deleteUserWordsOnServer(userId: string, wordId: string, data: string): Promise<void> {
-    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: data }).catch(
+  static async deleteUserWordsOnServer(userId: string, wordId: string): Promise<void> {
+    await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "DELETE", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}})
+    .then((response) => this.errorHandler(response))
+    .catch(
       (err) => console.log("create User Error", err)
     );
   }
