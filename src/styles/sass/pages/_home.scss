@@ -11,6 +11,10 @@
   flex-wrap: wrap;
   column-gap: 6rem;
   margin-bottom: 7rem;
+  @media (max-width: 1180px) {
+    justify-content: center;
+    row-gap: 6rem;
+  }
 }
 
 .adv-card-icon {

@@ -116,7 +116,6 @@ export class TextbookPage {
     topLink.href = "#pageHeader";
     topBtn.insertAdjacentElement("afterbegin", topLink);
 
-    
     if (StartPageListener.MAIN) {
       StartPageListener.TEXTBOOK_CONTAINER?.append(GROUPS);
       StartPageListener.TEXTBOOK_CONTAINER?.append(PAGINATION);
@@ -142,7 +141,7 @@ export class TextbookPage {
 
   buttonClick() {
     const onClick = async (e: Event) => {
-      if ((<HTMLElement>e.target).textContent === "Textbook") {
+      if ((<HTMLElement>e.target).textContent === "Textbook" || (<HTMLElement>e.target).id === "lets-start" || (<HTMLElement>e.target).id === "textbook-main-card") {
         if (!StartPageListener.BUTTONS_CONTAINER?.item(0)?.children.length) {
           await this.checkAutorization();
           this.addButtonsForAuthUsers(DataStorage.isUserAutorized);
@@ -203,6 +202,12 @@ export class TextbookPage {
     };
     if (StartPageListener.NAV) {
       StartPageListener.NAV.addEventListener("click", onClick);
+    }
+    if(document.querySelector('#lets-start')){
+      document.querySelector('#lets-start')?.addEventListener('click', onClick)
+    }
+    if(document.querySelector('#textbook-main-card')){
+      document.querySelector('#textbook-main-card')?.addEventListener('click', onClick)
     }
   }
 
@@ -330,7 +335,6 @@ export class TextbookPage {
     const promiseToken = Promise.resolve(Boolean(token));
     await Promise.all([promiseToken, AutorisationForm.isAutorized]).then((data) => {
       DataStorage.isUserAutorized = data.some((item) => item === true);
-      console.log(DataStorage.isUserAutorized)
     });
   }
 }
