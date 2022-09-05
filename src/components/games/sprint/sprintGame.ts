@@ -100,7 +100,7 @@ export class SprintGame {
                         })();
                     }
                 };
-                if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position > 0) {
+                if(((<HTMLElement>(e.target)).innerHTML === 'Wrong') && position >= 0) {
                     this.userAnswerNo(<string>translateWord?.innerHTML, position);
                     position++;
                     if((this.wordArray.length - position) < 2){
