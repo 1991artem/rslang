@@ -9,6 +9,28 @@ html {
 }
 
 body {
+  height: 100vh;
+  overflow-x: hidden;
   scroll-behavior: smooth;
   background-color: $color-primary;
+}
+
+body.lock {
+  overflow-y: hidden;
+  height: 100vh;
+}
+
+.menu-filter {
+  display: none;
+}
+
+.menu-filter_open {
+  display: block;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  z-index: 4;
+  box-shadow: 0 0 0 9999px rgb(41 41 41 / 60%);
+  transition: 0.3s;
+  cursor: pointer;
 }
