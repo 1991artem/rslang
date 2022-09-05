@@ -10,6 +10,7 @@ import { AudioGame } from "./components/games/audio/audioGame";
 import { ModalWindow } from "./components/modal";
 import { TextbookPage } from "./components/textbook/textbook";
 import { Dictionary } from "./components/dictionary/dictionary";
+import { HomeBtn } from "./components/HomeBtn";
 
 const server: string = "https://rs-lang-final-project.herokuapp.com";
 
@@ -28,6 +29,8 @@ const statistic: StatisticPage = new StatisticPage();
 statistic.build();
 const selectGame: SelectGamePage = new SelectGamePage();
 SelectGamePage.build();
+const home: HomeBtn = new HomeBtn();
+home.active();
 
 
 
