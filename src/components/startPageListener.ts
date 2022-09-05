@@ -12,7 +12,9 @@ export class StartPageListener {
     static STATISTIC: HTMLElement | null;
     static TEXTBOOK_CONTAINER: HTMLElement | null;
     static GROUPS: HTMLElement | null;
+    static GROUPS_DICTIONARY: HTMLElement | null;
     static PAGINATION: HTMLElement | null;
+    static PAGINATION_DICTIONARY: HTMLElement | null;
     static TEXTBOOK: HTMLElement | null;
     static DICTIONARY_CONTAINER: HTMLElement | null;
     static DICTIONARY: HTMLElement | null;
@@ -50,7 +52,9 @@ export class StartPageListener {
         StartPageListener.STATISTIC = document.getElementById('statistic');
         StartPageListener.TEXTBOOK_CONTAINER = document.getElementById('textbook-wrapper');
         StartPageListener.GROUPS = document.getElementById('groups');
+        StartPageListener.GROUPS_DICTIONARY = document.getElementById('groups-dictionary');
         StartPageListener.PAGINATION = document.getElementById('pagination');
+        StartPageListener.PAGINATION_DICTIONARY = document.getElementById('pagination-dictionary');
         StartPageListener.TEXTBOOK = document.getElementById('textbook');
         StartPageListener.DICTIONARY_CONTAINER = document.getElementById('dictionary-wrapper');
         StartPageListener.DICTIONARY = document.getElementById('dictionary');

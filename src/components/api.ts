@@ -1,4 +1,4 @@
-import { IUserData, IUserDataToken, IWordsData, IGetUserWords, IUserStatistic, IStatistic, IUserSettings, IGetUserWord } from "./interfaces";
+import { IUserData, IUserDataToken, IWordsData, IUserStatistic, IStatistic, IUserSettings, IGetUserWords } from "./interfaces";
 import { DataStorage } from "./dataStorage";
 import { AutorisationForm } from "./autorisation/autorisation-form";
 
@@ -87,16 +87,16 @@ export class API {
     await fetch(`${this.url}/users/${id}/words`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IGetUserWord []) => {
+      .then((data: IGetUserWords []) => {
         DataStorage.userWords = data;
       })
       .catch((err) => console.log("GET USER WORDS Error", err));
   }
 
-  static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string): Promise<void> {
+  static async createUsersWordsOnServer(userId: string, wordId: string, difficulty: string, cardData: IWordsData): Promise<void> {
     let data = {
       difficulty: difficulty,
-      optional: {}
+      optional: { ...cardData}
     }
     await fetch(`${this.url}/users/${userId}/words/${wordId}`, { method: "POST", headers:{"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`}, body: JSON.stringify(data) })
       .then((response) => this.errorHandler(response))
@@ -142,7 +142,7 @@ export class API {
     await fetch(`${this.url}/users/${userId}/aggregatedWords/${wordId}`, { method: "GET", headers: {"Content-Type": "application/json", 'Accept': "application/json",'Authorization': `Bearer ${API.getToken()}`} })
       .then((response) => this.errorHandler(response))
       .then((response) => response.json())
-      .then((data: IWordsData[]) => {
+      .then((data: IWordsData) => {
         DataStorage.allAgregatedByIdWords = data
       })
       .catch((err) => console.log("load agregated word Error", err));
