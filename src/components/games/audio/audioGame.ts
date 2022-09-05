@@ -153,8 +153,8 @@ export class AudioGame {
     }
 
     showResult(){
-        if(document.querySelector('.audio-game-wrapper')){
-            (document.querySelector('.audio-game-wrapper') as HTMLElement).classList.add('display_none');
+        if(document.querySelector('#audio-game-window')){
+            (document.querySelector('#audio-game-window') as HTMLElement).classList.add('display_none');
         }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{

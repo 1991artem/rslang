@@ -15,7 +15,6 @@ export class SprintGame {
         StartPageListener.listen();
         const onClick = () => {
             this.startGame();
-            console.log(document.querySelectorAll('.sprint-game-btn'))
         }
         if(document.querySelector('.sprint-game-btn')){
             document.querySelector('.sprint-game-btn')?.addEventListener('click', onClick)
@@ -65,7 +64,7 @@ export class SprintGame {
 
 
     setTimer(){
-        let timer: number = 60;
+        let timer: number = 6;
         let gameTimer: Element | undefined = StartPageListener.TIMER?.children[0];
             let myInterval = setInterval(()=>{
                 timer--;
@@ -215,8 +214,8 @@ export class SprintGame {
         }
     }
     showResult(){
-        if(document.querySelector('.sprint-flex-wrapper')){
-            (document.querySelector('.sprint-flex-wrapper') as HTMLElement).classList.add('display_none');
+        if(document.querySelector('#sprint-game-window')){
+            (document.querySelector('#sprint-game-window') as HTMLElement).classList.add('display_none');
         }
         if(StartPageListener.GAME_PAGE){
             const dataResult = (): string =>{
