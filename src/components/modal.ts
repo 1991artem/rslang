@@ -21,4 +21,29 @@ export class ModalWindow {
   }
 }
 
+// Hamburger Menu
+
+const hamIcon = document.querySelector('.hamburger');
+const navMenu = document.querySelector('.nav__container');
+const navLink = document.querySelectorAll('.nav-link');
+const navList = document.querySelector('.nav');
+const menuFilter = document.querySelector('.menu-filter');
+
+hamIcon?.addEventListener('click', openMenu);
+menuFilter?.addEventListener('click', openMenu);
+
+
+function checkOpenMenu() {
+  if(hamIcon?.classList.contains('open')) {
+    navList?.addEventListener('click', openMenu);
+  }
+}
+
+function openMenu() {
+  navMenu?.classList.toggle('open');
+  hamIcon?.classList.toggle('open');
+  document.body.classList.toggle('lock');
+  menuFilter?.classList.toggle('menu-filter_open');
+}
+
 
