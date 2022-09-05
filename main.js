@@ -2,6 +2,55 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./components/HomeBtn.ts":
+/*!*******************************!*\
+  !*** ./components/HomeBtn.ts ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "HomeBtn": () => (/* binding */ HomeBtn)
+/* harmony export */ });
+/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./startPageListener */ "./components/startPageListener.ts");
+
+
+var HomeBtn =
+/** @class */
+function () {
+  function HomeBtn() {}
+
+  HomeBtn.prototype.active = function () {
+    var _a;
+
+    var onClick = function onClick(e) {
+      var _a, _b, _c, _d, _e, _f, _g;
+
+      if (e.target.className === 'logo-icon' || e.target.innerHTML === 'RSLang' || e.target.innerHTML === 'Home' || e.target.innerHTML === 'About Us') {
+        if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN) {
+          (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.TEXTBOOK_CONTAINER) === null || _a === void 0 ? void 0 : _a.classList.add("display_none");
+          (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.DICTIONARY_CONTAINER) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
+          (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
+          (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.GAME_PAGE_WRAPPER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+          (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.HERO_PAGE) === null || _e === void 0 ? void 0 : _e.classList.remove("display_none");
+          (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ADVANTAGES_PAGE) === null || _f === void 0 ? void 0 : _f.classList.remove("display_none");
+          (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ABOUT_PAGE) === null || _g === void 0 ? void 0 : _g.classList.remove("display_none");
+        }
+      }
+    };
+
+    if (document.querySelector('#pageHeader')) {
+      (_a = document.querySelector('#pageHeader')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', onClick);
+    }
+  };
+
+  return HomeBtn;
+}();
+
+
+
+/***/ }),
+
 /***/ "./components/api.ts":
 /*!***************************!*\
   !*** ./components/api.ts ***!
@@ -14,6 +63,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./dataStorage */ "./components/dataStorage.ts");
 /* harmony import */ var _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
+var __assign = undefined && undefined.__assign || function () {
+  __assign = Object.assign || function (t) {
+    for (var s, i = 1, n = arguments.length; i < n; i++) {
+      s = arguments[i];
+
+      for (var p in s) {
+        if (Object.prototype.hasOwnProperty.call(s, p)) t[p] = s[p];
+      }
+    }
+
+    return t;
+  };
+
+  return __assign.apply(this, arguments);
+};
+
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -200,6 +265,7 @@ function () {
               return response.json();
             }).then(function (data) {
               _dataStorage__WEBPACK_IMPORTED_MODULE_0__.DataStorage.userData = data;
+              console.log(data);
 
               if (!localStorage.getItem("user")) {
                 localStorage.setItem("user", JSON.stringify(data));
@@ -208,17 +274,15 @@ function () {
               }
 
               _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__.AutorisationForm.closeModalWindow();
-              _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__.AutorisationForm.checkAutorisation();
+              return _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__.AutorisationForm.checkAutorisation();
             })["catch"](function (err) {
               console.log("Не удалось найти такого пользователя!!! Повторите попытку");
             })];
 
           case 1:
-            _a.sent();
-
             return [2
             /*return*/
-            ];
+            , _a.sent()];
         }
       });
     });
@@ -432,23 +496,29 @@ function () {
     });
   };
 
-  API.createUsersWordsOnServer = function (userId, wordId, data) {
+  API.createUsersWordsOnServer = function (userId, wordId, difficulty, cardData) {
     return __awaiter(this, void 0, void 0, function () {
+      var data;
+
       var _this = this;
 
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
+            data = {
+              difficulty: difficulty,
+              optional: __assign({}, cardData)
+            };
             return [4
             /*yield*/
-            , fetch("".concat(this.url, "/users/").concat(userId, "/").concat(wordId), {
+            , fetch("".concat(this.url, "/users/").concat(userId, "/words/").concat(wordId), {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
                 'Accept': "application/json",
                 'Authorization': "Bearer ".concat(API.getToken())
               },
-              body: data
+              body: JSON.stringify(data)
             }).then(function (response) {
               return _this.errorHandler(response);
             })["catch"](function (err) {
@@ -531,8 +601,10 @@ function () {
     });
   };
 
-  API.deleteUserWordsOnServer = function (userId, wordId, data) {
+  API.deleteUserWordsOnServer = function (userId, wordId) {
     return __awaiter(this, void 0, void 0, function () {
+      var _this = this;
+
       return __generator(this, function (_a) {
         switch (_a.label) {
           case 0:
@@ -544,8 +616,9 @@ function () {
                 "Content-Type": "application/json",
                 'Accept': "application/json",
                 'Authorization': "Bearer ".concat(API.getToken())
-              },
-              body: data
+              }
+            }).then(function (response) {
+              return _this.errorHandler(response);
             })["catch"](function (err) {
               return console.log("create User Error", err);
             })];
@@ -562,7 +635,7 @@ function () {
   }; // ================================== Users/AggregatedWords ===========================================================
 
 
-  API.getAllUserAgregatedWordsFromServer = function (userId) {
+  API.getAllUserAgregatedWordsFromServer = function (userId, group, page) {
     return __awaiter(this, void 0, void 0, function () {
       var _this = this;
 
@@ -571,7 +644,7 @@ function () {
           case 0:
             return [4
             /*yield*/
-            , fetch("".concat(this.url, "/users/").concat(userId, "/aggregatedWords"), {
+            , fetch("".concat(this.url, "/users/").concat(userId, "/aggregatedWords?group=").concat(group, "&page=2&wordsPerPage=").concat(page), {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
@@ -619,7 +692,9 @@ function () {
               return _this.errorHandler(response);
             }).then(function (response) {
               return response.json();
-            }).then(function (data) {})["catch"](function (err) {
+            }).then(function (data) {
+              _dataStorage__WEBPACK_IMPORTED_MODULE_0__.DataStorage.allAgregatedByIdWords = data;
+            })["catch"](function (err) {
               return console.log("load agregated word Error", err);
             })];
 
@@ -790,6 +865,7 @@ function () {
             }).then(function (response) {
               return response.json();
             }).then(function (data) {
+              _dataStorage__WEBPACK_IMPORTED_MODULE_0__.DataStorage.allWordsStorage = data;
               return data;
             })["catch"](function (err) {
               return console.log("Add User Error", err);
@@ -920,7 +996,7 @@ function () {
       };
 
       if (singinUser.password) {
-        _api__WEBPACK_IMPORTED_MODULE_1__.API.signinUsersFromServer(JSON.stringify(singinUser));
+        AutorisationForm.isAutorized = _api__WEBPACK_IMPORTED_MODULE_1__.API.signinUsersFromServer(JSON.stringify(singinUser));
       }
     };
 
@@ -993,6 +1069,8 @@ function () {
         _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AUTORISATION_SINGIN.classList.add('true');
       }
     }
+
+    return Boolean(userInfo);
   };
 
   AutorisationForm.prototype.logOut = function () {
@@ -1002,8 +1080,13 @@ function () {
       _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AUTORISATION_SINGIN.innerHTML = 'SIGN IN';
       _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AUTORISATION_SINGIN.classList.remove('true');
     }
+
+    AutorisationForm.isAutorized = new Promise(function (res) {
+      res(false);
+    });
   };
 
+  AutorisationForm.isAutorized = Promise.resolve(false);
   return AutorisationForm;
 }();
 
@@ -1027,16 +1110,525 @@ function () {
   function DataStorage() {}
 
   DataStorage.allWordsStorage = [];
+  DataStorage.isUserAutorized = false;
   DataStorage.userData = null;
   DataStorage.newToken = null;
   DataStorage.wordId = null;
   DataStorage.allAgregatedWords = null;
+  DataStorage.allAgregatedByIdWords = null;
   DataStorage.getUsers = null;
   DataStorage.userWords = null;
   DataStorage.userStatistics = null;
   DataStorage.userSettings = null;
   DataStorage.wordForGame = null;
   return DataStorage;
+}();
+
+
+
+/***/ }),
+
+/***/ "./components/dictionary/dictionary.ts":
+/*!*********************************************!*\
+  !*** ./components/dictionary/dictionary.ts ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Dictionary": () => (/* binding */ Dictionary)
+/* harmony export */ });
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api */ "./components/api.ts");
+/* harmony import */ var _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
+/* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dataStorage */ "./components/dataStorage.ts");
+/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../startPageListener */ "./components/startPageListener.ts");
+/* harmony import */ var _textbook_textbook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../textbook/textbook */ "./components/textbook/textbook.ts");
+var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
+  function adopt(value) {
+    return value instanceof P ? value : new P(function (resolve) {
+      resolve(value);
+    });
+  }
+
+  return new (P || (P = Promise))(function (resolve, reject) {
+    function fulfilled(value) {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function rejected(value) {
+      try {
+        step(generator["throw"](value));
+      } catch (e) {
+        reject(e);
+      }
+    }
+
+    function step(result) {
+      result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+    }
+
+    step((generator = generator.apply(thisArg, _arguments || [])).next());
+  });
+};
+
+var __generator = undefined && undefined.__generator || function (thisArg, body) {
+  var _ = {
+    label: 0,
+    sent: function sent() {
+      if (t[0] & 1) throw t[1];
+      return t[1];
+    },
+    trys: [],
+    ops: []
+  },
+      f,
+      y,
+      t,
+      g;
+  return g = {
+    next: verb(0),
+    "throw": verb(1),
+    "return": verb(2)
+  }, typeof Symbol === "function" && (g[Symbol.iterator] = function () {
+    return this;
+  }), g;
+
+  function verb(n) {
+    return function (v) {
+      return step([n, v]);
+    };
+  }
+
+  function step(op) {
+    if (f) throw new TypeError("Generator is already executing.");
+
+    while (_) {
+      try {
+        if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+        if (y = 0, t) op = [op[0] & 2, t.value];
+
+        switch (op[0]) {
+          case 0:
+          case 1:
+            t = op;
+            break;
+
+          case 4:
+            _.label++;
+            return {
+              value: op[1],
+              done: false
+            };
+
+          case 5:
+            _.label++;
+            y = op[1];
+            op = [0];
+            continue;
+
+          case 7:
+            op = _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+
+          default:
+            if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) {
+              _ = 0;
+              continue;
+            }
+
+            if (op[0] === 3 && (!t || op[1] > t[0] && op[1] < t[3])) {
+              _.label = op[1];
+              break;
+            }
+
+            if (op[0] === 6 && _.label < t[1]) {
+              _.label = t[1];
+              t = op;
+              break;
+            }
+
+            if (t && _.label < t[2]) {
+              _.label = t[2];
+
+              _.ops.push(op);
+
+              break;
+            }
+
+            if (t[2]) _.ops.pop();
+
+            _.trys.pop();
+
+            continue;
+        }
+
+        op = body.call(thisArg, _);
+      } catch (e) {
+        op = [6, e];
+        y = 0;
+      } finally {
+        f = t = 0;
+      }
+    }
+
+    if (op[0] & 5) throw op[1];
+    return {
+      value: op[0] ? op[1] : void 0,
+      done: true
+    };
+  }
+};
+
+
+
+
+
+
+
+var Dictionary =
+/** @class */
+function () {
+  function Dictionary() {
+    this.quantityPages = 30;
+    this.btnNumber = 1;
+    this.btnGroupNumber = 1;
+    this.visiblePages = 6;
+    this.quantityGroups = 6;
+    this.englishLevel = ["Easy - A1", "Easy - A2", "Medium - B1", "Medium - B2", "Hard - C1", "Hard - C2"];
+  }
+
+  Dictionary.prototype.build = function () {
+    var _a, _b, _c, _d;
+
+    var DICTIONARY = document.createElement("ul");
+    var PAGINATION_DICTIONARY = document.createElement("ul");
+    var GROUPS_DICTIONARY = document.createElement("div");
+    var btnNext = document.createElement("li");
+    var btnPrev = document.createElement("li");
+    DICTIONARY.id = "dictionary";
+    GROUPS_DICTIONARY.id = "groups-dictionary";
+    PAGINATION_DICTIONARY.id = "pagination-dictionary";
+    DICTIONARY.className = "dictionary-list";
+    GROUPS_DICTIONARY.className = "groups";
+    btnNext.innerHTML = "Next &rsaquo;";
+    btnPrev.innerHTML = "&lsaquo; Previous";
+    btnNext.className = "next-btn";
+    btnPrev.className = "prev-btn";
+
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.MAIN) {
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.append(GROUPS_DICTIONARY);
+      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _b === void 0 ? void 0 : _b.append(PAGINATION_DICTIONARY);
+      (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _c === void 0 ? void 0 : _c.append(DICTIONARY);
+      (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+    }
+
+    _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.listen();
+    PAGINATION_DICTIONARY.prepend(btnPrev);
+    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group", _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GROUPS_DICTIONARY, this.englishLevel, "id");
+    this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.PAGINATION_DICTIONARY);
+    PAGINATION_DICTIONARY.append(btnNext);
+    this.buttonClick();
+  };
+
+  Dictionary.prototype.buttonClick = function () {
+    var _this = this;
+
+    var _a;
+
+    var onClick = function onClick(e) {
+      return __awaiter(_this, void 0, void 0, function () {
+        var _a, _b, _c, _d, _e, _f, _g;
+
+        return __generator(this, function (_h) {
+          if (e.target.textContent === "Dictionary") {
+            if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.MAIN) {
+              (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.classList.remove("display_none");
+              (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.TEXTBOOK_CONTAINER) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
+              (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.STATISTIC) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
+              (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GAME_PAGE_WRAPPER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+              (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.HERO_PAGE) === null || _e === void 0 ? void 0 : _e.classList.add("display_none");
+              (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.ADVANTAGES_PAGE) === null || _f === void 0 ? void 0 : _f.classList.add("display_none");
+              (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.ABOUT_PAGE) === null || _g === void 0 ? void 0 : _g.classList.add("display_none");
+              this.getUsersWord();
+            }
+          }
+
+          return [2
+          /*return*/
+          ];
+        });
+      });
+    };
+
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.NAV) {
+      _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.NAV.addEventListener("click", onClick);
+    }
+
+    (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GROUPS_DICTIONARY) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function (event) {
+      var btn = event.target;
+      console.log(btn);
+    });
+  };
+
+  Dictionary.prototype.getUsersWord = function () {
+    var _a;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var userId, userWords, dictionaryWords;
+      return __generator(this, function (_b) {
+        switch (_b.label) {
+          case 0:
+            userId = (_a = _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) === null || _a === void 0 ? void 0 : _a.userId;
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_0__.API.getUserWordsFromServer(userId)];
+
+          case 1:
+            _b.sent();
+
+            userWords = _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userWords;
+            dictionaryWords = userWords === null || userWords === void 0 ? void 0 : userWords.map(function (el) {
+              return el.optional;
+            });
+            this.renderCards(dictionaryWords);
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  Dictionary.prototype.renderCards = function (cards) {
+    var ulElement = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY;
+    var result = cards.reduce(function (prevValue, currValue) {
+      var card = new _textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.Card(ulElement, currValue);
+      var template = card.createCardTemplate();
+      return prevValue + template;
+    }, "");
+
+    if (ulElement) {
+      ulElement.innerHTML = result;
+    }
+  };
+
+  Dictionary.prototype.dynamicList = function (maxValue, elementName, className, activeClass, containerForElement, groupsLevel, attribute, id) {
+    for (var i = 1; i <= maxValue; i++) {
+      var element = document.createElement(elementName);
+      element.classList.add(className);
+      if (i === 1) element.classList.add(activeClass);
+
+      if (groupsLevel) {
+        element.innerText = groupsLevel[i - 1];
+        if (attribute) element.setAttribute(attribute, String(i));
+      } else {
+        element.innerText = String(i);
+      }
+
+      containerForElement.insertAdjacentElement("beforeend", element);
+    }
+  };
+
+  Dictionary.prototype.handleNextClick = function (renderCardsFn) {
+    return __awaiter(this, void 0, void 0, function () {
+      var allPages, lastPage, firstPage, nextPage, active, i, nextPageData, nextPageData;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            allPages = document.querySelectorAll("li.pagination_number");
+            lastPage = allPages[5];
+            firstPage = allPages[0];
+            nextPage = document.getElementsByClassName("active-page")[0].nextElementSibling;
+            active = document.querySelector(".active-page");
+            if (!(active.innerHTML === lastPage.innerHTML && +active.innerHTML !== this.quantityPages)) return [3
+            /*break*/
+            , 3];
+            this.btnNumber += 1;
+
+            for (i = 0; i < allPages.length && i + this.btnNumber <= this.quantityPages; i++) {
+              allPages[i].innerHTML = String(this.btnNumber + i);
+            }
+
+            if (active != null) {
+              active.classList.remove("active-page");
+            }
+
+            firstPage.classList.add("active-page");
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 1:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 2:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [3
+            /*break*/
+            , 6];
+
+          case 3:
+            this.btnNumber = +nextPage.innerText;
+
+            if (active != null && active.innerHTML !== String(this.quantityPages)) {
+              active.classList.remove("active-page");
+              nextPage.classList.add("active-page");
+            }
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 4:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 5:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            _a.label = 6;
+
+          case 6:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  Dictionary.prototype.handlePrevClick = function (renderCardsFn) {
+    return __awaiter(this, void 0, void 0, function () {
+      var allPages, lastPage, firstPage, prevPage, active, i, nextPageData, nextPageData;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            allPages = document.querySelectorAll("li.pagination_number");
+            lastPage = allPages[5];
+            firstPage = allPages[0];
+            prevPage = document.getElementsByClassName("active-page")[0].previousElementSibling;
+            active = document.querySelector(".active-page");
+            if (!(active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1)) return [3
+            /*break*/
+            , 3];
+            this.btnNumber -= 1;
+
+            for (i = 0; i < allPages.length && this.btnNumber - i >= 1; i++) {
+              allPages[allPages.length - i - 1].innerHTML = String(this.btnNumber - i);
+            }
+
+            if (active != null) {
+              active.classList.remove("active-page");
+            }
+
+            lastPage.classList.add("active-page");
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 1:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 2:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [3
+            /*break*/
+            , 6];
+
+          case 3:
+            this.btnNumber = +prevPage.innerText;
+
+            if (active != null && +active.innerHTML !== 1) {
+              active.classList.remove("active-page");
+              prevPage.classList.add("active-page");
+            }
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 4:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 5:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            _a.label = 6;
+
+          case 6:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  Dictionary.prototype.checkAutorization = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var token, promiseToken;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            token = _api__WEBPACK_IMPORTED_MODULE_0__.API.getToken();
+            promiseToken = Promise.resolve(Boolean(token));
+            return [4
+            /*yield*/
+            , Promise.all([promiseToken, _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__.AutorisationForm.isAutorized]).then(function (data) {
+              _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized = data.some(function (item) {
+                return item === true;
+              });
+              console.log(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized);
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  Dictionary.prototype.addButtonsForAuthUsers = function (isAutorized) {
+    if (!isAutorized) return;
+    var additionalButtons = "\n        <buttom data-btn=\"difficultWord\" class=\"btn-basic btn_authorization_block btn-dif-word\">Difficult word</buttom>\n        <buttom data-btn=\"deleteWord\" class=\"btn-basic btn_authorization_block\">Delete word</buttom>\n      ";
+    Array.from(_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.BUTTONS_CONTAINER).forEach(function (element) {
+      element.insertAdjacentHTML("afterbegin", additionalButtons);
+    });
+  };
+
+  return Dictionary;
 }();
 
 
@@ -1055,8 +1647,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api */ "./components/api.ts");
 /* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../startPageListener */ "./components/startPageListener.ts");
-/* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dataStorage */ "./components/dataStorage.ts");
-/* harmony import */ var _selectGamePage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectGamePage */ "./components/games/selectGamePage.ts");
+/* harmony import */ var _selectGamePage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectGamePage */ "./components/games/selectGamePage.ts");
+/* harmony import */ var _statistic_staticticPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../statistic/staticticPage */ "./components/statistic/staticticPage.ts");
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -1209,23 +1801,23 @@ var AudioGame =
 /** @class */
 function () {
   function AudioGame() {
+    var _a;
+
     this.wordArray = [];
     this.resultArray = [];
+    this.position = 0;
+    (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.SPRINT_WINDOW) === null || _a === void 0 ? void 0 : _a.remove();
   }
 
   AudioGame.prototype.btnClick = function () {
     var _this = this;
 
-    var _a;
-
     var onClick = function onClick() {
-      console.log('audioGAme');
-
       _this.startGame();
     };
 
-    if (document.querySelector('.audio-game-btn')) {
-      (_a = document.querySelector('.audio-game-btn')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', onClick);
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.AUDIO_START_BTN) {
+      _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.AUDIO_START_BTN.addEventListener('click', onClick);
     }
   };
 
@@ -1242,10 +1834,10 @@ function () {
         return __awaiter(_this, void 0, void 0, function () {
           var _a;
 
-          var _b, _c, _d;
+          var _b, _c;
 
-          return __generator(this, function (_e) {
-            switch (_e.label) {
+          return __generator(this, function (_d) {
+            switch (_d.label) {
               case 0:
                 _a = this;
                 return [4
@@ -1253,10 +1845,11 @@ function () {
                 , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(level_1 - 1, page_1)];
 
               case 1:
-                _a.wordArray = _e.sent();
+                _a.wordArray = _d.sent();
                 (_b = document.querySelector('.sprintGameInfo')) === null || _b === void 0 ? void 0 : _b.classList.add('display_none');
                 (_c = document.querySelector('.audioGameInfo')) === null || _c === void 0 ? void 0 : _c.classList.add('display_none');
-                (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.AUDIO_WINDOW) === null || _d === void 0 ? void 0 : _d.classList.remove('display_none');
+                this.buildAudioGamePage();
+                _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.listen();
                 this.choiseWords();
                 return [2
                 /*return*/
@@ -1265,7 +1858,20 @@ function () {
           });
         });
       })();
+
+      if (document.querySelector('.audio-game-wrapper')) {
+        document.querySelector('.audio-game-wrapper').classList.remove('display_none');
+      }
     }
+  };
+
+  AudioGame.prototype.buildAudioGamePage = function () {
+    var _a;
+
+    var game = document.createElement('div');
+    game.id = 'audio-game-window';
+    game.innerHTML = "\n        <div class=\"audio-game-wrapper\">\n        <div class=\"audio-game-window-active\">\n            <div class=\"audio-progress\"></div>\n            <div class=\"main-audio\">\n            <div class=\"audio-place\">\n            <img src=\"../../assets/svg/audio.png\" class=\"audio-game-icon\">\n            </div>\n            <div class=\"btn-audio\">\n\n            </div>\n            </div>\n        </div>\n        </div>\n        ";
+    (_a = document.querySelector('.audioGameInfo')) === null || _a === void 0 ? void 0 : _a.after(game);
   };
 
   AudioGame.prototype.choiseWords = function () {
@@ -1273,39 +1879,39 @@ function () {
 
     var audioPlace = document.querySelector('.audio-place');
     var btnPlace = document.querySelector('.btn-audio');
-    var position = 0;
-    this.showWord(position);
+    this.showWord();
 
     var onClick = function onClick(e) {
-      if (position === 19) _this.showResult();
-      position++;
+      if (_this.position === 9) _this.showResult();
 
-      _this.correctAnswer(e.target.innerHTML, position);
-
-      _this.showWord(position);
+      _this.correctAnswer(e.target);
     };
 
     var audioHandler = function audioHandler() {
-      var playAudio = new Audio("https://rs-lang-react.herokuapp.com/".concat(_this.wordArray[position].audio));
+      var playAudio = new Audio("https://rs-lang-react.herokuapp.com/".concat(_this.wordArray[_this.position].audio));
       playAudio.play();
       playAudio.played;
     };
 
-    var buttonClick = function buttonClick(element, position) {
+    var buttonClick = function buttonClick(element) {
       element.classList.add('btn-click');
       setTimeout(function () {
         element.classList.remove('btn-click');
-        position++;
 
-        _this.correctAnswer(element.innerHTML, position);
-
-        _this.showWord(position);
+        _this.correctAnswer(element);
       }, 300);
     };
 
     var keyboardHehdler = function keyboardHehdler(e) {
       e.preventDefault();
-      if (position === 19) _this.showResult();
+
+      if (_this.position === 9) {
+        _this.showResult();
+
+        document.removeEventListener('keydown', keyboardHehdler);
+      }
+
+      ;
 
       if (e.code === 'Space') {
         audioHandler();
@@ -1315,27 +1921,28 @@ function () {
         if (answerArray) {
           switch (e.code) {
             case 'Digit1' || 0:
-              buttonClick(answerArray.children[0], position);
+              buttonClick(answerArray.children[0]);
               break;
 
             case 'Digit2' || 0:
-              buttonClick(answerArray.children[1], position);
+              buttonClick(answerArray.children[1]);
               break;
 
             case 'Digit3' || 0:
-              buttonClick(answerArray.children[2], position);
+              buttonClick(answerArray.children[2]);
               break;
 
             case 'Digit4' || 0:
-              buttonClick(answerArray.children[3], position);
+              buttonClick(answerArray.children[3]);
               break;
 
             case 'Digit5' || 0:
-              buttonClick(answerArray.children[4], position);
+              buttonClick(answerArray.children[4]);
               break;
 
             case 'Escape':
-              _selectGamePage__WEBPACK_IMPORTED_MODULE_3__.SelectGamePage.showGamePage();
+              _selectGamePage__WEBPACK_IMPORTED_MODULE_2__.SelectGamePage.showGamePage();
+              document.removeEventListener('keydown', keyboardHehdler);
               break;
           }
         }
@@ -1353,7 +1960,7 @@ function () {
     document.addEventListener('keydown', keyboardHehdler);
   };
 
-  AudioGame.prototype.showWord = function (pos) {
+  AudioGame.prototype.showWord = function () {
     var btnPlace = document.querySelector('.btn-audio');
     var wordAnswearArray = [];
 
@@ -1363,7 +1970,7 @@ function () {
       wordAnswearArray.push(this.wordArray[index].wordTranslate);
     }
 
-    if (wordAnswearArray.indexOf(this.wordArray[pos].wordTranslate) === -1) wordAnswearArray[Math.floor(Math.random() * 5)] = this.wordArray[pos].wordTranslate;
+    if (wordAnswearArray.indexOf(this.wordArray[this.position].wordTranslate) === -1) wordAnswearArray[Math.floor(Math.random() * 5)] = this.wordArray[this.position].wordTranslate;
 
     if (btnPlace) {
       btnPlace.innerHTML = '';
@@ -1374,26 +1981,58 @@ function () {
     }
   };
 
-  AudioGame.prototype.correctAnswer = function (word, position) {
-    if (word.split(' ')[1] === this.wordArray[position].wordTranslate) {
+  AudioGame.prototype.correctAnswer = function (element) {
+    var _this = this;
+
+    if (element.innerHTML.split(' ')[1] === this.wordArray[this.position].wordTranslate) {
       this.resultArray.push({
-        word: this.wordArray[position].word,
-        wordTranslate: this.wordArray[position].wordTranslate,
-        answer: word,
+        word: this.wordArray[this.position].word,
+        wordTranslate: this.wordArray[this.position].wordTranslate,
+        answer: element.innerHTML,
         result: true
       });
+      this.position++;
+      this.showWord();
     } else {
       this.resultArray.push({
-        word: this.wordArray[position].word,
-        wordTranslate: this.wordArray[position].wordTranslate,
-        answer: word,
+        word: this.wordArray[this.position].word,
+        wordTranslate: this.wordArray[this.position].wordTranslate,
+        answer: element.innerHTML,
         result: false
       });
+
+      if (element.parentElement) {
+        var _loop_1 = function _loop_1(i) {
+          if (element.parentElement.children[i].innerHTML.split(' ')[1] === this_1.wordArray[this_1.position].wordTranslate) {
+            element.parentElement.children[i].classList.add('true-answear');
+            setTimeout(function () {
+              var _a;
+
+              (_a = element.parentElement) === null || _a === void 0 ? void 0 : _a.children[i].classList.remove('true-answear');
+              _this.position++;
+
+              _this.showWord();
+            }, 1000);
+          }
+        };
+
+        var this_1 = this;
+
+        for (var i = 0; i < element.parentElement.children.length; i++) {
+          _loop_1(i);
+        }
+
+        ;
+      }
     }
   };
 
   AudioGame.prototype.showResult = function () {
     var _this = this;
+
+    if (document.querySelector('#audio-game-window')) {
+      document.querySelector('#audio-game-window').classList.add('display_none');
+    }
 
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE) {
       var dataResult = function dataResult() {
@@ -1404,75 +2043,40 @@ function () {
         });
 
         return result;
-      }; // let stateIconBox = document.querySelectorAll(".point-result");
-      // stateIconBox.forEach(function(elem) {
-      //   if (elem?.classList.contains("true")) {
-      //     const stateIcon = document.createElement("img") as HTMLElement;
-      //     stateIcon.classList.add(".good-result-icon");
-      //     elem.appendChild(stateIcon);
-      //   } else if (elem?.classList.contains("false")) {
-      //     const stateIcon = document.createElement("img") as HTMLElement;
-      //     stateIcon.classList.add(".bad-result-icon");
-      //     elem.appendChild(stateIcon);
-      //   }
-      // })
+      };
 
-
-      if (this.resultArray.length === 0 || this.calculateResult() === 0) {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">\n              <img src=\"../../../assets/svg/gamer.png\" alt=\"sad boy icon\" class=\"sad-boy-icon\">\n              </div>\n              </div>;");
-      } else if (this.resultArray.length === 1) {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              </div>;");
+      if (this.resultArray.length === 0 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"result-window\">\n              <img src=\"../../../assets/svg/gamer.png\" alt=\"sad boy icon\" class=\"sad-boy-icon\">\n              </div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length === 1 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/no.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length > 1 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/no.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length === 1 && this.calculateResult().percent > 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
       } else {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              </div>;");
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
       }
     }
+
+    _statistic_staticticPage__WEBPACK_IMPORTED_MODULE_3__.StatisticPage.workWithStatistic(this.resultArray, 'audio');
+    _selectGamePage__WEBPACK_IMPORTED_MODULE_2__.SelectGamePage.playAgain();
   };
 
   AudioGame.prototype.calculateResult = function () {
-    var _this = this;
-
-    var _a;
-
     var result = 0;
-    var statistic = 0;
-
-    if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) {
-      (function () {
-        return __awaiter(_this, void 0, void 0, function () {
-          return __generator(this, function (_a) {
-            switch (_a.label) {
-              case 0:
-                return [4
-                /*yield*/
-                , _api__WEBPACK_IMPORTED_MODULE_0__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData.userId)];
-
-              case 1:
-                return [2
-                /*return*/
-                , statistic = _a.sent().learnedWords];
-            }
-          });
-        });
-      })();
-    }
-
     this.resultArray.forEach(function (element) {
       if (element.result) {
         result++;
       }
     });
-
-    if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) {
-      var data = {
-        learnedWords: this.resultArray.length + statistic,
-        optional: {}
-      };
-      _api__WEBPACK_IMPORTED_MODULE_0__.API.updateUserStatisticFromServer((_a = _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) === null || _a === void 0 ? void 0 : _a.userId, JSON.stringify(data));
-    }
-
-    ;
-    if (result === 0) return 0;
-    return Math.floor(result / this.resultArray.length * 100);
+    if (result === 0) return {
+      percent: 0,
+      mistakes: this.resultArray.length - result
+    };
+    return {
+      percent: Math.floor(result / this.resultArray.length * 100),
+      mistakes: this.resultArray.length - result
+    };
   };
 
   return AudioGame;
@@ -1493,6 +2097,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "SelectGamePage": () => (/* binding */ SelectGamePage)
 /* harmony export */ });
 /* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../startPageListener */ "./components/startPageListener.ts");
+/* harmony import */ var _audio_audioGame__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./audio/audioGame */ "./components/games/audio/audioGame.ts");
+/* harmony import */ var _sprint_sprintGame__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./sprint/sprintGame */ "./components/games/sprint/sprintGame.ts");
+
+
 
 
 var SelectGamePage =
@@ -1500,53 +2108,33 @@ var SelectGamePage =
 function () {
   function SelectGamePage() {}
 
-  SelectGamePage.prototype.build = function () {
+  SelectGamePage.build = function () {
+    var _a;
+
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN) {
       var WRAPPER_GAME = document.createElement('div');
       var GAMES = document.createElement('div');
       WRAPPER_GAME.classList.add('display_none');
       GAMES.id = 'game-page';
       WRAPPER_GAME.id = 'game-page-wrapper';
-      GAMES.innerHTML = this.buildSprintGame() + this.buildAudioGame();
-      _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN.before(WRAPPER_GAME);
+      GAMES.innerHTML = SelectGamePage.buildSprintGame() + SelectGamePage.buildAudioGame();
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.TEXTBOOK_CONTAINER) === null || _a === void 0 ? void 0 : _a.after(WRAPPER_GAME);
       WRAPPER_GAME.append(GAMES);
     }
 
     _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.listen();
-    this.buildSprintGamePage();
-    this.buildAudioGamePage();
-    _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.listen();
-    this.buttonClick();
+    SelectGamePage.buttonClick();
   };
 
-  SelectGamePage.prototype.buildSprintGame = function () {
-    return "\n        <div class=\"sprintGameInfo\">\n        <div class=\"game-title-frame\">\n        <div class=\"game-icon-box\">\n        <img class=\"sprint-title-icon\" src=\"../../assets/svg/sprint.png\" alt=\"game icon\">\n        </div>\n        <p class=\"game-title\">Sprint</p>\n        </div>\n        <p class=\"paragraph-text game-description\">Sprint is a practice for repeating the learned words from your vocabulary. Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys. Enjoy!</p>\n        <p class=\"game-level-select\">Select the Level</p>\n        <div class=\"game-level-box\">\n        <select class=\"select-level-sprint\" name=\"level-english\">\n            <option class=\"level-option\" value=\"level-1\" selected=\"selected\">A1</option>\n            <option class=\"level-option\" value=\"level-2\" selected=\"selected\">A2</option>\n            <option class=\"level-option\" value=\"level-3\" selected=\"selected\">B1</option>\n            <option class=\"level-option\" value=\"level-4\" selected=\"selected\">B2</option>\n            <option class=\"level-option\" value=\"level-5\" selected=\"selected\">C1</option>\n            <option class=\"level-option\" value=\"level-6\" selected=\"selected\">C2</option>\n        </select>\n        <button class=\"sprint-game-btn btn-basic cta-btn\">Let's go!</button>\n        </div>\n        </div>\n        ";
+  SelectGamePage.buildSprintGame = function () {
+    return "\n        <div class=\"sprintGameInfo\">\n        <div class=\"game-title-frame\">\n        <div class=\"game-icon-box\">\n        <img class=\"sprint-title-icon\" src=\"./assets/svg/sprint.png\" alt=\"game icon\">\n        </div>\n        <p class=\"game-title\">Sprint</p>\n        </div>\n        <p class=\"paragraph-text game-description\">Sprint is a practice for repeating the learned words from your vocabulary. Check how much words you can identify by correct meaning in one minute. To give an answer, click on yes/no buttons with the mouse or press the arrow keys. Enjoy!</p>\n        <p class=\"paragraph-text game-description keyboard-control\"><span class=\"keys-control-title\">Keyboard control:</span><br> &#x2022; press Y key to select \"right\", N key to select \"wrong\"<br> &#x2022;  left/right arrows to move between words<br> &#x2022;  esc to exit the game</p>\n        <p class=\"game-level-select\">Select the Level</p>\n        <div class=\"game-level-box\">\n        <select class=\"select-level-sprint\" name=\"level-english\">\n            <option class=\"level-option\" value=\"level-1\" selected=\"selected\">A1</option>\n            <option class=\"level-option\" value=\"level-2\" selected=\"selected\">A2</option>\n            <option class=\"level-option\" value=\"level-3\" selected=\"selected\">B1</option>\n            <option class=\"level-option\" value=\"level-4\" selected=\"selected\">B2</option>\n            <option class=\"level-option\" value=\"level-5\" selected=\"selected\">C1</option>\n            <option class=\"level-option\" value=\"level-6\" selected=\"selected\">C2</option>\n        </select>\n        <button class=\"sprint-game-btn btn-basic cta-btn\">Let's go!</button>\n        </div>\n        </div>\n        ";
   };
 
-  SelectGamePage.prototype.buildAudioGame = function () {
-    return "\n        <div class=\"audioGameInfo\">\n        <div class=\"game-title-frame\">\n        <div class=\"game-icon-box\">\n        <img class=\"sprint-title-icon\" src=\"../../assets/svg/listen.png\" alt=\"game icon\">\n        </div>\n        <p class=\"game-title\">Audio Challenge</p>\n        </div>\n        <p class=\"paragraph-text game-description\">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. Click on the sound icon, listen to the word, then select the appropriate word from the list and click on it. Enjoy!</p>\n        <p class=\"game-level-select\">Select the Level</p>\n        <div class=\"game-level-box\">\n        <select class=\"select-level-audio\" name=\"level-english\">\n            <option class=\"level-option\" value=\"level-1\" selected=\"selected\">A1</option>\n            <option class=\"level-option\" value=\"level-2\" selected=\"selected\">A2</option>\n            <option class=\"level-option\" value=\"level-3\" selected=\"selected\">B1</option>\n            <option class=\"level-option\" value=\"level-4\" selected=\"selected\">B2</option>\n            <option class=\"level-option\" value=\"level-5\" selected=\"selected\">C1</option>\n            <option class=\"level-option\" value=\"level-6\" selected=\"selected\">C2</option>\n        </select>\n        <button class=\"audio-game-btn btn-basic cta-btn\">Let's go!</button>\n        </div>\n        </div>\n        ";
+  SelectGamePage.buildAudioGame = function () {
+    return "\n        <div class=\"audioGameInfo\">\n        <div class=\"game-title-frame\">\n        <div class=\"game-icon-box\">\n        <img class=\"sprint-title-icon\" src=\"./assets/svg/listen.png\" alt=\"game icon\">\n        </div>\n        <p class=\"game-title\">Audio Challenge</p>\n        </div>\n        <p class=\"paragraph-text game-description\">Check your listening skills, trying to pick the right meaning after hearing a word. Be careful, as you just have one guess. Click on the sound icon, listen to the word, then select the appropriate word from the list and click on it. Enjoy!</p>\n        <p class=\"paragraph-text game-description keyboard-control\"><span class=\"keys-control-title\">Keyboard control:</span><br> &#x2022; press the space bar to play the word<br> &#x2022; keys 1 - 5 to select the answer<br> &#x2022; esc to exit the game</p>\n        <p class=\"game-level-select\">Select the Level</p>\n        <div class=\"game-level-box\">\n        <select class=\"select-level-audio\" name=\"level-english\">\n            <option class=\"level-option\" value=\"level-1\" selected=\"selected\">A1</option>\n            <option class=\"level-option\" value=\"level-2\" selected=\"selected\">A2</option>\n            <option class=\"level-option\" value=\"level-3\" selected=\"selected\">B1</option>\n            <option class=\"level-option\" value=\"level-4\" selected=\"selected\">B2</option>\n            <option class=\"level-option\" value=\"level-5\" selected=\"selected\">C1</option>\n            <option class=\"level-option\" value=\"level-6\" selected=\"selected\">C2</option>\n        </select>\n        <button class=\"audio-game-btn btn-basic cta-btn\">Let's go!</button>\n        </div>\n        </div>\n        ";
   };
 
-  SelectGamePage.prototype.buildSprintGamePage = function () {
-    var _a;
-
-    var game = document.createElement('div');
-    game.id = 'sprint-game-window';
-    game.classList.add('display_none');
-    game.innerHTML = "\n        <div class=\"sprint-flex-wrapper\">\n        <div class=\"sprint-game-timer\"><p></p></div>\n        <div class=\"sprint-game-window-active\">\n            <div class=\"sprint-progress\"></div>\n            <div class=\"main-sprint\">\n            <p class=\"english-word\"></p>\n            <p class=\"translate-word\"></p>\n            </div>\n            <div class=\"btn-sprint\">\n            <button id=\"game-btn\" class=\"btn-prev\">&#8592;</button>\n            <button id=\"game-btn\" class=\"btn-no\">Wrong</button>\n            <button id=\"game-btn\" class=\"btn-yes\">Right</button>\n            <button id=\"game-btn\" class=\"btn-next\">&#8594;</button>\n            </div>\n        </div>\n        </div>\n        ";
-    (_a = document.querySelector('.sprintGameInfo')) === null || _a === void 0 ? void 0 : _a.after(game);
-  };
-
-  SelectGamePage.prototype.buildAudioGamePage = function () {
-    var _a;
-
-    var game = document.createElement('div');
-    game.id = 'audio-game-window';
-    game.innerHTML = "\n        <div class=\"audio-game-window-active\">\n            <div class=\"audio-progress\"></div>\n            <div class=\"main-audio\">\n            <div class=\"audio-place\">\n            <img src=\"../../assets/svg/audio.png\" class=\"audio-game-icon\">\n            </div>\n            <div class=\"btn-audio\">\n\n            </div>\n            </div>\n        </div>\n        ";
-    (_a = document.querySelector('.audioGameInfo')) === null || _a === void 0 ? void 0 : _a.after(game);
-  };
-
-  SelectGamePage.prototype.buttonClick = function () {
+  SelectGamePage.buttonClick = function () {
     var onClick = function onClick(e) {
       var _a;
 
@@ -1567,16 +2155,34 @@ function () {
   };
 
   SelectGamePage.showGamePage = function () {
-    var _a, _b, _c, _d, _e, _f;
+    var _a, _b, _c, _d, _e, _f, _g, _h;
+
+    (_a = document.querySelector('#game-page-wrapper')) === null || _a === void 0 ? void 0 : _a.remove();
+    SelectGamePage.build();
 
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN) {
-      _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN.classList.add('display_none');
-      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.GAME_PAGE_WRAPPER) === null || _a === void 0 ? void 0 : _a.classList.remove('display_none');
-      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC) === null || _b === void 0 ? void 0 : _b.classList.add('display_none');
-      (_c = document.querySelector('.sprintGameInfo')) === null || _c === void 0 ? void 0 : _c.classList.remove('display_none');
-      (_d = document.querySelector('.audioGameInfo')) === null || _d === void 0 ? void 0 : _d.classList.remove('display_none');
-      (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.SPRINT_WINDOW) === null || _e === void 0 ? void 0 : _e.classList.add('display_none');
-      (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AUDIO_WINDOW) === null || _f === void 0 ? void 0 : _f.classList.add('display_none');
+      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.HERO_PAGE) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
+      (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ADVANTAGES_PAGE) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
+      (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ABOUT_PAGE) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+      (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.GAME_PAGE_WRAPPER) === null || _e === void 0 ? void 0 : _e.classList.remove('display_none');
+      (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC) === null || _f === void 0 ? void 0 : _f.classList.add('display_none');
+      (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.TEXTBOOK_CONTAINER) === null || _g === void 0 ? void 0 : _g.classList.add('display_none');
+      (_h = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.DICTIONARY_CONTAINER) === null || _h === void 0 ? void 0 : _h.classList.add("display_none");
+    }
+
+    var sprintGame = new _sprint_sprintGame__WEBPACK_IMPORTED_MODULE_2__.SprintGame();
+    sprintGame.btnClick();
+    var audioGame = new _audio_audioGame__WEBPACK_IMPORTED_MODULE_1__.AudioGame();
+    audioGame.btnClick();
+  };
+
+  SelectGamePage.playAgain = function () {
+    var _a;
+
+    _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.listen();
+
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AGAIN_BTN) {
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.AGAIN_BTN) === null || _a === void 0 ? void 0 : _a.addEventListener('click', SelectGamePage.showGamePage);
     }
   };
 
@@ -1599,8 +2205,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../api */ "./components/api.ts");
 /* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../startPageListener */ "./components/startPageListener.ts");
-/* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../dataStorage */ "./components/dataStorage.ts");
-/* harmony import */ var _selectGamePage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../selectGamePage */ "./components/games/selectGamePage.ts");
+/* harmony import */ var _selectGamePage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../selectGamePage */ "./components/games/selectGamePage.ts");
+/* harmony import */ var _statistic_staticticPage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../statistic/staticticPage */ "./components/statistic/staticticPage.ts");
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -1796,10 +2402,10 @@ function () {
         return __awaiter(_this, void 0, void 0, function () {
           var _a;
 
-          var _b, _c, _d;
+          var _b, _c;
 
-          return __generator(this, function (_e) {
-            switch (_e.label) {
+          return __generator(this, function (_d) {
+            switch (_d.label) {
               case 0:
                 _a = this;
                 return [4
@@ -1807,10 +2413,11 @@ function () {
                 , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(level_1 - 1, page_1)];
 
               case 1:
-                _a.wordArray = _e.sent();
+                _a.wordArray = _d.sent();
                 (_b = document.querySelector('.sprintGameInfo')) === null || _b === void 0 ? void 0 : _b.classList.add('display_none');
                 (_c = document.querySelector('.audioGameInfo')) === null || _c === void 0 ? void 0 : _c.classList.add('display_none');
-                (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.SPRINT_WINDOW) === null || _d === void 0 ? void 0 : _d.classList.remove('display_none');
+                this.buildSprintGamePage();
+                _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.listen();
                 this.setTimer();
                 this.choiseWords();
                 return [2
@@ -1823,12 +2430,21 @@ function () {
     }
   };
 
+  SprintGame.prototype.buildSprintGamePage = function () {
+    var _a;
+
+    var game = document.createElement('div');
+    game.id = 'sprint-game-window';
+    game.innerHTML = "\n        <div class=\"sprint-flex-wrapper\">\n        <div class=\"sprint-game-timer\"><p></p></div>\n        <div class=\"sprint-game-window-active\">\n            <div class=\"sprint-progress\"></div>\n            <div class=\"main-sprint\">\n            <p class=\"english-word\"></p>\n            <p class=\"translate-word\"></p>\n            </div>\n            <div class=\"btn-sprint\">\n            <button id=\"game-btn\" class=\"btn-prev\">&#8592;</button>\n            <button id=\"game-btn\" class=\"btn-no\">Wrong</button>\n            <button id=\"game-btn\" class=\"btn-yes\">Right</button>\n            <button id=\"game-btn\" class=\"btn-next\">&#8594;</button>\n            </div>\n        </div>\n        </div>\n        ";
+    (_a = document.querySelector('.sprintGameInfo')) === null || _a === void 0 ? void 0 : _a.after(game);
+  };
+
   SprintGame.prototype.setTimer = function () {
     var _this = this;
 
     var _a;
 
-    var timer = 6;
+    var timer = 60;
     var gameTimer = (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TIMER) === null || _a === void 0 ? void 0 : _a.children[0];
     var myInterval = setInterval(function () {
       timer--;
@@ -1861,87 +2477,91 @@ function () {
     var onClick = function onClick(e) {
       var _a, _b;
 
-      if (_this.wordArray) {
-        if (e.target.innerHTML === '>' && position < ((_a = _this.wordArray) === null || _a === void 0 ? void 0 : _a.length)) position++;
-        if (e.target.innerHTML === '<' && position > 0) position--;
+      try {
+        if (_this.wordArray) {
+          if (e.target.innerHTML === '>' && position < ((_a = _this.wordArray) === null || _a === void 0 ? void 0 : _a.length)) position++;
+          if (e.target.innerHTML === '<' && position > 0) position--;
 
-        if (e.target.innerHTML === 'Right' && position < ((_b = _this.wordArray) === null || _b === void 0 ? void 0 : _b.length)) {
-          _this.userAnswerYes(translateWord === null || translateWord === void 0 ? void 0 : translateWord.innerHTML, position);
+          if (e.target.innerHTML === 'Right' && position < ((_b = _this.wordArray) === null || _b === void 0 ? void 0 : _b.length)) {
+            _this.userAnswerYes(translateWord === null || translateWord === void 0 ? void 0 : translateWord.innerHTML, position);
 
-          position++;
+            position++;
 
-          if (_this.wordArray.length - position < 2) {
-            (function () {
-              return __awaiter(_this, void 0, void 0, function () {
-                var _a, _b;
+            if (_this.wordArray.length - position < 2) {
+              (function () {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var _a, _b;
 
-                return __generator(this, function (_c) {
-                  switch (_c.label) {
-                    case 0:
-                      _a = this;
-                      _b = [__spreadArray([], this.wordArray, true)];
-                      return [4
-                      /*yield*/
-                      , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(Math.floor(Math.random() * 5), Math.floor(Math.random() * 10))];
+                  return __generator(this, function (_c) {
+                    switch (_c.label) {
+                      case 0:
+                        _a = this;
+                        _b = [__spreadArray([], this.wordArray, true)];
+                        return [4
+                        /*yield*/
+                        , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(Math.floor(Math.random() * 5), Math.floor(Math.random() * 10))];
 
-                    case 1:
-                      return [4
-                      /*yield*/
-                      , __spreadArray.apply(void 0, _b.concat([_c.sent(), true]))];
+                      case 1:
+                        return [4
+                        /*yield*/
+                        , __spreadArray.apply(void 0, _b.concat([_c.sent(), true]))];
 
-                    case 2:
-                      _a.wordArray = _c.sent();
-                      return [2
-                      /*return*/
-                      ];
-                  }
+                      case 2:
+                        _a.wordArray = _c.sent();
+                        return [2
+                        /*return*/
+                        ];
+                    }
+                  });
                 });
-              });
-            })();
+              })();
+            }
           }
-        }
 
-        ;
+          ;
 
-        if (e.target.innerHTML === 'Wrong' && position > 0) {
-          _this.userAnswerNo(translateWord === null || translateWord === void 0 ? void 0 : translateWord.innerHTML, position);
+          if (e.target.innerHTML === 'Wrong' && position >= 0) {
+            _this.userAnswerNo(translateWord === null || translateWord === void 0 ? void 0 : translateWord.innerHTML, position);
 
-          position++;
+            position++;
 
-          if (_this.wordArray.length - position < 2) {
-            (function () {
-              return __awaiter(_this, void 0, void 0, function () {
-                var _a, _b;
+            if (_this.wordArray.length - position < 2) {
+              (function () {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var _a, _b;
 
-                return __generator(this, function (_c) {
-                  switch (_c.label) {
-                    case 0:
-                      _a = this;
-                      _b = [__spreadArray([], this.wordArray, true)];
-                      return [4
-                      /*yield*/
-                      , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(Math.floor(Math.random() * 5), Math.floor(Math.random() * 10))];
+                  return __generator(this, function (_c) {
+                    switch (_c.label) {
+                      case 0:
+                        _a = this;
+                        _b = [__spreadArray([], this.wordArray, true)];
+                        return [4
+                        /*yield*/
+                        , _api__WEBPACK_IMPORTED_MODULE_0__.API.loadWordsFromServer(Math.floor(Math.random() * 5), Math.floor(Math.random() * 10))];
 
-                    case 1:
-                      return [4
-                      /*yield*/
-                      , __spreadArray.apply(void 0, _b.concat([_c.sent(), true]))];
+                      case 1:
+                        return [4
+                        /*yield*/
+                        , __spreadArray.apply(void 0, _b.concat([_c.sent(), true]))];
 
-                    case 2:
-                      _a.wordArray = _c.sent();
-                      return [2
-                      /*return*/
-                      ];
-                  }
+                      case 2:
+                        _a.wordArray = _c.sent();
+                        return [2
+                        /*return*/
+                        ];
+                    }
+                  });
                 });
-              });
-            })();
+              })();
+            }
           }
-        }
 
-        ;
-        if (englishWord) englishWord.innerHTML = _this.wordArray[position].word;
-        if (translateWord) translateWord.innerHTML = _this.wordArray[position + Math.floor(Math.random() * 2)].wordTranslate;
+          ;
+          if (englishWord) englishWord.innerHTML = _this.wordArray[position].word;
+          if (translateWord) translateWord.innerHTML = _this.wordArray[position + Math.floor(Math.random() * 2)].wordTranslate;
+        }
+      } catch (e) {
+        console.log('Error', e);
       }
     };
 
@@ -1950,7 +2570,6 @@ function () {
     }
 
     var buttonClick = function buttonClick(translateWord, answer) {
-      console.log('click');
       var element = null;
 
       if (answer) {
@@ -2002,7 +2621,6 @@ function () {
     var keyboardHehdler = function keyboardHehdler(e) {
       var _a;
 
-      e.preventDefault();
       if (position === 19) _this.showResult();
 
       if (translateWord) {
@@ -2024,7 +2642,8 @@ function () {
             break;
 
           case 'Escape':
-            _selectGamePage__WEBPACK_IMPORTED_MODULE_3__.SelectGamePage.showGamePage();
+            _selectGamePage__WEBPACK_IMPORTED_MODULE_2__.SelectGamePage.showGamePage();
+            document.removeEventListener('keydown', keyboardHehdler);
             break;
         }
       }
@@ -2092,6 +2711,10 @@ function () {
   SprintGame.prototype.showResult = function () {
     var _this = this;
 
+    if (document.querySelector('#sprint-game-window')) {
+      document.querySelector('#sprint-game-window').classList.add('display_none');
+    }
+
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE) {
       var dataResult = function dataResult() {
         var result = '';
@@ -2101,78 +2724,40 @@ function () {
         });
 
         return result;
-      }; // let stateIconBox = document.querySelectorAll(".point-result");
-      // stateIconBox.forEach(function(elem) {
-      //   if (elem?.classList.contains("true")) {
-      //     const stateIcon = document.createElement("img") as HTMLElement;
-      //     stateIcon.classList.add(".good-result-icon");
-      //     elem.appendChild(stateIcon);
-      //   } else if (elem?.classList.contains("false")) {
-      //     const stateIcon = document.createElement("img") as HTMLElement;
-      //     stateIcon.classList.add(".bad-result-icon");
-      //     elem.appendChild(stateIcon);
-      //   }
-      // })
+      };
 
-
-      if (this.resultArray.length === 0 || this.calculateResult() === 0) {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">\n              <img src=\"../../../assets/svg/gamer.png\" alt=\"sad boy icon\" class=\"sad-boy-icon\">\n              </div>\n              </div>;");
-      } else if (this.resultArray.length === 1) {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              </div>;");
+      if (this.resultArray.length === 0 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"result-window\">\n              <img src=\"../../../assets/svg/gamer.png\" alt=\"sad boy icon\" class=\"sad-boy-icon\">\n              </div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length === 1 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/no.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length > 1 && this.calculateResult().percent === 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/no.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
+      } else if (this.resultArray.length === 1 && this.calculateResult().percent > 0) {
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " word</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
       } else {
-        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML = "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult(), " %</p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              </div>;");
+        _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE.innerHTML += "\n              <div class=\"game-result-wrapper\">\n              <img src=\"../../../assets/svg/yes.png\" alt=\"done icon\" class=\"good-result-icon\">\n              <div class=\"correct-result-percent\"><p id=\"done-words\" class=\"game-level-select\">Done: ".concat(this.resultArray.length, " words</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Correct result: ").concat(this.calculateResult().percent, " %</p></div>\n              <div class=\"correct-result-percent\"><p class=\"game-level-select\">Mistakes: ").concat(this.calculateResult().mistakes, " </p></div>\n              <div class=\"result-window\">").concat(dataResult(), "</div>\n              <button class=\"sprint-game-btn btn-basic cta-btn play-again\">Play again</button>\n              </div>;");
       }
     }
+
+    _statistic_staticticPage__WEBPACK_IMPORTED_MODULE_3__.StatisticPage.workWithStatistic(this.resultArray, 'sprint');
+    _selectGamePage__WEBPACK_IMPORTED_MODULE_2__.SelectGamePage.playAgain();
   };
 
   SprintGame.prototype.calculateResult = function () {
-    var _this = this;
-
-    var _a;
-
     var result = 0;
-    var statistic = 0;
-
-    if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) {
-      (function () {
-        return __awaiter(_this, void 0, void 0, function () {
-          return __generator(this, function (_a) {
-            switch (_a.label) {
-              case 0:
-                return [4
-                /*yield*/
-                , _api__WEBPACK_IMPORTED_MODULE_0__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData.userId)];
-
-              case 1:
-                return [2
-                /*return*/
-                , statistic = _a.sent().learnedWords];
-            }
-          });
-        });
-      })();
-    }
-
     this.resultArray.forEach(function (element) {
       if (element.result) {
         result++;
       }
     });
-
-    if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) {
-      var data = {
-        learnedWords: this.resultArray.length + statistic,
-        optional: {
-          a: 1,
-          b: 2
-        }
-      };
-      _api__WEBPACK_IMPORTED_MODULE_0__.API.updateUserStatisticFromServer((_a = _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userData) === null || _a === void 0 ? void 0 : _a.userId, JSON.stringify(data));
-    }
-
-    ;
-    if (result === 0) return 0;
-    return Math.floor(result / this.resultArray.length * 100);
+    if (result === 0) return {
+      percent: 0,
+      mistakes: this.resultArray.length - result
+    };
+    return {
+      percent: Math.floor(result / this.resultArray.length * 100),
+      mistakes: this.resultArray.length - result
+    };
   };
 
   return SprintGame;
@@ -2224,55 +2809,30 @@ function () {
   return ModalWindow;
 }();
 
+ // Hamburger Menu
 
+var hamIcon = document.querySelector('.hamburger');
+var navMenu = document.querySelector('.nav__container');
+var navLink = document.querySelectorAll('.nav-link');
+var navList = document.querySelector('.nav');
+var menuFilter = document.querySelector('.menu-filter');
+var signInBtn = document.querySelector('.signIn-btn');
+hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.addEventListener('click', openMenu);
+menuFilter === null || menuFilter === void 0 ? void 0 : menuFilter.addEventListener('click', openMenu);
 
-/***/ }),
+function checkOpenMenu() {
+  if (hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.classList.contains('open')) {
+    navList === null || navList === void 0 ? void 0 : navList.addEventListener('click', openMenu);
+  }
+}
 
-/***/ "./components/navClick.ts":
-/*!********************************!*\
-  !*** ./components/navClick.ts ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "NavClick": () => (/* binding */ NavClick)
-/* harmony export */ });
-/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./startPageListener */ "./components/startPageListener.ts");
-
-
-var NavClick =
-/** @class */
-function () {
-  function NavClick() {}
-
-  NavClick.prototype.active = function () {
-    var onClick = function onClick(e) {
-      var _a, _b, _c, _d, _e, _f, _g, _h, _j;
-
-      if (e.target.innerHTML == 'Textbook') {
-        (_a = document.querySelector('.hero-page')) === null || _a === void 0 ? void 0 : _a.classList.add('display_none');
-        (_b = document.querySelector('.advantages-page')) === null || _b === void 0 ? void 0 : _b.classList.add('display_none');
-        (_c = document.querySelector('.about-page')) === null || _c === void 0 ? void 0 : _c.classList.add('display_none');
-      } else {
-        (_d = document.querySelector('.hero-page')) === null || _d === void 0 ? void 0 : _d.classList.remove('display_none');
-        (_e = document.querySelector('.advantages-page')) === null || _e === void 0 ? void 0 : _e.classList.remove('display_none');
-        (_f = document.querySelector('.about-page')) === null || _f === void 0 ? void 0 : _f.classList.remove('display_none');
-        (_g = document.querySelector('.groups')) === null || _g === void 0 ? void 0 : _g.classList.add('display_none');
-        (_h = document.querySelector('.main_container')) === null || _h === void 0 ? void 0 : _h.classList.add('display_none');
-        (_j = document.querySelector('#pagination')) === null || _j === void 0 ? void 0 : _j.classList.add('display_none');
-      }
-    };
-
-    if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.NAV) {
-      _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.NAV.addEventListener('click', onClick);
-    }
-  };
-
-  return NavClick;
-}();
-
-
+function openMenu() {
+  navMenu === null || navMenu === void 0 ? void 0 : navMenu.classList.toggle('open');
+  hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.classList.toggle('open');
+  document.body.classList.toggle('lock');
+  menuFilter === null || menuFilter === void 0 ? void 0 : menuFilter.classList.toggle('menu-filter_open');
+  signInBtn === null || signInBtn === void 0 ? void 0 : signInBtn.classList.toggle('signIn-btn_open');
+}
 
 /***/ }),
 
@@ -2302,7 +2862,19 @@ function () {
     StartPageListener.SINGUP_FORM_PASSWORD = document.getElementById('singup-form-password');
     StartPageListener.MODAL_WINDOW = document.getElementById('openModal');
     StartPageListener.MAIN = document.querySelector('.main');
+    StartPageListener.HERO_PAGE = document.querySelector('.hero-page');
+    StartPageListener.ADVANTAGES_PAGE = document.querySelector('.advantages-page');
+    StartPageListener.ABOUT_PAGE = document.querySelector('.about-page');
     StartPageListener.STATISTIC = document.getElementById('statistic');
+    StartPageListener.TEXTBOOK_CONTAINER = document.getElementById('textbook-wrapper');
+    StartPageListener.GROUPS = document.getElementById('groups');
+    StartPageListener.GROUPS_DICTIONARY = document.getElementById('groups-dictionary');
+    StartPageListener.PAGINATION = document.getElementById('pagination');
+    StartPageListener.PAGINATION_DICTIONARY = document.getElementById('pagination-dictionary');
+    StartPageListener.TEXTBOOK = document.getElementById('textbook');
+    StartPageListener.DICTIONARY_CONTAINER = document.getElementById('dictionary-wrapper');
+    StartPageListener.DICTIONARY = document.getElementById('dictionary');
+    StartPageListener.BUTTONS_CONTAINER = document.getElementsByClassName('authorization_block');
     StartPageListener.NAV = document.querySelector('.nav');
     StartPageListener.GAME_PAGE = document.getElementById('game-page');
     StartPageListener.GAME_PAGE_WRAPPER = document.getElementById('game-page-wrapper');
@@ -2310,6 +2882,9 @@ function () {
     StartPageListener.SPRINT_WINDOW = document.querySelector('#sprint-game-window');
     StartPageListener.AUDIO_WINDOW = document.querySelector('#audio-game-window');
     StartPageListener.GAME_ICON = document.querySelector('#game-main-card');
+    StartPageListener.AUDIO_START_BTN = document.querySelector('.audio-game-btn');
+    StartPageListener.GAME_RESULT = document.querySelector('.game-result-wrapper');
+    StartPageListener.AGAIN_BTN = document.querySelector('.play-again');
   };
 
   StartPageListener.BODY = document.body;
@@ -2486,11 +3061,13 @@ function () {
   function StatisticPage() {}
 
   StatisticPage.prototype.build = function () {
+    var _a;
+
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN) {
       var STATISTIC = document.createElement('div');
       STATISTIC.id = 'statistic';
-      STATISTIC.innerHTML = "\n            <div>\n            <p>\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430</p>\n            <button class=\"get-statistic\">\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0430 \u0437\u0430 \u0434\u0435\u043D\u044C</button>\n            <div class=\"statistic-result\"><p>\u041D\u0435 \u0445\u0432\u0430\u0442\u0430\u0435\u0442 \u0434\u0430\u043D\u043D\u044B\u0445 \u043F\u043E \u0441\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043A\u0435</p></div>\n            </div>\n            ";
-      _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN.before(STATISTIC);
+      STATISTIC.innerHTML = "\n            <div class=\"wrapper statistic-wrapper\">\n            <h2 class=\"section-title\">Statistics</h2>\n            <button class=\"get-statistic\">Today's stats</button>\n            <div class=\"statistic-result\"></div>\n            </div>\n            ";
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.TEXTBOOK_CONTAINER) === null || _a === void 0 ? void 0 : _a.after(STATISTIC);
       STATISTIC.classList.add('display_none');
     }
 
@@ -2501,25 +3078,32 @@ function () {
   StatisticPage.prototype.buttonClick = function () {
     var _this = this;
 
-    var onClick = function onClick(e) {
-      var _a, _b, _c;
+    var _a;
 
-      if (e.target.innerHTML == 'Statistics') {
+    var onClick = function onClick(e) {
+      var _a, _b, _c, _d, _e, _f, _g;
+
+      if (e.target.innerHTML == 'Statistics' || e.target.id == 'statistic-main-card') {
         if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN) {
-          _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.MAIN.classList.add('display_none');
           (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC) === null || _a === void 0 ? void 0 : _a.classList.remove('display_none');
-          (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.GAME_PAGE) === null || _b === void 0 ? void 0 : _b.classList.add('display_none');
-          (_c = document.querySelector('.get-statistic')) === null || _c === void 0 ? void 0 : _c.addEventListener('click', getDataCtatistic);
+          (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.HERO_PAGE) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
+          (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ADVANTAGES_PAGE) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
+          (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.ABOUT_PAGE) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+          (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.TEXTBOOK_CONTAINER) === null || _e === void 0 ? void 0 : _e.classList.add('display_none');
+          (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.GAME_PAGE_WRAPPER) === null || _f === void 0 ? void 0 : _f.classList.add('display_none');
+          (_g = document.querySelector('.get-statistic')) === null || _g === void 0 ? void 0 : _g.addEventListener('click', getDataCtatistic);
         }
       }
     };
 
     var getDataCtatistic = function getDataCtatistic() {
       return __awaiter(_this, void 0, void 0, function () {
-        var statistic;
+        var statistic, e_1;
         return __generator(this, function (_a) {
           switch (_a.label) {
             case 0:
+              _a.trys.push([0, 3,, 4]);
+
               if (!_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) return [3
               /*break*/
               , 2];
@@ -2532,11 +3116,28 @@ function () {
 
             case 1:
               statistic = _a.sent();
-              console.log(statistic);
-              _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC.children[0].children[2].innerHTML = statistic.learnedWords.toString();
+
+              if (statistic) {
+                _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC.children[0].children[2].innerHTML = "\n                            <p class=\"card-title stat-title stat-grid-item1\">Words learned: ".concat(statistic.learnedWords, "</p>\n                            <p class=\"card-title stat-title sprint-grid-padding\">Sprint: ").concat(this.sprintStatictic(statistic), "</p>\n                            <p class=\"card-title stat-title audio-grid-padding\">Audio Challenge: ").concat(this.audiotStatictic(statistic), "</p>\n                            ");
+              } else {
+                _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.STATISTIC.children[0].children[2].innerHTML = "\n                            <p class=\"card-title stat-title stat-grid-item1\"> there are no statistics </p>\n                            ";
+              }
+
               _a.label = 2;
 
             case 2:
+              return [3
+              /*break*/
+              , 4];
+
+            case 3:
+              e_1 = _a.sent();
+              console.log('Error', e_1);
+              return [3
+              /*break*/
+              , 4];
+
+            case 4:
               return [2
               /*return*/
               ];
@@ -2548,6 +3149,251 @@ function () {
     if (_startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.NAV) {
       _startPageListener__WEBPACK_IMPORTED_MODULE_0__.StartPageListener.NAV.addEventListener('click', onClick);
     }
+
+    if (document.querySelector('#statistic-main-card')) {
+      (_a = document.querySelector('#statistic-main-card')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', onClick);
+    }
+  };
+
+  StatisticPage.workWithStatistic = function (array, game) {
+    var _a, _b, _c, _d;
+
+    return __awaiter(this, void 0, void 0, function () {
+      var newTrueArray, newFalseArray, resultArray, statistic, date, wordArrayFromServer, data, dataGame, filterArray, filterArray, data_1, data_2, e_2;
+      return __generator(this, function (_e) {
+        switch (_e.label) {
+          case 0:
+            newTrueArray = [];
+            newFalseArray = [];
+            resultArray = [];
+            array.forEach(function (element) {
+              if (element.result) {
+                newTrueArray.push(element.word);
+              } else {
+                newFalseArray.push(element.word);
+              }
+            });
+            _e.label = 1;
+
+          case 1:
+            _e.trys.push([1, 16,, 17]);
+
+            if (!_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) return [3
+            /*break*/
+            , 15];
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData.userId)];
+
+          case 2:
+            statistic = _e.sent();
+            date = "".concat(new Date().getDate(), ".").concat(new Date().getMonth(), ".").concat(new Date().getFullYear());
+            wordArrayFromServer = [];
+            data = {};
+            dataGame = {
+              miniRes: {
+                date: "".concat(new Date().getDate(), ".").concat(new Date().getMonth(), ".").concat(new Date().getFullYear()),
+                "true": newTrueArray.length,
+                "false": newFalseArray.length,
+                longseries: 0,
+                truePercent: 0
+              }
+            };
+            if (!!statistic) return [3
+            /*break*/
+            , 3];
+            resultArray = wordArrayFromServer.concat(newTrueArray);
+            filterArray = Array.from(new Set(resultArray));
+            data = {
+              learnedWords: filterArray.length,
+              optional: {
+                learnedWords: filterArray.join(';'),
+                audio: {},
+                sprint: {}
+              }
+            };
+
+            if (game === 'sprint') {
+              dataGame.miniRes.longseries = newTrueArray.length;
+              dataGame.miniRes.truePercent = Math.floor(newTrueArray.length / array.length * 100);
+              data.optional.sprint = dataGame;
+            }
+
+            if (game === 'audio') {
+              dataGame.miniRes.longseries = newTrueArray.length;
+              dataGame.miniRes.truePercent = Math.floor(newTrueArray.length / array.length * 100);
+              data.optional.audio = dataGame;
+            }
+
+            return [3
+            /*break*/
+            , 13];
+
+          case 3:
+            wordArrayFromServer = statistic.optional.learnedWords ? statistic.optional.learnedWords.split(';') : [];
+            resultArray = statistic.optional.learnedWords ? wordArrayFromServer.concat(newTrueArray) : newTrueArray;
+            filterArray = Array.from(new Set(resultArray));
+            if (!statistic) return [3
+            /*break*/
+            , 12];
+            if (!(statistic.optional.audio && statistic.optional.sprint && statistic.optional.audio.miniRes.date != date && statistic.optional.sprint.miniRes.date != date)) return [3
+            /*break*/
+            , 6];
+            data = {
+              learnedWords: 0,
+              optional: {
+                learnedWords: " ",
+                audio: {},
+                sprint: {}
+              }
+            };
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.updateUserStatisticFromServer((_a = _dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) === null || _a === void 0 ? void 0 : _a.userId, JSON.stringify(data))];
+
+          case 4:
+            _e.sent();
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData.userId)];
+
+          case 5:
+            statistic = _e.sent();
+            _e.label = 6;
+
+          case 6:
+            if (!(!statistic.optional.audio || statistic.optional.audio.miniRes.date != date)) return [3
+            /*break*/
+            , 9];
+            data_1 = {
+              learnedWords: filterArray.length,
+              optional: {
+                learnedWords: filterArray.join(';'),
+                audio: {},
+                sprint: statistic.optional ? statistic.optional.sprint : {}
+              }
+            };
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.updateUserStatisticFromServer((_b = _dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) === null || _b === void 0 ? void 0 : _b.userId, JSON.stringify(data_1))];
+
+          case 7:
+            _e.sent();
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData.userId)];
+
+          case 8:
+            statistic = _e.sent();
+            _e.label = 9;
+
+          case 9:
+            if (!(!statistic.optional.sprint || statistic.optional.sprint.miniRes.date != date)) return [3
+            /*break*/
+            , 12];
+            data_2 = {
+              learnedWords: filterArray.length,
+              optional: {
+                learnedWords: filterArray.join(';'),
+                audio: statistic.optional ? statistic.optional.audio : {},
+                sprint: {}
+              }
+            };
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.updateUserStatisticFromServer((_c = _dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) === null || _c === void 0 ? void 0 : _c.userId, JSON.stringify(data_2))];
+
+          case 10:
+            _e.sent();
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.getUserStatisticFromServer(_dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData.userId)];
+
+          case 11:
+            statistic = _e.sent();
+            _e.label = 12;
+
+          case 12:
+            data = {
+              learnedWords: filterArray.length,
+              optional: {
+                learnedWords: filterArray.join(';'),
+                audio: statistic.optional ? statistic.optional.audio : {},
+                sprint: statistic.optional ? statistic.optional.sprint : {}
+              }
+            };
+
+            if (game === 'sprint') {
+              if (statistic.optional.sprint) {
+                dataGame.miniRes.longseries = statistic.optional.sprint.miniRes.longseries ? newTrueArray.length >= statistic.optional.sprint.miniRes.longseries ? newTrueArray.length : statistic.optional.sprint.miniRes.longseries : newTrueArray.length;
+                dataGame.miniRes.truePercent = statistic.optional.sprint.miniRes.truePercent ? (statistic.optional.sprint.miniRes.truePercent + Math.floor(newTrueArray.length / array.length * 100)) / 2 : Math.floor(newTrueArray.length / array.length * 100);
+              } else {
+                dataGame.miniRes.longseries = newTrueArray.length;
+                dataGame.miniRes.truePercent = Math.floor(newTrueArray.length / array.length * 100);
+              }
+
+              data.optional.sprint = dataGame;
+            }
+
+            if (game === 'audio') {
+              if (statistic.optional.audio) {
+                dataGame.miniRes.longseries = statistic.optional.audio.miniRes.longseries ? newTrueArray.length >= statistic.optional.audio.miniRes.longseries ? newTrueArray.length : statistic.optional.audio.miniRes.longseries : newTrueArray.length;
+                dataGame.miniRes.truePercent = statistic.optional.audio.miniRes.truePercent ? (statistic.optional.audio.miniRes.truePercent + Math.floor(newTrueArray.length / array.length * 100)) / 2 : Math.floor(newTrueArray.length / array.length * 100);
+              } else {
+                dataGame.miniRes.longseries = newTrueArray.length;
+                dataGame.miniRes.truePercent = Math.floor(newTrueArray.length / array.length * 100);
+              }
+
+              data.optional.audio = dataGame;
+            }
+
+            _e.label = 13;
+
+          case 13:
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.updateUserStatisticFromServer((_d = _dataStorage__WEBPACK_IMPORTED_MODULE_1__.DataStorage.userData) === null || _d === void 0 ? void 0 : _d.userId, JSON.stringify(data))];
+
+          case 14:
+            _e.sent();
+
+            _e.label = 15;
+
+          case 15:
+            ;
+            return [3
+            /*break*/
+            , 17];
+
+          case 16:
+            e_2 = _e.sent();
+            console.log('Error', e_2);
+            return [3
+            /*break*/
+            , 17];
+
+          case 17:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  StatisticPage.prototype.sprintStatictic = function (stat) {
+    if (JSON.stringify(stat.optional.sprint) && stat.optional.sprint.miniRes) {
+      return "\n            <div class=\"statistic-info_sprint\">\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Date:</span> ".concat(stat.optional.sprint.miniRes.date, "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Done:</span> ").concat(stat.optional.sprint.miniRes["true"], "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Mistakes:</span> ").concat(stat.optional.sprint.miniRes["false"], "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">In a row:</span> ").concat(stat.optional.sprint.miniRes.longseries, "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Accuracy:</span> ").concat(Math.floor(stat.optional.sprint.miniRes.truePercent), " %</p>\n            </div>\n            ");
+    } else return "\n            <div class=\"statistic-info_sprint\">\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Date:</span> Not result</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Done:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Mistakes:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">In a row:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Accuracy:</span> 0 %</p>\n            </div>\n            ";
+  };
+
+  StatisticPage.prototype.audiotStatictic = function (stat) {
+    if (JSON.stringify(stat.optional.audio) && stat.optional.audio.miniRes) {
+      return "\n            <div class=\"statistic-info_audio\">\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Date:</span> ".concat(stat.optional.audio.miniRes.date, "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Done:</span> ").concat(stat.optional.audio.miniRes["true"], "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Mistakes:</span> ").concat(stat.optional.audio.miniRes["false"], "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">In a row:</span> ").concat(stat.optional.audio.miniRes.longseries, "</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Accuracy:</span> ").concat(Math.floor(stat.optional.audio.miniRes.truePercent), " %</p>\n            </div>\n            ");
+    } else return "\n            <div class=\"statistic-info_sprint\">\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Date:</span> Not result</p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Done:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Mistakes:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">In a row:</span> 0 </p>\n            <p class=\"paragraph-text\"><span class=\"stat-span\">Accuracy:</span> 0 %</p>\n            </div>\n            ";
   };
 
   return StatisticPage;
@@ -2566,73 +3412,13 @@ function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "Card": () => (/* binding */ Card),
-/* harmony export */   "renderCards": () => (/* binding */ renderCards)
+/* harmony export */   "TextbookPage": () => (/* binding */ TextbookPage)
 /* harmony export */ });
 /* harmony import */ var _styles_sass_pages_textbook_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../styles/sass/pages/_textbook.scss */ "./styles/sass/pages/_textbook.scss");
-
-
-var Card =
-/** @class */
-function () {
-  function Card(container, wordData) {
-    this.wordData = wordData;
-    container.onclick = this.onClick.bind(this);
-  }
-
-  Card.prototype.playAudio = function (audioElement) {
-    audioElement.play();
-  };
-
-  Card.prototype.onClick = function (event) {
-    var targetElement = event.target;
-
-    if (targetElement.dataset.audio === "audioBtn") {
-      this.playAudio(targetElement.firstElementChild);
-    }
-  };
-
-  Card.prototype.createCardTemplate = function () {
-    return "<ul class=\"wrapper textbook-list\">\n                <li class=\"textbook-list_item\">\n                  <img src=\"https://rs-lang-react.herokuapp.com/".concat(this.wordData.image, "\" alt=\"").concat(this.wordData.word, "\" class=\"textbook-card-img\">\n                  <div class=\"textbook-list_item__wrapper\">\n                  <div class=\"upper_card-row\">\n                   <div class=\"upper_card-box\">\n                      <div class=\"word-wrapper\">\n                        <h2 class=\"word\">").concat(this.wordData.word, " <p class=\"transcription\">").concat(this.wordData.transcription, "</p></h2>\n                      </div>\n                      <div class=\"translate\">").concat(this.wordData.wordTranslate, "</div>\n                    </div>\n                    <button data-audio=\"audioBtn\" class=\"btn-basic bnt-textbook\">&#128264; Word\n                    <audio id=\"sound\">\n                    <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audio, "\">\n                    </audio>\n                   </button>\n                  </div>\n                  <div class=\"upper_card-row\">\n                    <div class=\"lower_card-box\">\n                      <p class=\"description\">").concat(this.wordData.textMeaning, "</p>\n                      <p class=\"description-translate\">").concat(this.wordData.textMeaningTranslate, "</p>\n                    </div>\n                    <button data-audio=\"audioBtn\" class=\"btn-basic bnt-bell\">&#128264;\n                      <audio id=\"sound\">\n                      <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audioMeaning, "\">\n                      </audio>\n                    </button>\n                  </div>\n                  <div class=\"upper_card-row\">\n                    <div class=\"lower_card-box\">\n                      <p class=\"example\">").concat(this.wordData.textExample, "</p>\n                      <p class=\"example-translate\">").concat(this.wordData.textExampleTranslate, "</p>\n                      </div>\n                      <button data-audio=\"audioBtn\" class=\"btn-basic bnt-bell\">&#128264;\n                        <audio id=\"sound\">\n                        <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audioExample, "\">\n                        </audio>\n                      </button>\n                    </div>\n                  </div>\n                </li>\n              </ul>");
-  };
-
-  return Card;
-}();
-
-
-function renderCards(cards) {
-  var container = document.querySelector(".main_container");
-  var result = cards.reduce(function (prevValue, currValue) {
-    var card = new Card(container, currValue);
-    var template = card.createCardTemplate();
-    return prevValue + template;
-  }, "");
-
-  if (container) {
-    container.innerHTML = result;
-  }
-}
-
-/***/ }),
-
-/***/ "./main.ts":
-/*!*****************!*\
-  !*** ./main.ts ***!
-  \*****************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _components_autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
-/* harmony import */ var _components_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/api */ "./components/api.ts");
-/* harmony import */ var _components_dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/dataStorage */ "./components/dataStorage.ts");
-/* harmony import */ var _components_startPageListener__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/startPageListener */ "./components/startPageListener.ts");
-/* harmony import */ var _components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/textbook/textbook */ "./components/textbook/textbook.ts");
-/* harmony import */ var _styles_app_scss__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./styles/app.scss */ "./styles/app.scss");
-/* harmony import */ var _components_statistic_staticticPage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/statistic/staticticPage */ "./components/statistic/staticticPage.ts");
-/* harmony import */ var _components_games_selectGamePage__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/games/selectGamePage */ "./components/games/selectGamePage.ts");
-/* harmony import */ var _components_games_sprint_sprintGame__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/games/sprint/sprintGame */ "./components/games/sprint/sprintGame.ts");
-/* harmony import */ var _components_games_audio_audioGame__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/games/audio/audioGame */ "./components/games/audio/audioGame.ts");
-/* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/modal */ "./components/modal.ts");
-/* harmony import */ var _components_navClick__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./components/navClick */ "./components/navClick.ts");
+/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../startPageListener */ "./components/startPageListener.ts");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../api */ "./components/api.ts");
+/* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../dataStorage */ "./components/dataStorage.ts");
+/* harmony import */ var _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -2782,6 +3568,567 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
 
 
 
+var Card =
+/** @class */
+function () {
+  function Card(container, wordData) {
+    this.wordData = wordData;
+    container.onclick = this.onClick.bind(this);
+  }
+
+  Card.prototype.playAudio = function (audioElement) {
+    audioElement.play();
+  };
+
+  Card.prototype.onClick = function (event) {
+    var _a, _b, _c, _d, _e, _f;
+
+    var targetElement = event.target;
+
+    if (targetElement.dataset.audio === "audioBtn") {
+      this.playAudio(targetElement.firstElementChild);
+    }
+
+    if (targetElement.dataset.btn === "difficultWord") {
+      var wordId_1 = (_b = (_a = targetElement.parentElement) === null || _a === void 0 ? void 0 : _a.parentElement) === null || _b === void 0 ? void 0 : _b.id;
+      var userId = (_c = _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.userData) === null || _c === void 0 ? void 0 : _c.userId;
+      var difficult = 'difficult';
+      var searchWordById = _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.allWordsStorage.find(function (word) {
+        return word.id === wordId_1;
+      });
+      _api__WEBPACK_IMPORTED_MODULE_2__.API.createUsersWordsOnServer(userId, wordId_1, difficult, searchWordById);
+    }
+
+    if (targetElement.dataset.btn === "deleteWord") {
+      var wordId = (_e = (_d = targetElement.parentElement) === null || _d === void 0 ? void 0 : _d.parentElement) === null || _e === void 0 ? void 0 : _e.id;
+      var userId = (_f = _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.userData) === null || _f === void 0 ? void 0 : _f.userId;
+      _api__WEBPACK_IMPORTED_MODULE_2__.API.deleteUserWordsOnServer(userId, wordId);
+    }
+  };
+
+  Card.prototype.createCardTemplate = function () {
+    return "<li id=\"".concat(this.wordData.id, "\" data-group=\"").concat(this.wordData.group, "\" class=\"textbook-list_item\">\n                  <img src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.image, "\" alt=\"").concat(this.wordData.word, "\" class=\"textbook-card-img\">\n\n                  <div class=\"textbook-list_item__wrapper\">\n                  <div class=\"upper_card-row\">\n                   <div class=\"upper_card-box\">\n                      <div class=\"word-wrapper\">\n                        <h2 class=\"word\">").concat(this.wordData.word, " <p class=\"transcription\">").concat(this.wordData.transcription, "</p></h2>\n                      </div>\n                      <div class=\"translate\">").concat(this.wordData.wordTranslate, "</div>\n                    </div>\n                    <button data-audio=\"audioBtn\" class=\"btn-basic bnt-textbook\">&#128264; Word\n                    <audio id=\"sound\">\n                    <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audio, "\">\n                    </audio>\n                   </button>\n                  </div>\n                  <div class=\"upper_card-row\">\n                    <div class=\"lower_card-box\">\n                      <p class=\"description\">").concat(this.wordData.textMeaning, "</p>\n                      <p class=\"description-translate\">").concat(this.wordData.textMeaningTranslate, "</p>\n                    </div>\n                    <button data-audio=\"audioBtn\" class=\"btn-basic bnt-bell\">&#128264;\n                      <audio id=\"sound\">\n                      <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audioMeaning, "\">\n                      </audio>\n                    </button>\n                  </div>\n                  <div class=\"upper_card-row\">\n                    <div class=\"lower_card-box\">\n                      <p class=\"example\">").concat(this.wordData.textExample, "</p>\n                      <p class=\"example-translate\">").concat(this.wordData.textExampleTranslate, "</p>\n                      </div>\n                      <button data-audio=\"audioBtn\" class=\"btn-basic bnt-bell\">&#128264;\n                        <audio id=\"sound\">\n                        <source type=\"audio/mp3\" src=\"https://rs-lang-react.herokuapp.com/").concat(this.wordData.audioExample, "\">\n                        </audio>\n                      </button>\n                    </div>\n                  </div>\n                  <div class=\"authorization_block\"></div>\n                </li>\n              </ul>");
+  };
+
+  return Card;
+}();
+
+
+
+var TextbookPage =
+/** @class */
+function () {
+  function TextbookPage() {
+    this.quantityPages = 30;
+    this.btnNumber = 1;
+    this.btnGroupNumber = 1;
+    this.visiblePages = 6;
+    this.quantityGroups = 6;
+    this.englishLevel = ["Easy - A1", "Easy - A2", "Medium - B1", "Medium - B2", "Hard - C1", "Hard - C2"];
+  }
+
+  TextbookPage.prototype.build = function () {
+    var _this = this;
+
+    var _a, _b, _c, _d, _e, _f, _g;
+
+    var GROUPS = document.createElement("div");
+    var PAGINATION = document.createElement("ul");
+    var TEXTBOOK = document.createElement("ul");
+    var btnNext = document.createElement("li");
+    var btnPrev = document.createElement("li");
+    var topBtn = document.createElement("div");
+    var topLink = document.createElement("a");
+    GROUPS.id = "groups";
+    PAGINATION.id = "pagination";
+    TEXTBOOK.id = "textbook";
+    GROUPS.className = "groups";
+    TEXTBOOK.className = "wrapper textbook-list";
+    btnNext.className = "next-btn";
+    btnPrev.className = "prev-btn";
+    topBtn.className = "back-to-top-wrapper";
+    topLink.className = "back-to-top-link";
+    btnNext.innerHTML = "Next &rsaquo;";
+    btnPrev.innerHTML = "&lsaquo; Previous";
+    topLink.innerHTML = "Scroll to top";
+    topLink.href = "#pageHeader";
+    topBtn.insertAdjacentElement("afterbegin", topLink);
+
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.MAIN) {
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _a === void 0 ? void 0 : _a.append(GROUPS);
+      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _b === void 0 ? void 0 : _b.append(PAGINATION);
+      (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _c === void 0 ? void 0 : _c.append(TEXTBOOK);
+      (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _d === void 0 ? void 0 : _d.append(topBtn);
+      (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _e === void 0 ? void 0 : _e.classList.add("display_none");
+      (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.SINGIN) === null || _f === void 0 ? void 0 : _f.addEventListener("click", function () {
+        return _this.checkAutorization();
+      });
+      (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.AUTORISATION_SINGIN) === null || _g === void 0 ? void 0 : _g.addEventListener("click", function () {
+        return _this.checkAutorization();
+      });
+    }
+
+    _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.listen();
+    PAGINATION.prepend(btnPrev);
+    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group", _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GROUPS, this.englishLevel, "id");
+    this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.PAGINATION);
+    PAGINATION.append(btnNext);
+    this.checkAutorization();
+    this.buttonClick();
+    this.getWordsData();
+    btnNext.addEventListener("click", function () {
+      return _this.handleNextClick(_this.renderCards);
+    });
+    btnPrev.addEventListener("click", function () {
+      return _this.handlePrevClick(_this.renderCards);
+    });
+  };
+
+  TextbookPage.prototype.buttonClick = function () {
+    var _this = this;
+
+    var _a, _b;
+
+    var onClick = function onClick(e) {
+      return __awaiter(_this, void 0, void 0, function () {
+        var _this = this;
+
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+
+        return __generator(this, function (_m) {
+          switch (_m.label) {
+            case 0:
+              if (!(e.target.textContent === "Textbook" || e.target.id === "lets-start" || e.target.id === "textbook-main-card")) return [3
+              /*break*/
+              , 3];
+              if (!!((_b = (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.BUTTONS_CONTAINER) === null || _a === void 0 ? void 0 : _a.item(0)) === null || _b === void 0 ? void 0 : _b.children.length)) return [3
+              /*break*/
+              , 2];
+              return [4
+              /*yield*/
+              , this.checkAutorization()];
+
+            case 1:
+              _m.sent();
+
+              this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+              _m.label = 2;
+
+            case 2:
+              if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.MAIN) {
+                (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) === null || _c === void 0 ? void 0 : _c.classList.remove("display_none");
+                (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.DICTIONARY_CONTAINER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+                (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.STATISTIC) === null || _e === void 0 ? void 0 : _e.classList.add("display_none");
+                (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GAME_PAGE_WRAPPER) === null || _f === void 0 ? void 0 : _f.classList.add("display_none");
+                (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.HERO_PAGE) === null || _g === void 0 ? void 0 : _g.classList.add("display_none");
+                (_h = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.ADVANTAGES_PAGE) === null || _h === void 0 ? void 0 : _h.classList.add("display_none");
+                (_j = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.ABOUT_PAGE) === null || _j === void 0 ? void 0 : _j.classList.add("display_none");
+              }
+
+              (_k = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.PAGINATION) === null || _k === void 0 ? void 0 : _k.addEventListener("click", function (event) {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var btn, active, nextPageData;
+                  return __generator(this, function (_a) {
+                    switch (_a.label) {
+                      case 0:
+                        btn = event === null || event === void 0 ? void 0 : event.target;
+                        if (!btn.classList.contains("pagination_number")) return [3
+                        /*break*/
+                        , 3];
+                        this.btnNumber = +btn.innerText;
+                        active = document.querySelector(".active-page");
+
+                        if (active != null) {
+                          active.classList.remove("active-page");
+                        }
+
+                        btn.classList.add("active-page");
+                        return [4
+                        /*yield*/
+                        , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+                      case 1:
+                        nextPageData = _a.sent();
+                        this.renderCards(nextPageData);
+                        return [4
+                        /*yield*/
+                        , this.checkAutorization()];
+
+                      case 2:
+                        _a.sent();
+
+                        this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+                        _a.label = 3;
+
+                      case 3:
+                        return [2
+                        /*return*/
+                        ];
+                    }
+                  });
+                });
+              });
+              (_l = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.GROUPS) === null || _l === void 0 ? void 0 : _l.addEventListener("click", function (event) {
+                return __awaiter(_this, void 0, void 0, function () {
+                  var btnGroup, allPages, firstPage, activeBtn, i, active, nextGroupData;
+                  return __generator(this, function (_a) {
+                    switch (_a.label) {
+                      case 0:
+                        btnGroup = event === null || event === void 0 ? void 0 : event.target;
+                        if (!btnGroup.classList.contains("groups_list__item")) return [3
+                        /*break*/
+                        , 3];
+                        allPages = document.querySelectorAll("li.pagination_number");
+                        firstPage = allPages[0];
+                        activeBtn = document.querySelector(".active-page");
+
+                        if (+activeBtn.innerHTML !== 1) {
+                          this.btnNumber = 1;
+
+                          for (i = 0; i < allPages.length; i++) {
+                            allPages[i].innerHTML = String(this.btnNumber + i);
+                          }
+
+                          activeBtn.classList.remove("active-page");
+                          firstPage.classList.add("active-page");
+                        }
+
+                        this.btnGroupNumber = +btnGroup.id;
+                        active = document.querySelector(".active-group");
+
+                        if (active != null) {
+                          active.classList.remove("active-group");
+                        }
+
+                        btnGroup.classList.add("active-group");
+                        return [4
+                        /*yield*/
+                        , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+                      case 1:
+                        nextGroupData = _a.sent();
+                        this.renderCards(nextGroupData);
+                        return [4
+                        /*yield*/
+                        , this.checkAutorization()];
+
+                      case 2:
+                        _a.sent();
+
+                        this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+                        _a.label = 3;
+
+                      case 3:
+                        return [2
+                        /*return*/
+                        ];
+                    }
+                  });
+                });
+              });
+              _m.label = 3;
+
+            case 3:
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
+    };
+
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.NAV) {
+      _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.NAV.addEventListener("click", onClick);
+    }
+
+    if (document.querySelector('#lets-start')) {
+      (_a = document.querySelector('#lets-start')) === null || _a === void 0 ? void 0 : _a.addEventListener('click', onClick);
+    }
+
+    if (document.querySelector('#textbook-main-card')) {
+      (_b = document.querySelector('#textbook-main-card')) === null || _b === void 0 ? void 0 : _b.addEventListener('click', onClick);
+    }
+  };
+
+  TextbookPage.prototype.addButtonsForAuthUsers = function (isAutorized) {
+    if (!isAutorized) return;
+    var additionalButtons = "\n    <buttom data-btn=\"difficultWord\" class=\"btn-basic btn_authorization_block btn-dif-word\">Difficult word</buttom>\n    <buttom data-btn=\"deleteWord\" class=\"btn-basic btn_authorization_block\">Delete word</buttom>\n  ";
+    Array.from(_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.BUTTONS_CONTAINER).forEach(function (element) {
+      element.insertAdjacentHTML("afterbegin", additionalButtons);
+    });
+  };
+
+  TextbookPage.prototype.getWordsData = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var allWords;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            if (!_startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK_CONTAINER) return [3
+            /*break*/
+            , 2];
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(0, 0)];
+
+          case 1:
+            allWords = _a.sent();
+            this.renderCards(allWords);
+            _a.label = 2;
+
+          case 2:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  TextbookPage.prototype.dynamicList = function (maxValue, elementName, className, activeClass, containerForElement, groupsLevel, attribute, id) {
+    for (var i = 1; i <= maxValue; i++) {
+      var element = document.createElement(elementName);
+      element.classList.add(className);
+      if (i === 1) element.classList.add(activeClass);
+
+      if (groupsLevel) {
+        element.innerText = groupsLevel[i - 1];
+        if (attribute) element.setAttribute(attribute, String(i));
+      } else {
+        element.innerText = String(i);
+      }
+
+      containerForElement.insertAdjacentElement("beforeend", element);
+    }
+  };
+
+  TextbookPage.prototype.handleNextClick = function (renderCardsFn) {
+    return __awaiter(this, void 0, void 0, function () {
+      var allPages, lastPage, firstPage, nextPage, active, i, nextPageData, nextPageData;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            allPages = document.querySelectorAll("li.pagination_number");
+            lastPage = allPages[5];
+            firstPage = allPages[0];
+            nextPage = document.getElementsByClassName("active-page")[0].nextElementSibling;
+            active = document.querySelector(".active-page");
+            if (!(active.innerHTML === lastPage.innerHTML && +active.innerHTML !== this.quantityPages)) return [3
+            /*break*/
+            , 3];
+            this.btnNumber += 1;
+
+            for (i = 0; i < allPages.length && i + this.btnNumber <= this.quantityPages; i++) {
+              allPages[i].innerHTML = String(this.btnNumber + i);
+            }
+
+            if (active != null) {
+              active.classList.remove("active-page");
+            }
+
+            firstPage.classList.add("active-page");
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 1:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 2:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [3
+            /*break*/
+            , 6];
+
+          case 3:
+            this.btnNumber = +nextPage.innerText;
+
+            if (active != null && active.innerHTML !== String(this.quantityPages)) {
+              active.classList.remove("active-page");
+              nextPage.classList.add("active-page");
+            }
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 4:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 5:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            _a.label = 6;
+
+          case 6:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  TextbookPage.prototype.handlePrevClick = function (renderCardsFn) {
+    return __awaiter(this, void 0, void 0, function () {
+      var allPages, lastPage, firstPage, prevPage, active, i, nextPageData, nextPageData;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            allPages = document.querySelectorAll("li.pagination_number");
+            lastPage = allPages[5];
+            firstPage = allPages[0];
+            prevPage = document.getElementsByClassName("active-page")[0].previousElementSibling;
+            active = document.querySelector(".active-page");
+            if (!(active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1)) return [3
+            /*break*/
+            , 3];
+            this.btnNumber -= 1;
+
+            for (i = 0; i < allPages.length && this.btnNumber - i >= 1; i++) {
+              allPages[allPages.length - i - 1].innerHTML = String(this.btnNumber - i);
+            }
+
+            if (active != null) {
+              active.classList.remove("active-page");
+            }
+
+            lastPage.classList.add("active-page");
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 1:
+            nextPageData = _a.sent();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 2:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [3
+            /*break*/
+            , 6];
+
+          case 3:
+            this.btnNumber = +prevPage.innerText;
+
+            if (active != null && +active.innerHTML !== 1) {
+              active.classList.remove("active-page");
+              prevPage.classList.add("active-page");
+            }
+
+            return [4
+            /*yield*/
+            , _api__WEBPACK_IMPORTED_MODULE_2__.API.loadWordsFromServer(this.btnGroupNumber - 1, this.btnNumber - 1)];
+
+          case 4:
+            nextPageData = _a.sent();
+            this.checkAutorization();
+            renderCardsFn(nextPageData, _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            return [4
+            /*yield*/
+            , this.checkAutorization()];
+
+          case 5:
+            _a.sent();
+
+            this.addButtonsForAuthUsers(_dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized);
+            _a.label = 6;
+
+          case 6:
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  TextbookPage.prototype.renderCards = function (cards) {
+    var ulElement = _startPageListener__WEBPACK_IMPORTED_MODULE_1__.StartPageListener.TEXTBOOK;
+    var result = cards.reduce(function (prevValue, currValue) {
+      var card = new Card(ulElement, currValue);
+      var template = card.createCardTemplate();
+      return prevValue + template;
+    }, "");
+
+    if (ulElement) {
+      ulElement.innerHTML = result;
+    }
+  };
+
+  TextbookPage.prototype.checkAutorization = function () {
+    return __awaiter(this, void 0, void 0, function () {
+      var token, promiseToken;
+      return __generator(this, function (_a) {
+        switch (_a.label) {
+          case 0:
+            token = _api__WEBPACK_IMPORTED_MODULE_2__.API.getToken();
+            promiseToken = Promise.resolve(Boolean(token));
+            return [4
+            /*yield*/
+            , Promise.all([promiseToken, _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_4__.AutorisationForm.isAutorized]).then(function (data) {
+              _dataStorage__WEBPACK_IMPORTED_MODULE_3__.DataStorage.isUserAutorized = data.some(function (item) {
+                return item === true;
+              });
+            })];
+
+          case 1:
+            _a.sent();
+
+            return [2
+            /*return*/
+            ];
+        }
+      });
+    });
+  };
+
+  return TextbookPage;
+}();
+
+
+
+/***/ }),
+
+/***/ "./main.ts":
+/*!*****************!*\
+  !*** ./main.ts ***!
+  \*****************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _components_autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
+/* harmony import */ var _components_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/api */ "./components/api.ts");
+/* harmony import */ var _components_dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/dataStorage */ "./components/dataStorage.ts");
+/* harmony import */ var _components_startPageListener__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/startPageListener */ "./components/startPageListener.ts");
+/* harmony import */ var _styles_app_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./styles/app.scss */ "./styles/app.scss");
+/* harmony import */ var _components_statistic_staticticPage__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./components/statistic/staticticPage */ "./components/statistic/staticticPage.ts");
+/* harmony import */ var _components_games_selectGamePage__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./components/games/selectGamePage */ "./components/games/selectGamePage.ts");
+/* harmony import */ var _components_modal__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./components/modal */ "./components/modal.ts");
+/* harmony import */ var _components_textbook_textbook__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./components/textbook/textbook */ "./components/textbook/textbook.ts");
+/* harmony import */ var _components_dictionary_dictionary__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./components/dictionary/dictionary */ "./components/dictionary/dictionary.ts");
+/* harmony import */ var _components_HomeBtn__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./components/HomeBtn */ "./components/HomeBtn.ts");
+
+
+
+
+
 
 
 
@@ -2789,365 +4136,48 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
 
 
 var server = "https://rs-lang-final-project.herokuapp.com";
-var modalWindow = new _components_modal__WEBPACK_IMPORTED_MODULE_10__.ModalWindow();
+var modalWindow = new _components_modal__WEBPACK_IMPORTED_MODULE_7__.ModalWindow();
 modalWindow.active();
 var autorisationForm = new _components_autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_0__.AutorisationForm();
 var dataStorage = new _components_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage();
 var startPageListener = new _components_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener();
 var api = new _components_api__WEBPACK_IMPORTED_MODULE_1__.API(server);
 autorisationForm.buttonAutorisationForm();
-var statistic = new _components_statistic_staticticPage__WEBPACK_IMPORTED_MODULE_6__.StatisticPage();
+var textbook = new _components_textbook_textbook__WEBPACK_IMPORTED_MODULE_8__.TextbookPage();
+textbook.build();
+var dictionary = new _components_dictionary_dictionary__WEBPACK_IMPORTED_MODULE_9__.Dictionary();
+dictionary.build();
+var statistic = new _components_statistic_staticticPage__WEBPACK_IMPORTED_MODULE_5__.StatisticPage();
 statistic.build();
-var navClick = new _components_navClick__WEBPACK_IMPORTED_MODULE_11__.NavClick();
-navClick.active();
-var selectGame = new _components_games_selectGamePage__WEBPACK_IMPORTED_MODULE_7__.SelectGamePage();
-selectGame.build();
-var sprintGame = new _components_games_sprint_sprintGame__WEBPACK_IMPORTED_MODULE_8__.SprintGame();
-sprintGame.btnClick();
-var audioGame = new _components_games_audio_audioGame__WEBPACK_IMPORTED_MODULE_9__.AudioGame();
-audioGame.btnClick();
-var nav = document.querySelector(".nav");
-var groups = document.querySelector(".groups");
-var pagination = document.querySelector("#pagination");
-var quantityPages = 30;
-var visiblePages = 6;
-var quantityGroups = 6;
-var englishLevel = ["Easy - A1", "Easy - A2", "Medium - B1", "Medium - B2", "Hard - C1", "Hard - C2"];
-
-function dynamicList(maxValue, elementNameFirst, className, containerForElement, groupsLevel, elementNameSecond) {
-  for (var i = 1; i <= maxValue; i++) {
-    var element = document.createElement(elementNameFirst);
-    element.classList.add(className);
-
-    if (groupsLevel) {
-      element.innerText = groupsLevel[i - 1];
-      element.setAttribute(elementNameSecond, String(i));
-    } else {
-      element.innerText = String(i);
-    }
-
-    containerForElement.insertAdjacentElement("beforeend", element);
-  }
-}
-
-var btnNumber = 1;
-var btnGroupNumber = 1;
-
-function handleNextClick() {
-  return __awaiter(this, void 0, void 0, function () {
-    var allPages, lastPage, firstPage, nextPage, active, i, nextPageData, nextPageData;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          allPages = document.querySelectorAll("li.pagination_number");
-          lastPage = allPages[5];
-          firstPage = allPages[0];
-          nextPage = document.getElementsByClassName('active-page')[0].nextElementSibling;
-          active = document.querySelector(".active-page");
-          if (!(active.innerHTML === lastPage.innerHTML && +active.innerHTML !== quantityPages)) return [3
-          /*break*/
-          , 2];
-          btnNumber += 1;
-
-          for (i = 0; i < allPages.length && i + btnNumber <= quantityPages; i++) {
-            allPages[i].innerHTML = String(btnNumber + i);
-          }
-
-          if (active != null) {
-            active.classList.remove("active-page");
-          }
-
-          firstPage.classList.add("active-page");
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 1:
-          nextPageData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextPageData);
-          return [3
-          /*break*/
-          , 4];
-
-        case 2:
-          btnNumber = +nextPage.innerText;
-
-          if (active != null && active.innerHTML !== String(quantityPages)) {
-            active.classList.remove("active-page");
-            nextPage.classList.add("active-page");
-          }
-
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 3:
-          nextPageData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextPageData);
-          _a.label = 4;
-
-        case 4:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-}
-
-function handlePrevClick() {
-  return __awaiter(this, void 0, void 0, function () {
-    var allPages, lastPage, firstPage, prevPage, active, i, nextPageData, nextPageData;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          allPages = document.querySelectorAll("li.pagination_number");
-          lastPage = allPages[5];
-          firstPage = allPages[0];
-          prevPage = document.getElementsByClassName('active-page')[0].previousElementSibling;
-          active = document.querySelector(".active-page");
-          if (!(active.innerHTML === firstPage.innerHTML && +active.innerHTML !== 1)) return [3
-          /*break*/
-          , 2];
-          btnNumber -= 1;
-
-          for (i = 0; i < allPages.length && btnNumber - i >= 1; i++) {
-            allPages[allPages.length - i - 1].innerHTML = String(btnNumber - i);
-          }
-
-          if (active != null) {
-            active.classList.remove("active-page");
-          }
-
-          lastPage.classList.add("active-page");
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 1:
-          nextPageData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextPageData);
-          return [3
-          /*break*/
-          , 4];
-
-        case 2:
-          btnNumber = +prevPage.innerText;
-
-          if (active != null && +active.innerHTML !== 1) {
-            active.classList.remove("active-page");
-            prevPage.classList.add("active-page");
-          }
-
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 3:
-          nextPageData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextPageData);
-          _a.label = 4;
-
-        case 4:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-}
-
-nav === null || nav === void 0 ? void 0 : nav.addEventListener("click", function (event) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var btn, item, selectedNavItem, _a, dataCards, btnNext, btnPrev, firstPaginationElement, firstGroupsElement;
-
-    return __generator(this, function (_b) {
-      switch (_b.label) {
-        case 0:
-          btn = event.target;
-          item = btn.parentElement;
-          selectedNavItem = item.getAttribute("data-nav");
-          _a = selectedNavItem;
-
-          switch (_a) {
-            case "home":
-              return [3
-              /*break*/
-              , 1];
-
-            case "textbook":
-              return [3
-              /*break*/
-              , 2];
-
-            case "games":
-              return [3
-              /*break*/
-              , 4];
-
-            case "statistics":
-              return [3
-              /*break*/
-              , 5];
-
-            case "about":
-              return [3
-              /*break*/
-              , 6];
-          }
-
-          return [3
-          /*break*/
-          , 7];
-
-        case 1:
-          console.log(selectedNavItem);
-          return [3
-          /*break*/
-          , 7];
-
-        case 2:
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(0, 0)];
-
-        case 3:
-          dataCards = _b.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(dataCards);
-          dynamicList(quantityGroups, "button", "groups_list__item", groups, englishLevel, "id");
-          dynamicList(visiblePages, "li", "pagination_number", pagination);
-          btnNext = document.createElement("li");
-          btnPrev = document.createElement("li");
-          btnNext.classList.add("next-btn");
-          btnPrev.classList.add("prev-btn");
-          btnNext.innerHTML = "&#8594;";
-          btnPrev.innerHTML = "&#8592;";
-          pagination.insertAdjacentElement("afterbegin", btnPrev);
-          pagination.insertAdjacentElement("beforeend", btnNext);
-          btnNext.addEventListener("click", handleNextClick);
-          btnPrev.addEventListener("click", handlePrevClick); //
-
-          item.classList.add("active");
-          btn.classList.add("active");
-          firstPaginationElement = pagination.querySelector(".pagination_number");
-          firstGroupsElement = groups === null || groups === void 0 ? void 0 : groups.querySelector(".groups_list__item");
-          firstPaginationElement.classList.add("active-page");
-          firstGroupsElement.classList.add("active-group");
-          return [3
-          /*break*/
-          , 7];
-
-        case 4:
-          console.log(selectedNavItem);
-          return [3
-          /*break*/
-          , 7];
-
-        case 5:
-          console.log(selectedNavItem);
-          return [3
-          /*break*/
-          , 7];
-
-        case 6:
-          console.log(selectedNavItem);
-          return [3
-          /*break*/
-          , 7];
-
-        case 7:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
-groups === null || groups === void 0 ? void 0 : groups.addEventListener("click", function (event) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var btnGroup, allPages, firstPage, activeBtn, i, active, nextGroupData;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          btnGroup = event === null || event === void 0 ? void 0 : event.target;
-          if (!btnGroup.classList.contains("groups_list__item")) return [3
-          /*break*/
-          , 2];
-          allPages = document.querySelectorAll("li.pagination_number");
-          firstPage = allPages[0];
-          activeBtn = document.querySelector(".active-page");
-
-          if (+activeBtn.innerHTML !== 1) {
-            btnNumber = 1;
-
-            for (i = 0; i < allPages.length; i++) {
-              allPages[i].innerHTML = String(btnNumber + i);
-            }
-
-            activeBtn.classList.remove("active-page");
-            firstPage.classList.add("active-page");
-          }
-
-          btnGroupNumber = +btnGroup.id;
-          active = document.querySelector(".active-group");
-
-          if (active != null) {
-            active.classList.remove("active-group");
-          }
-
-          btnGroup.classList.add("active-group");
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 1:
-          nextGroupData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextGroupData);
-          _a.label = 2;
-
-        case 2:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
-pagination === null || pagination === void 0 ? void 0 : pagination.addEventListener("click", function (event) {
-  return __awaiter(void 0, void 0, void 0, function () {
-    var btn, active, nextPageData;
-    return __generator(this, function (_a) {
-      switch (_a.label) {
-        case 0:
-          btn = event === null || event === void 0 ? void 0 : event.target;
-          if (!btn.classList.contains("pagination_number")) return [3
-          /*break*/
-          , 2];
-          btnNumber = +btn.innerText;
-          active = document.querySelector(".active-page");
-
-          if (active != null) {
-            active.classList.remove("active-page");
-          }
-
-          btn.classList.add("active-page");
-          return [4
-          /*yield*/
-          , _components_api__WEBPACK_IMPORTED_MODULE_1__.API.loadWordsFromServer(btnGroupNumber - 1, btnNumber - 1)];
-
-        case 1:
-          nextPageData = _a.sent();
-          (0,_components_textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.renderCards)(nextPageData);
-          _a.label = 2;
-
-        case 2:
-          return [2
-          /*return*/
-          ];
-      }
-    });
-  });
-});
+var selectGame = new _components_games_selectGamePage__WEBPACK_IMPORTED_MODULE_6__.SelectGamePage();
+_components_games_selectGamePage__WEBPACK_IMPORTED_MODULE_6__.SelectGamePage.build();
+var home = new _components_HomeBtn__WEBPACK_IMPORTED_MODULE_10__.HomeBtn();
+home.active(); // const nav = document.querySelector(".nav");
+// const groups = document.querySelector(".groups") as HTMLElement;
+// const pagination = document.querySelector("#pagination") as HTMLElement;
+// nav?.addEventListener("click", async (event) => {
+//   const btn = event.target as HTMLElement;
+//   const item = btn.parentElement as HTMLElement;
+//   const selectedNavItem = item.getAttribute("data-nav");
+//   //TODO: add initial loading for nav items
+//   switch (selectedNavItem) {
+//     case "home":
+//       console.log('Home: ', DataStorage.isUserAutorized);
+//       break;
+//     case "textbook":
+//       const dataCards = await API.loadWordsFromServer(0, 0);
+//       renderCards(dataCards as IWordsData[], DataStorage.isUserAutorized);
+//       dynamicList(quantityGroups, "button", "groups_list__item", groups, englishLevel, "id");
+//       dynamicList(visiblePages, "li", "pagination_number", pagination);
+//       item.classList.add("active");
+//       btn.classList.add("active");
+//       const firstPaginationElement = pagination.querySelector(".pagination_number") as HTMLElement;
+//       const firstGroupsElement = groups?.querySelector(".groups_list__item") as HTMLElement;
+//       firstPaginationElement.classList.add("active-page");
+//       firstGroupsElement.classList.add("active-group");
+//       break;
+//   }
+// });
 
 /***/ }),
 
@@ -3174,7 +4204,7 @@ ___CSS_LOADER_EXPORT___.push([module.id, "@import url(http://weloveiconfonts.com
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(http://weloveiconfonts.com/api/?family=fontawesome);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".btn-basic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n}\n\n.btn-basic:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.button-panel .button-sign-in {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-panel .button-sign-up {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: #fa6930;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in;\n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n    max-width: 500px;\n    margin: 30px auto;\n  }\n}\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: \"\";\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n/* Fonts */\n/* fontawesome */\n[class*=fontawesome-]:before {\n  font-family: \"FontAwesome\", sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n}\n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: 0.75;\n}\n\n.signup-link {\n  cursor: pointer;\n}\n\n.signup-link a:focus {\n  color: #2c3849;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%, -60%);\n  display: none;\n}\n\n/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\nhtml {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n/**\n * Remove the margin in all browsers.\n */\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Remove the gray background on active links in IE 10.\n */\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n/**\n * Remove the border on images inside links in IE 10.\n */\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\nbutton,\n[type=button],\n[type=reset],\n[type=submit] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\nbutton::-moz-focus-inner,\n[type=button]::-moz-focus-inner,\n[type=reset]::-moz-focus-inner,\n[type=submit]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\nbutton:-moz-focusring,\n[type=button]:-moz-focusring,\n[type=reset]:-moz-focusring,\n[type=submit]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n[type=checkbox],\n[type=radio] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n[type=number]::-webkit-inner-spin-button,\n[type=number]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n[type=search] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n[type=search]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n/**\n * Add the correct display in IE 10+.\n */\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}\n\n.section-title {\n  font-size: 3rem;\n  color: #3F5069;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n}\n\n.card-title {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 24px;\n  color: #000;\n  font-weight: 400;\n}\n\n.paragraph-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.header {\n  background-color: #f4efe7;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n}\n\n.logo {\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  font-size: 2rem;\n  color: #3F5069;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid #3F5069;\n  cursor: pointer;\n}\n\n.logo:hover {\n  color: #2c3849;\n  transition: all 0.3s ease-in-out;\n}\n\n.header-right {\n  display: flex;\n  align-items: center;\n}\n\n.nav__container {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  margin-right: 15px;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.nav-item:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.nav-link {\n  color: #000;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}\n\n.wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nbody {\n  scroll-behavior: smooth;\n  background-color: #f4efe7;\n}\n\n.footer {\n  background-color: #2c3849;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: #fff;\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.github-link {\n  font-family: \"Roboto\", sans-serif;\n  position: relative;\n  color: #fff;\n  text-decoration: none;\n  margin-left: 1rem;\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}\n\n.wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  margin: 0px 8px;\n  background: #3f5069;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 18px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  user-select: none;\n  transition: color 0.3s ease 0s;\n  outline: none;\n  cursor: pointer;\n}\n\n.prev-btn:hover,\n.next-btn:hover {\n  background-color: #ffb108;\n}\n\n.active-page {\n  background-color: #ffb108;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 60rem;\n  height: 18rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 28rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  justify-content: space-between;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  height: 1.3rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  position: fixed;\n  left: 0;\n  top: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  justify-content: space-between;\n}\n\n.groups_list__item {\n  height: 70px;\n  width: 215px;\n  background-color: #3f5069;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.4rem;\n  overflow: hidden;\n  border: none;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n}\n\n.groups_list__item:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.active-group {\n  background-color: #ffb108;\n}\n\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: #3F5069;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: \"Roboto\", sans-serif;\n  color: #8d8d8d;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: #fff;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}\n\n.about-name {\n  color: #fff;\n}\n\n#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: 100vh;\n  margin: 8rem 0 10rem 0;\n}\n#game-page #sprint-game-window {\n  width: 100%;\n  height: 100%;\n}\n#game-page #sprint-game-window .sprint-flex-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 5rem;\n}\n#game-page #sprint-game-window .sprint-game-timer {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #2c3849;\n}\n#game-page #sprint-game-window .sprint-game-timer p {\n  margin: 0;\n  padding: 0;\n  font-family: Roboto, sans-serif;\n  font-weight: 400;\n  font-size: 4rem;\n  color: #f4efe7;\n}\n#game-page #sprint-game-window .sprint-game-window-active {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  width: 70vw;\n  height: 45vh;\n  overflow-x: scroll;\n  margin: 0 auto;\n  padding: 2px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-shrink: 1;\n  padding: 0;\n  margin: 0;\n  flex-direction: row;\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress .progress {\n  min-width: 35px;\n  height: 35px;\n  padding: 0;\n  border: solid 1px white;\n  border-radius: 5px;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .english-word {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .translate-word {\n  font-size: 1rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint {\n  height: 10vh;\n  max-height: 40px;\n  display: flex;\n  flex-direction: row;\n  padding: 0;\n  margin-bottom: 3rem;\n  column-gap: 1rem;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint #game-btn {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 0 16px;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #fa6930;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.2s ease-out !important;\n}\n\n#game-btn:hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n}\n\n#game-btn:active {\n  background-color: #f8c963 !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000% !important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000% !important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.result-window {\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n}\n.result-window .gameResult {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  align-items: center;\n  width: 80vw;\n  height: auto;\n  margin: 0.6rem 0 0 0;\n  padding: 0;\n}\n.result-window .gameResult .result-left-side {\n  display: flex;\n}\n.result-window .gameResult .point-result {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin: 10px;\n}\n.result-window .gameResult .result-word-left {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 26vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  text-align: start;\n}\n.result-window .gameResult .result-word-left .result-word-span {\n  color: #ffb108;\n}\n.result-window .gameResult .result-word {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 37vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  line-height: 4rem;\n  text-align: start;\n}\n.result-window .gameResult .result-word .result-word-span-right {\n  color: greenyellow;\n}\n\n.correct-result-percent {\n  margin: 0 auto;\n  padding: 0;\n}\n.correct-result-percent p {\n  margin: 0;\n  padding: 0;\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 3rem 6rem 0;\n}\n\n.audioGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 0 6rem 3rem;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #fcedd9;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: #2c3849;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 600;\n  color: #ffb108;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n  width: 90px;\n  /* min-height: 60px; */\n  /* max-height: 300px; */\n  border-radius: 15px;\n  background-color: rgb(250, 250, 250);\n  box-shadow: 2px 4px 8px #c5c5c5;\n  transition: all 300ms;\n  border: none;\n  padding: 1rem 0 1rem 1.2rem;\n  color: #ffb108;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 900;\n  font-size: 2rem;\n}\n\n.level-option {\n  color: #fff;\n  background-color: #3F5069;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n.audio-game-window-active {\n  margin-top: -20rem;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n}\n.audio-place .audio-game-icon {\n  width: 180px;\n  height: 180px;\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n}\n.btn-audio p {\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 1rem 0.7rem;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #3F5069;\n  font-size: 16px;\n  height: 50px;\n  letter-spacing: 0.0892857143em;\n  text-transform: uppercase;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.1s ease-out !important;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n}\n.btn-audio :hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n}\n.btn-audio :active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0.1s !important;\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n\n@keyframes mymove {\n  0% {\n    background-color: rgba(0, 0, 0, 0);\n  }\n  25% {\n    background-color: rgba(255, 206, 83, 0.604);\n  }\n  35% {\n    background-color: rgba(247, 126, 46, 0.562);\n  }\n  50% {\n    background-color: rgba(255, 0, 55, 0.451);\n  }\n  75% {\n    background-color: rgba(27, 181, 13, 0.381);\n  }\n  85% {\n    background-color: rgb(138, 187, 200);\n  }\n  100% {\n    background-color: rgba(194, 126, 231, 0.601);\n  }\n}\n.btn-click {\n  background-color: rgb(236, 175, 43) !important;\n}\n\n.hero-container {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 0 -10rem 20rem 0;\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: #2c3849;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n}\n\n.hero-subtitle {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  margin-top: 8px;\n  color: #8d8d8d;\n}\n\n.hero-text,\n.hero-under-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n  display: block;\n  margin: 16px 0px 0px;\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n}\n\n.hero-img-guy {\n  width: 30vw;\n  margin-left: 18rem;\n}\n\n.hero-img-girl {\n  width: 30vw;\n  margin-right: 18rem;\n}\n\n.display_none {\n  display: none;\n}\n\n#statistic {\n  width: 100vw;\n  height: 100vh;\n}", "",{"version":3,"sources":["webpack://./styles/sass/components/_buttons.scss","webpack://./styles/sass/abstracts/_mixins.scss","webpack://./styles/sass/abstracts/_variables.scss","webpack://./styles/app.scss","webpack://./styles/sass/components/_modal-window.scss","webpack://./styles/sass/core/_normalize.scss","webpack://./styles/sass/core/_typography.scss","webpack://./styles/sass/layout/_header.scss","webpack://./styles/sass/layout/_wrapper.scss","webpack://./styles/sass/layout/_footer.scss","webpack://./styles/sass/pages/_authorization.scss","webpack://./styles/sass/pages/_textbook.scss","webpack://./styles/sass/pages/_home.scss","webpack://./styles/sass/pages/_games.scss","webpack://./styles/sass/sections/_hero.scss","webpack://./styles/sass/statistics/_statistics.scss"],"names":[],"mappings":"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","sourcesContent":[".btn-basic {\n  @include btn-primary;\n}\n\n.btn-basic:hover {\n  background: $color-accent;\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.button-panel .button-sign-in {\n  @include btn-signIn;\n}\n\n.button-panel .button-sign-up {\n  @include btn-signIn;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: $color-accent;\n  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: $color-orange;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}","@mixin btn-primary() {\n  font-family: 'Roboto', sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: $color-dark;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: .0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n  transition: all .2s ease-out;\n}\n\n@mixin btn-signIn {\n  background: $color-dark;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%), 0 1px 3px 0 rgb(93 100 148 / 20%);\n  transition: all .2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n@mixin section-title {\n  font-size: 3rem;\n  color: $color-dark;\n  font-family: $font-stack;\n  font-weight: 400;\n}\n\n@mixin card-title {\n  font-family: $font-stack;\n  font-size: 24px;\n  color: $font-color_primary;\n  font-weight: 400;\n}\n\n@mixin paragraph-txt {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: $font-stack;\n  color: $font-color_primary;\n}\n\n","$color-primary: #f4efe7;\n$color-paper: #fcedd9;\n$color-gray: #8d8d8d;\n$color-dark: #3F5069;\n$color-dark-m: #2c3849;\n$color-accent: #ffb108;\n$color-orange: #fa6930;\n$font-color_primary: #000;\n$font-color_light: #fff;","@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n.btn-basic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n}\n\n.btn-basic:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.button-panel .button-sign-in {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-panel .button-sign-up {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: #fa6930;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in;\n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n    max-width: 500px;\n    margin: 30px auto;\n  }\n}\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: \"\";\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n/* Fonts */\n/* fontawesome */\n[class*=fontawesome-]:before {\n  font-family: \"FontAwesome\", sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n}\n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: 0.75;\n}\n\n.signup-link {\n  cursor: pointer;\n}\n\n.signup-link a:focus {\n  color: #2c3849;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%, -60%);\n  display: none;\n}\n\n/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\nhtml {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n/**\n * Remove the margin in all browsers.\n */\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Remove the gray background on active links in IE 10.\n */\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n/**\n * Remove the border on images inside links in IE 10.\n */\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\nbutton,\n[type=button],\n[type=reset],\n[type=submit] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\nbutton::-moz-focus-inner,\n[type=button]::-moz-focus-inner,\n[type=reset]::-moz-focus-inner,\n[type=submit]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\nbutton:-moz-focusring,\n[type=button]:-moz-focusring,\n[type=reset]:-moz-focusring,\n[type=submit]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n[type=checkbox],\n[type=radio] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n[type=number]::-webkit-inner-spin-button,\n[type=number]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n[type=search] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n[type=search]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n/**\n * Add the correct display in IE 10+.\n */\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}\n\n.section-title {\n  font-size: 3rem;\n  color: #3F5069;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n}\n\n.card-title {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 24px;\n  color: #000;\n  font-weight: 400;\n}\n\n.paragraph-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.header {\n  background-color: #f4efe7;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n}\n\n.logo {\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  font-size: 2rem;\n  color: #3F5069;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid #3F5069;\n  cursor: pointer;\n}\n\n.logo:hover {\n  color: #2c3849;\n  transition: all 0.3s ease-in-out;\n}\n\n.header-right {\n  display: flex;\n  align-items: center;\n}\n\n.nav__container {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  margin-right: 15px;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.nav-item:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.nav-link {\n  color: #000;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}\n\n.wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nbody {\n  scroll-behavior: smooth;\n  background-color: #f4efe7;\n}\n\n.footer {\n  background-color: #2c3849;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: #fff;\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.github-link {\n  font-family: \"Roboto\", sans-serif;\n  position: relative;\n  color: #fff;\n  text-decoration: none;\n  margin-left: 1rem;\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}\n\n.wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  margin: 0px 8px;\n  background: #3f5069;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 18px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  user-select: none;\n  transition: color 0.3s ease 0s;\n  outline: none;\n  cursor: pointer;\n}\n\n.prev-btn:hover,\n.next-btn:hover {\n  background-color: #ffb108;\n}\n\n.active-page {\n  background-color: #ffb108;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 60rem;\n  height: 18rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 28rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  justify-content: space-between;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  height: 1.3rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  position: fixed;\n  left: 0;\n  top: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  justify-content: space-between;\n}\n\n.groups_list__item {\n  height: 70px;\n  width: 215px;\n  background-color: #3f5069;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.4rem;\n  overflow: hidden;\n  border: none;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n}\n\n.groups_list__item:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.active-group {\n  background-color: #ffb108;\n}\n\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: #3F5069;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: \"Roboto\", sans-serif;\n  color: #8d8d8d;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: #fff;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}\n\n.about-name {\n  color: #fff;\n}\n\n#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: 100vh;\n  margin: 8rem 0 10rem 0;\n}\n#game-page #sprint-game-window {\n  width: 100%;\n  height: 100%;\n}\n#game-page #sprint-game-window .sprint-flex-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 5rem;\n}\n#game-page #sprint-game-window .sprint-game-timer {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #2c3849;\n}\n#game-page #sprint-game-window .sprint-game-timer p {\n  margin: 0;\n  padding: 0;\n  font-family: Roboto, sans-serif;\n  font-weight: 400;\n  font-size: 4rem;\n  color: #f4efe7;\n}\n#game-page #sprint-game-window .sprint-game-window-active {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  width: 70vw;\n  height: 45vh;\n  overflow-x: scroll;\n  margin: 0 auto;\n  padding: 2px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-shrink: 1;\n  padding: 0;\n  margin: 0;\n  flex-direction: row;\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress .progress {\n  min-width: 35px;\n  height: 35px;\n  padding: 0;\n  border: solid 1px white;\n  border-radius: 5px;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .english-word {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .translate-word {\n  font-size: 1rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint {\n  height: 10vh;\n  max-height: 40px;\n  display: flex;\n  flex-direction: row;\n  padding: 0;\n  margin-bottom: 3rem;\n  column-gap: 1rem;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint #game-btn {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 0 16px;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #fa6930;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.2s ease-out !important;\n}\n\n#game-btn:hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n}\n\n#game-btn:active {\n  background-color: #f8c963 !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000% !important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000% !important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.result-window {\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n}\n.result-window .gameResult {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  align-items: center;\n  width: 80vw;\n  height: auto;\n  margin: 0.6rem 0 0 0;\n  padding: 0;\n}\n.result-window .gameResult .result-left-side {\n  display: flex;\n}\n.result-window .gameResult .point-result {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin: 10px;\n}\n.result-window .gameResult .result-word-left {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 26vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  text-align: start;\n}\n.result-window .gameResult .result-word-left .result-word-span {\n  color: #ffb108;\n}\n.result-window .gameResult .result-word {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 37vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  line-height: 4rem;\n  text-align: start;\n}\n.result-window .gameResult .result-word .result-word-span-right {\n  color: greenyellow;\n}\n\n.correct-result-percent {\n  margin: 0 auto;\n  padding: 0;\n}\n.correct-result-percent p {\n  margin: 0;\n  padding: 0;\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 3rem 6rem 0;\n}\n\n.audioGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 0 6rem 3rem;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #fcedd9;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: #2c3849;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 600;\n  color: #ffb108;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n  width: 90px;\n  /* min-height: 60px; */\n  /* max-height: 300px; */\n  border-radius: 15px;\n  background-color: rgb(250, 250, 250);\n  box-shadow: 2px 4px 8px #c5c5c5;\n  transition: all 300ms;\n  border: none;\n  padding: 1rem 0 1rem 1.2rem;\n  color: #ffb108;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 900;\n  font-size: 2rem;\n}\n\n.level-option {\n  color: #fff;\n  background-color: #3F5069;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n.audio-game-window-active {\n  margin-top: -20rem;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n}\n.audio-place .audio-game-icon {\n  width: 180px;\n  height: 180px;\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n}\n.btn-audio p {\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 1rem 0.7rem;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #3F5069;\n  font-size: 16px;\n  height: 50px;\n  letter-spacing: 0.0892857143em;\n  text-transform: uppercase;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.1s ease-out !important;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n}\n.btn-audio :hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n}\n.btn-audio :active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0.1s !important;\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n\n@keyframes mymove {\n  0% {\n    background-color: rgba(0, 0, 0, 0);\n  }\n  25% {\n    background-color: rgba(255, 206, 83, 0.604);\n  }\n  35% {\n    background-color: rgba(247, 126, 46, 0.562);\n  }\n  50% {\n    background-color: rgba(255, 0, 55, 0.451);\n  }\n  75% {\n    background-color: rgba(27, 181, 13, 0.381);\n  }\n  85% {\n    background-color: rgb(138, 187, 200);\n  }\n  100% {\n    background-color: rgba(194, 126, 231, 0.601);\n  }\n}\n.btn-click {\n  background-color: rgb(236, 175, 43) !important;\n}\n\n.hero-container {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 0 -10rem 20rem 0;\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: #2c3849;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n}\n\n.hero-subtitle {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  margin-top: 8px;\n  color: #8d8d8d;\n}\n\n.hero-text,\n.hero-under-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n  display: block;\n  margin: 16px 0px 0px;\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n}\n\n.hero-img-guy {\n  width: 30vw;\n  margin-left: 18rem;\n}\n\n.hero-img-girl {\n  width: 30vw;\n  margin-right: 18rem;\n}\n\n.display_none {\n  display: none;\n}\n\n#statistic {\n  width: 100vw;\n  height: 100vh;\n}",".modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0,0,0,0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in; \n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n      max-width: 500px;\n      margin: 30px auto;\n  }\n}\n\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: '';\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n} \n\n/* Fonts */\n@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n\n/* fontawesome */\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n[class*=\"fontawesome-\"]:before {\n  font-family: 'FontAwesome', sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em 'Open Sans', sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n} \n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: .75;\n}\n\n.signup-link {\ncursor: pointer;\n}\n\n.signup-link a:focus {\n  color: $color-dark-m;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em 'Open Sans', sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%,-60%);\n  display: none;\n}","/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\n\n html {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Remove the margin in all browsers.\n */\n\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\n\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Remove the gray background on active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove the border on images inside links in IE 10.\n */\n\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton,\n[type=\"button\"],\n[type=\"reset\"],\n[type=\"submit\"] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner,\n[type=\"button\"]::-moz-focus-inner,\n[type=\"reset\"]::-moz-focus-inner,\n[type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring,\n[type=\"button\"]:-moz-focusring,\n[type=\"reset\"]:-moz-focusring,\n[type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\n\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n\n[type=\"checkbox\"],\n[type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button,\n[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\n\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10+.\n */\n\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}","$font-stack: 'Roboto', sans-serif;\n\n.section-title {\n  @include section-title;\n}\n\n.card-title {\n  @include card-title;\n}\n\n.paragraph-text {\n  @include paragraph-txt;\n}",".header {\n  background-color: $color-primary;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: $font-stack;\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n}\n\n.logo {\n  font-family: $font-stack;\n  font-weight: 700;\n  font-size: 2rem;\n  color: $color-dark;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid $color-dark;\n  cursor: pointer;\n}\n\n.logo:hover {\n  color: $color-dark-m;\n  transition: all 0.3s ease-in-out;\n}\n\n.header-right {\n  display: flex;\n  align-items: center;\n}\n\n.nav__container{\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  margin-right: 15px;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: $color-accent;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.nav-item:hover::after{\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n\n.nav-link {\n  color: $font-color_primary;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}",".wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nbody {\n  scroll-behavior: smooth;\n  background-color: $color-primary;\n}",".footer {\n  background-color: $color-dark-m;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: $font-color_light;\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: $font-stack;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n\n.github-link {\n  font-family: $font-stack;\n  position: relative;\n  color: $font-color_light;\n  text-decoration: none;\n  margin-left: 1rem;\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: $color-accent;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after{\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}",".wrongPassword {\n  background-color: aqua;\n}\n.closeModal {\n  display: none;\n}","@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    width: 40px;\n    height: 40px;\n    margin: 0px 8px;\n    background: #3f5069;\n    color: #fff;\n    font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n    font-weight: 400;\n    font-size: 18px;\n    border-radius: 10px;\n    box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n    user-select: none;\n    transition: color 0.3s ease 0s;\n    outline: none;\n    cursor: pointer;\n}\n\n.prev-btn:hover,\n.next-btn:hover {\n  background-color: #ffb108;\n}\n\n.active-page {\n  background-color: #ffb108;\n}\n\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 60rem;\n  height: 18rem;\n  display: flex;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 28rem;\n  height: 100%;\n  border-radius: 10px;\n  // object-fit: cover;\n  // object-position: center center;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  justify-content: space-between;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  height: 1.3rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  position: fixed;\n  left: 0;\n  top: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  justify-content: space-between;\n}\n\n.groups_list__item {\n  height: 70px;\n  width: 215px;\n  background-color: #3f5069;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.4rem;\n  overflow: hidden;\n  border: none;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n}\n\n.groups_list__item:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.active-group {\n  background-color: #ffb108;\n}\n\n","// advantages section\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  @include paragraph-txt;\n}\n\n// our team section\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: $color-dark;\n  border-radius: 10px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: $font-stack;\n  color: $color-gray;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: $font-color_light;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(1382%) hue-rotate(354deg) brightness(103%) contrast(101%);\n  transition: 0.5s;\n}\n\n.about-name {\n  color: $font-color_light;\n}","#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: 100vh;\n  margin: 8rem 0 10rem 0;\n\n    #sprint-game-window {\n        width: 100%;\n        height: 100%;\n        .sprint-flex-wrapper {\n          display: flex;\n          flex-direction: column;\n          align-items: center;\n          row-gap: 5rem;\n        }\n        .sprint-game-timer {\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          width: 180px;\n          height: 180px;\n          border-radius: 50%;\n          background-color: $color-dark-m;\n            p{\n              margin: 0;\n              padding: 0;\n              font-family: Roboto, sans-serif;\n              font-weight: 400;\n              font-size: 4rem;\n              color: $color-primary;\n            }\n        }\n        .sprint-game-window-active {\n          display: flex;\n          flex-direction: column;\n          align-items: center;\n          justify-content: space-between;\n          width: 70vw;\n          height: 45vh;\n          overflow-x: scroll;\n          margin: 0 auto;\n          padding: 2px;\n          border-radius: 10px;\n          box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n          background-color: rgb(255, 255, 255);\n            .sprint-progress {\n                width: 100%;\n                height: auto;\n                display: flex;\n                flex-shrink: 1;\n                padding: 0;\n                margin: 0;\n                flex-direction: row;\n                .progress {\n                  min-width: 35px;\n                  height: 35px;\n                  padding: 0;\n                  border: solid 1px white;\n                  border-radius: 5px;\n                }\n            }\n            .main-sprint {\n\n                .english-word {\n                  font-size: 2rem;\n                  font-weight: 400;\n                  line-height: 1.6;\n                  font-family: $font-stack;\n                  color: $font-color_primary;\n                }\n                \n                .translate-word {\n                  font-size: 1rem;\n                  font-weight: 400;\n                  line-height: 1.6;\n                  font-family: $font-stack;\n                  color: $font-color_primary;\n                }\n            }\n            .btn-sprint {\n                height: 10vh;\n                max-height: 40px;\n                display: flex;\n                flex-direction: row;\n                padding: 0;\n                margin-bottom: 3rem;\n                column-gap: 1rem;\n                #game-btn {\n                  font-family: 'Roboto', sans-serif;\n                  display: inline-block;\n                  outline: none;\n                  cursor: pointer;\n                  font-weight: 500;\n                  padding: 0 16px;\n                  border-radius: 4px;\n                  border: none;\n                  color: #fff;\n                  background: $color-orange;\n                  line-height: 1.15;\n                  font-size: 14px;\n                  height: 36px;\n                  word-spacing: 0px;\n                  letter-spacing: .0892857143em;\n                  text-decoration: none;\n                  text-transform: uppercase;\n                  text-align: center;\n                  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n                  background-position: center!important;\n                  transition: background 0.8s!important;\n                  transition: all .2s ease-out!important;\n                }\n            }\n        }\n    }\n}\n\n#game-btn:hover {\n  background: $color-accent radial-gradient(circle, transparent 1%, $color-accent 1%) center/15000%!important;\n}\n\n#game-btn:active {\n  background-color: #f8c963!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000%!important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160)!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000%!important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255)!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n}\n\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n.result-window{\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  // justify-content: space-around;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n  \n    .gameResult {\n        display: flex;\n        flex-direction: row;\n        justify-content: flex-end;\n        align-items: center;\n        width: 80vw;\n        height: auto;\n        margin: 0.6rem 0 0 0;\n        padding: 0;\n      \n        .result-left-side {\n          display: flex;\n        }\n        .point-result{\n          width: 15px;\n          height: 15px;\n          border-radius: 10px;\n          margin: 10px;\n        }\n        .result-word-left {\n          display: flex;\n          flex-direction: row;\n          column-gap: 1rem;\n          width: 26vw;\n          font-family: Roboto, sans-serif;\n          font-size: 2rem;\n          font-weight: 300;\n          text-align: start;\n          .result-word-span {\n            color: $color-accent;\n          }\n        }\n        .result-word{\n          display: flex;\n          flex-direction: row;\n          column-gap: 1rem;\n          width: 37vw;\n          font-family: Roboto, sans-serif;\n          font-size: 2rem;\n          font-weight: 300;\n          line-height: 4rem;\n          text-align: start;\n          .result-word-span-right {\n            color: greenyellow;\n          }\n        }\n    }\n}\n.correct-result-percent{\n    margin: 0 auto;\n    padding: 0;\n    p{\n        margin: 0;\n        padding: 0;\n    }\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 3rem 6rem 0;\n}\n.audioGameInfo {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin: 4rem 0 6rem 3rem;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: $color-paper;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: $color-dark-m;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 600;\n  color: $color-accent;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n    width: 90px;\n    /* min-height: 60px; */\n    /* max-height: 300px; */\n    border-radius: 15px;\n    background-color: rgb(250, 250, 250);\n    box-shadow: 2px 4px 8px #c5c5c5;\n    transition: all 300ms;\n    border: none;\n    padding: 1rem 0 1rem 1.2rem;\n    color: $color-accent;\n    font-family: 'Roboto', sans-serif;\n    font-weight: 900;\n    font-size: 2rem;\n}\n\n.level-option {\n  color: $font-color_light;\n  background-color: $color-dark;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n\n.audio-game-window-active {\n  margin-top: -20rem;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n\n  .audio-game-icon {\n    width: 180px;\n    height: 180px;\n  }\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: $font-color_light;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n  p {\n    font-family: 'Roboto', sans-serif;\n    display: flex;\n    outline: none;\n    cursor: pointer;\n    font-weight: 500;\n    padding: 1rem 0.7rem;\n    border-radius: 4px;\n    border: none;\n    color: #fff;\n    background: $color-dark;\n    font-size: 16px;\n    height: 50px;\n    letter-spacing: .0892857143em;\n    text-transform: uppercase;\n    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n    background-position: center!important;\n    transition: background 0.8s!important;\n    transition: all 0.1s ease-out!important;\n    align-items: center;\n    justify-content: center;\n    align-content: center;\n  }\n  :hover {\n    background: $color-accent radial-gradient(circle, transparent 1%, $color-accent 1%) center/15000%!important;\n    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n    background-color: $font-color_light;\n    // transition: 0.7s;\n  }\n  \n  :active {\n    background-color: rgb(255, 255, 255)!important;\n    background-size: 100%!important;\n    transition: background 0.1s!important;\n  }\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n@keyframes mymove {\n  0% { background-color: rgba(0, 0, 0, 0); }\n  25% { background-color: rgba(255, 206, 83, 0.604); }\n  35% { background-color: rgba(247, 126, 46, 0.562); }\n  50% { background-color: rgba(255, 0, 55, 0.451); }\n  75% { background-color: rgba(27, 181, 13, 0.381); }\n  85% { background-color: rgba(138, 187, 200); }\n  100% { background-color: rgba(194, 126, 231, 0.601); }\n}\n\n.btn-click {\n  background-color:rgb(236 175 43) !important;\n}\n",".hero-container {\n  display: flex;\n  justify-content: space-evenly;\n  align-items: center;\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 0 -10rem 20rem 0;\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: $color-dark-m;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n}\n\n.hero-subtitle {\n  font-family: $font-stack;\n  display: block;\n  margin-top: 8px;\n  color: $color-gray;\n}\n\n.hero-text,\n.hero-under-text {\n  @include paragraph-txt;\n  display: block;\n  margin: 16px 0px 0px;\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n}\n\n.hero-img-guy {\n  width: 30vw;\n  margin-left: 18rem;\n}\n\n.hero-img-girl {\n  width: 30vw;\n  margin-right: 18rem;\n}",".display_none {\n    display: none;\n}\n#statistic {\n    width: 100vw;\n    height: 100vh;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".btn-basic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n}\n\n.btn-basic:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.button-panel .button-sign-in {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-panel .button-sign-up {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: #fa6930;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in;\n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n}\n@media (max-width: 560px) {\n  .modal-dialog {\n    width: 55vw;\n  }\n}\n@media (max-width: 470px) {\n  .modal-dialog {\n    width: 65vw;\n  }\n}\n@media (max-width: 410px) {\n  .modal-dialog {\n    width: 70vw;\n  }\n}\n@media (max-width: 375px) {\n  .modal-dialog {\n    width: 75vw;\n  }\n}\n@media (max-width: 365px) {\n  .modal-dialog {\n    width: 80vw;\n  }\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n    max-width: 500px;\n    margin: 30px auto;\n  }\n}\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: \"\";\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n/* Fonts */\n/* fontawesome */\n[class*=fontawesome-]:before {\n  font-family: \"FontAwesome\", sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n}\n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: 0.75;\n}\n\n.signup-link {\n  cursor: pointer;\n}\n\n.signup-link a:focus {\n  color: #2c3849;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%, -60%);\n  display: none;\n}\n\n/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\nhtml {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n/**\n * Remove the margin in all browsers.\n */\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Remove the gray background on active links in IE 10.\n */\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n/**\n * Remove the border on images inside links in IE 10.\n */\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\nbutton,\n[type=button],\n[type=reset],\n[type=submit] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\nbutton::-moz-focus-inner,\n[type=button]::-moz-focus-inner,\n[type=reset]::-moz-focus-inner,\n[type=submit]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\nbutton:-moz-focusring,\n[type=button]:-moz-focusring,\n[type=reset]:-moz-focusring,\n[type=submit]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n[type=checkbox],\n[type=radio] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n[type=number]::-webkit-inner-spin-button,\n[type=number]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n[type=search] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n[type=search]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n/**\n * Add the correct display in IE 10+.\n */\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}\n\n.section-title {\n  font-size: 3rem;\n  color: #3F5069;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n}\n\n.card-title {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 24px;\n  color: #000;\n  font-weight: 400;\n}\n\n.paragraph-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.header {\n  background-color: #f4efe7;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: \"Roboto\", sans-serif;\n  height: 120px;\n}\n@media (max-width: 768px) {\n  .header-container {\n    height: 100px;\n  }\n}\n@media (max-width: 375px) {\n  .header-container {\n    height: 85px;\n  }\n}\n\n.header-left-wrapper {\n  display: flex;\n  align-items: center;\n  width: 82vw;\n  justify-content: space-between;\n}\n@media (max-width: 1270px) {\n  .header-left-wrapper {\n    width: 80vw;\n  }\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n  align-items: center;\n  cursor: pointer;\n  position: relative;\n  height: 40px;\n}\n\n.logo {\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  font-size: 2rem;\n  color: #3F5069;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid #3F5069;\n  cursor: pointer;\n}\n@media (max-width: 375px) {\n  .logo {\n    font-size: 1.2rem;\n  }\n}\n\n.logo:hover {\n  color: #2c3849;\n  transition: all 0.3s ease-in-out;\n}\n\n.nav__container {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.header-left::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background-color: #3F5069;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s ease-out 0.3s;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.header-left:hover::after,\n.nav-item:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.nav-link {\n  color: #000;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}\n\n.hamburger {\n  display: none;\n}\n\n.hamburger.open {\n  transform: rotate(-90deg);\n}\n\n@media (max-width: 980px) and (min-width: 320px) {\n  .hamburger {\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    width: 35px;\n    height: 30px;\n    cursor: pointer;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    transition: all 0.7s ease-in-out;\n    z-index: 10;\n  }\n  .line {\n    width: 100%;\n    height: 3px;\n    background: #2c3849;\n  }\n}\n@media (max-width: 980px) {\n  .nav__container {\n    width: 320px;\n    height: 100%;\n    overflow-x: hidden;\n    position: fixed;\n    top: 0;\n    right: 0;\n    background-color: #f4efe7;\n    z-index: 5;\n    transform: translateX(100%);\n    transition: all 0.6s ease-in-out;\n  }\n}\n@media (max-width: 980px) {\n  .nav__container.open {\n    transform: translateX(0%);\n    box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6);\n  }\n}\n@media (max-width: 320px) {\n  .nav__container.open {\n    transform: translateX(0%);\n  }\n}\n.right-elems-wrapper {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n\n@media (max-width: 980px) {\n  .nav {\n    display: flex;\n    width: 100%;\n    justify-content: center;\n    align-content: center;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 2rem;\n    margin: 0 auto;\n    margin-top: 4rem;\n    font-size: 22px;\n  }\n  .right-elems-wrapper {\n    justify-content: space-between;\n    width: 10rem;\n  }\n}\n@media (max-width: 980px) and (max-width: 460px) {\n  .right-elems-wrapper {\n    width: 8rem;\n  }\n}\n@media (max-width: 980px) {\n  .signIn-btn {\n    display: none;\n  }\n}\n\n.signIn-btn_open {\n  display: block;\n  position: fixed;\n  top: 2.4rem;\n  right: 18rem;\n  z-index: 5;\n  transform: translateX(100%);\n  transition: all 0.6s ease-in-out;\n}\n@media (max-width: 387px) {\n  .signIn-btn_open {\n    width: 33px;\n    height: 25px;\n    padding: 0;\n    font-size: 10px;\n  }\n}\n@media (max-width: 375px) {\n  .signIn-btn_open {\n    top: 1.9rem;\n    right: 18.6rem;\n  }\n}\n\n.wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nhtml {\n  scroll-behavior: smooth;\n}\n\nbody {\n  height: 100vh;\n  overflow-x: hidden;\n  scroll-behavior: smooth;\n  background-color: #f4efe7;\n}\n\nbody.lock {\n  overflow-y: hidden;\n  height: 100vh;\n}\n\n.menu-filter {\n  display: none;\n}\n\n.menu-filter_open {\n  display: block;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  z-index: 4;\n  box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6);\n  transition: 0.3s;\n  cursor: pointer;\n}\n\n.footer {\n  background-color: #2c3849;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: #fff;\n}\n@media (max-width: 605px) {\n  .footer-container {\n    justify-content: center;\n  }\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n@media (max-width: 605px) {\n  .github-box {\n    width: 55vw;\n  }\n}\n@media (max-width: 480px) {\n  .github-box {\n    width: 45vw;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 10px;\n  }\n}\n@media (max-width: 370px) {\n  .github-box {\n    width: 38vw;\n  }\n}\n\n.github-link {\n  font-family: \"Roboto\", sans-serif;\n  position: relative;\n  color: #fff;\n  text-decoration: none;\n  margin-left: 1rem;\n}\n@media (max-width: 480px) {\n  .github-link {\n    margin: 0;\n  }\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}\n\n.wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}\n\n#autorisation-button.true {\n  background-color: #fa6930;\n}\n\n.textbook_container {\n  padding-top: 6rem;\n}\n\n#textbook-wrapper {\n  position: relative;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  background: #fff;\n  color: #000;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 300;\n  font-size: 20px;\n  border-radius: 50%;\n  user-select: none;\n  transition: color 0.5s ease 0s;\n  outline: none;\n  cursor: pointer;\n  align-content: center;\n}\n\n.prev-btn:hover,\n.next-btn:hover,\n.pagination_number:hover {\n  background-color: rgb(242, 166, 99);\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n  color: #fff;\n}\n\n.active-page {\n  background: rgb(242, 166, 99);\n  color: #fff;\n}\n\n.next-btn {\n  border-radius: 0 25px 25px 0;\n  width: 125px;\n}\n\n.prev-btn {\n  border-radius: 25px 0 0 25px;\n  width: 125px;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  gap: 35px;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 67rem;\n  height: 24rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 32rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  padding-right: 0;\n  justify-content: space-around;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  width: 12rem;\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  background-color: rgb(96, 164, 191);\n  height: 2rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  background-color: rgb(96, 164, 191);\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 6rem;\n  column-gap: 1rem;\n}\n\n.groups_list__item {\n  height: 60px;\n  width: 147px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  padding: 0 16px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.2rem;\n  overflow: hidden;\n  border: none;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all easy 0.5s;\n}\n.groups_list__item:nth-child(1) {\n  background-color: rgb(242, 105, 92);\n}\n.groups_list__item:nth-child(1):hover {\n  background-color: rgba(242, 105, 92, 0.9);\n}\n.groups_list__item:nth-child(2) {\n  background-color: rgb(242, 166, 99);\n}\n.groups_list__item:nth-child(2):hover {\n  background-color: rgba(242, 166, 99, 0.9);\n}\n.groups_list__item:nth-child(3) {\n  background-color: rgb(250, 170, 186);\n}\n.groups_list__item:nth-child(3):hover {\n  background-color: rgba(250, 170, 186, 0.9);\n}\n.groups_list__item:nth-child(4) {\n  background-color: rgb(136, 191, 176);\n}\n.groups_list__item:nth-child(4):hover {\n  background-color: rgba(136, 191, 176, 0.9);\n}\n.groups_list__item:nth-child(5) {\n  background-color: rgb(96, 164, 191);\n}\n.groups_list__item:nth-child(5):hover {\n  background-color: rgba(96, 164, 191, 0.9);\n}\n.groups_list__item:nth-child(6) {\n  background-color: rgb(89, 72, 77);\n}\n.groups_list__item:nth-child(6):hover {\n  background-color: rgba(89, 72, 77, 0.9);\n}\n\n.groups_list__item:hover {\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\nbutton.groups_list__item.active-group {\n  box-shadow: 4px 4px 5px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.authorization_block {\n  width: 16%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  gap: 90px;\n  padding: 10px;\n  padding-bottom: 2rem;\n}\n\n.btn_authorization_block {\n  display: flex;\n  width: 140px;\n  height: 50px;\n  font-size: 18px;\n  text-transform: none;\n  padding: 0;\n  justify-content: center;\n  align-items: center;\n  background-color: rgb(241, 105, 91);\n}\n\n.btn-dif-word {\n  background-color: rgb(242, 166, 99);\n}\n\n.back-to-top-wrapper {\n  position: absolute;\n  top: 100vh;\n  right: 7rem;\n  bottom: 0em;\n  width: 3em;\n  pointer-events: none;\n}\n\n.back-to-top-link {\n  position: sticky;\n  pointer-events: all;\n  top: calc(100vh - 5rem);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  text-decoration: none;\n  text-align: center;\n  width: 100px;\n  height: 35px;\n  border-radius: 5px;\n  padding: 0.25rem;\n  cursor: pointer;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 12px;\n  text-transform: uppercase;\n  background-color: #ffcc5e;\n  user-select: none;\n  transition: color 1s ease-in-out 0s;\n}\n.back-to-top-link:hover {\n  background-color: #ffb108;\n}\n.back-to-top-link:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n}\n@media (max-width: 1180px) {\n  .advantages-content {\n    justify-content: center;\n    row-gap: 6rem;\n  }\n}\n@media (max-width: 768px) {\n  .advantages-content {\n    gap: 4rem;\n  }\n}\n@media (max-width: 460px) {\n  .advantages-content {\n    gap: 2rem;\n    margin-bottom: 2rem;\n  }\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  cursor: pointer;\n}\n.advantages-card:hover {\n  box-shadow: 0px 2px 35px 14px rgba(20, 20, 20, 0.04);\n  background-color: #fff;\n}\n.advantages-card:hover .adv-card-title {\n  color: #ffb108;\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: #3F5069;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  filter: brightness(0.9);\n}\n@media (max-width: 768px) {\n  .about-card {\n    max-height: 265px;\n  }\n}\n@media (max-width: 767px) {\n  .about-card {\n    max-height: 60rem;\n    max-width: 290px;\n    flex-direction: column;\n  }\n  .about-card .about-photo {\n    border-radius: 10px;\n    width: 290px;\n  }\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n}\n@media (max-width: 767px) {\n  .about-content {\n    align-items: center;\n    padding: 1rem;\n  }\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: \"Roboto\", sans-serif;\n  color: #8d8d8d;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: #fff;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}\n\n.about-name {\n  color: #fff;\n}\n\n#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: auto;\n  margin: 2rem 0 4rem 0;\n  column-gap: 2rem;\n}\n#game-page #sprint-game-window {\n  width: 100%;\n  height: 100%;\n}\n#game-page #sprint-game-window .sprint-flex-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 5rem;\n}\n#game-page #sprint-game-window .sprint-game-timer {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #2c3849;\n}\n#game-page #sprint-game-window .sprint-game-timer p {\n  margin: 0;\n  padding: 0;\n  font-family: Roboto, sans-serif;\n  font-weight: 400;\n  font-size: 4rem;\n  color: #f4efe7;\n}\n#game-page #sprint-game-window .sprint-game-window-active {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  width: 70vw;\n  height: 45vh;\n  margin: 0 auto;\n  padding: 2px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-shrink: 1;\n  padding: 0;\n  margin: 0;\n  flex-direction: row;\n  overflow-x: scroll;\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress .progress {\n  min-width: 35px;\n  height: 35px;\n  padding: 0;\n  border: solid 1px white;\n  border-radius: 5px;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .english-word {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .translate-word {\n  font-size: 1rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint {\n  height: 10vh;\n  max-height: 40px;\n  display: flex;\n  flex-direction: row;\n  padding: 0;\n  margin-bottom: 3rem;\n  column-gap: 1rem;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint #game-btn {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 0 16px;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #fa6930;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.2s ease-out !important;\n}\n\n#game-btn:hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n}\n\n#game-btn:active {\n  background-color: #f8c963 !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000% !important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:focus,\n#game-btn.btn-yes:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000% !important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n#game-btn.btn-yes:active:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.result-window {\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n}\n.result-window .gameResult {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  align-items: center;\n  width: 80vw;\n  height: auto;\n  margin: 0.6rem 0 0 0;\n  padding: 0;\n}\n.result-window .gameResult .result-left-side {\n  display: flex;\n}\n.result-window .gameResult .point-result {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin: 10px;\n}\n.result-window .gameResult .result-word-left {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 26vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  text-align: start;\n}\n.result-window .gameResult .result-word-left .result-word-span {\n  color: #ffb108;\n}\n.result-window .gameResult .result-word {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 37vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  line-height: 4rem;\n  text-align: start;\n}\n.result-window .gameResult .result-word .result-word-span-right {\n  color: greenyellow;\n}\n\n.correct-result-percent {\n  margin: 0 auto;\n  padding: 0;\n}\n.correct-result-percent p {\n  margin: 0;\n  padding: 0;\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n\n.audioGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #fcedd9;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: #2c3849;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n  color: #3d4f69;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n  width: 90px;\n  border-radius: 15px;\n  background-color: rgb(250, 250, 250);\n  box-shadow: 2px 4px 8px #c5c5c5;\n  transition: all 300ms;\n  border: none;\n  padding: 1rem 0 1rem 1.2rem;\n  color: #ffb108;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 900;\n  font-size: 2rem;\n}\n\n.level-option {\n  color: #fff;\n  background-color: #3F5069;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n.audio-game-wrapper {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 6rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n}\n.audio-place .audio-game-icon {\n  width: 180px;\n  height: 180px;\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n}\n.btn-audio p {\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 1rem 0.7rem;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #3F5069;\n  font-size: 16px;\n  height: 50px;\n  letter-spacing: 0.0892857143em;\n  text-transform: uppercase;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.1s ease-out !important;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n}\n.btn-audio :hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  background: rgba(112, 224, 37, 0.713) radial-gradient(circle, transparent 35%, rgba(112, 224, 37, 0.713) 1%) center/15000% !important;\n}\n.btn-audio :active {\n  background-color: rgba(213, 255, 44, 0.695) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n\n@keyframes mymove {\n  0% {\n    background-color: rgba(0, 0, 0, 0);\n  }\n  25% {\n    background-color: rgba(255, 206, 83, 0.604);\n  }\n  35% {\n    background-color: rgba(247, 126, 46, 0.562);\n  }\n  50% {\n    background-color: rgba(255, 0, 55, 0.451);\n  }\n  75% {\n    background-color: rgba(27, 181, 13, 0.381);\n  }\n  85% {\n    background-color: rgb(138, 187, 200);\n  }\n  100% {\n    background-color: rgba(194, 126, 231, 0.601);\n  }\n}\n.play-again {\n  width: 15vw;\n  height: 10vh;\n  font-size: 2rem;\n  letter-spacing: normal;\n}\n\n.btn-click {\n  background-color: #ffb108 !important;\n  transition: background 0.5s !important;\n  transition: all 0.2s ease-out !important;\n  background: rgba(198, 238, 36, 0.695) radial-gradient(circle, transparent 55%, rgba(112, 224, 37, 0.713) 1%) center/15000% !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n  transform: scale(1.1);\n  outline: none;\n}\n\n.keyboard-control {\n  width: 370px;\n  height: 188px;\n  margin: 2rem auto 2rem auto;\n  font-weight: 300;\n  display: block;\n  color: #fff;\n  line-height: 1.9rem;\n  text-align: justify;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  background-color: #fa6930;\n  padding: 1rem;\n}\n\n.keys-control-title {\n  font-weight: 800;\n  color: #fff;\n}\n\n.sprint-game-btn,\n.audio-game-btn {\n  height: 55px;\n  font-size: 20px;\n}\n\n.true-answear {\n  background-color: greenyellow !important;\n}\n\n.display_none {\n  display: none;\n}\n\n#statistic {\n  width: 100vw;\n  height: 100vh;\n  margin-bottom: 8rem !important;\n}\n\n.statistic-wrapper {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: center;\n  height: 100vh;\n  margin-top: 4rem;\n}\n\n.get-statistic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n  min-height: 44px;\n}\n.get-statistic:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.statistic-result {\n  width: 50vw;\n  height: auto;\n  display: grid;\n  grid-template-columns: 17rem 15rem 15rem;\n  row-gap: 1.5rem;\n  justify-content: center;\n  margin: 4rem 0 8rem 0;\n}\n\n.statistic-info_sprint {\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n}\n.statistic-info_sprint p {\n  margin: 0;\n  font-size: 20px;\n  color: #ffb108;\n}\n\n.statistic-info_audio {\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n}\n.statistic-info_audio p {\n  margin: 0;\n  font-size: 20px;\n  color: #ffb108;\n}\n\n.stat-title {\n  margin: 0;\n}\n\n.stat-grid-item1 {\n  width: 90%;\n  padding: 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px;\n}\n\n.sprint-grid-padding {\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 6px 4px 5px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.audio-grid-padding {\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 6px 4px 5px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.stat-span {\n  color: #3F5069;\n  font-weight: 300;\n}\n\n.hero-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n@media (max-width: 690px) {\n  .hero-container {\n    flex-direction: column;\n  }\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 6rem -10rem 38rem 0;\n}\n@media (max-width: 1150px) {\n  .hero-content {\n    margin: 6rem -15rem 30rem 0;\n  }\n}\n@media (max-width: 980px) {\n  .hero-content {\n    margin: 6rem -25rem 30rem 0;\n  }\n}\n@media (max-width: 768px) {\n  .hero-content {\n    margin: -16rem -38rem 30rem 0;\n  }\n}\n@media (max-width: 690px) {\n  .hero-content {\n    margin: 6rem 6rem 0 0;\n  }\n}\n@media (max-width: 615px) {\n  .hero-content {\n    margin: 6rem 0 0 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-content {\n    margin: 4rem 0 2rem 0;\n  }\n  .hero-content .cta-btn {\n    margin: 0 auto;\n  }\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: #2c3849;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n}\n@media (max-width: 460px) {\n  .hero-title {\n    text-align: center;\n  }\n}\n\n.hero-subtitle {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  margin-top: 8px;\n  color: #8d8d8d;\n}\n@media (max-width: 460px) {\n  .hero-subtitle {\n    text-align: center;\n  }\n}\n\n.hero-text,\n.hero-under-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n  display: block;\n  margin: 16px 0px 0px;\n}\n@media (max-width: 460px) {\n  .hero-text,\n.hero-under-text {\n    text-align: center;\n    margin-bottom: 1rem;\n    font-size: 18px;\n  }\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n}\n@media (max-width: 980px) {\n  .hero-img-box {\n    margin-bottom: 0;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-box {\n    display: flex;\n    width: 100vw;\n    flex-direction: column;\n    align-items: center;\n    margin: 0 0 2rem 0;\n  }\n}\n@media (max-width: 375px) {\n  .hero-img-box {\n    margin-bottom: 0;\n  }\n}\n\n.hero-img-girl {\n  width: 575px;\n  margin-left: 14rem;\n}\n@media (max-width: 1150px) {\n  .hero-img-girl {\n    margin-left: 10rem;\n  }\n}\n@media (max-width: 980px) {\n  .hero-img-girl {\n    width: 390px;\n    margin-left: 21rem;\n  }\n}\n@media (max-width: 768px) {\n  .hero-img-girl {\n    width: 500px;\n    margin-left: 17rem;\n    margin-top: 10rem;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-girl {\n    width: 455px;\n    margin: 0 0 0 10rem;\n  }\n}\n@media (max-width: 615px) {\n  .hero-img-girl {\n    margin: 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-img-girl {\n    width: 395px;\n  }\n}\n@media (max-width: 395px) {\n  .hero-img-girl {\n    width: 320px;\n  }\n}\n\n.hero-img-guy {\n  width: 575px;\n}\n@media (max-width: 980px) {\n  .hero-img-guy {\n    display: block;\n    margin: 0 auto;\n  }\n}\n@media (max-width: 768px) {\n  .hero-img-guy {\n    margin-left: 6rem;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-guy {\n    width: 455px;\n    margin: 0 10rem 4rem 0;\n  }\n}\n@media (max-width: 615px) {\n  .hero-img-guy {\n    margin: 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-img-guy {\n    width: 395px;\n  }\n}\n@media (max-width: 395px) {\n  .hero-img-guy {\n    width: 320px;\n  }\n}\n\n#pagination-dictionary {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}", "",{"version":3,"sources":["webpack://./styles/sass/components/_buttons.scss","webpack://./styles/sass/abstracts/_mixins.scss","webpack://./styles/sass/abstracts/_variables.scss","webpack://./styles/app.scss","webpack://./styles/sass/components/_modal-window.scss","webpack://./styles/sass/core/_normalize.scss","webpack://./styles/sass/core/_typography.scss","webpack://./styles/sass/layout/_header.scss","webpack://./styles/sass/layout/_wrapper.scss","webpack://./styles/sass/layout/_footer.scss","webpack://./styles/sass/pages/_authorization.scss","webpack://./styles/sass/pages/_textbook.scss","webpack://./styles/sass/pages/_home.scss","webpack://./styles/sass/pages/_games.scss","webpack://./styles/sass/pages/_statistics.scss","webpack://./styles/sass/sections/_hero.scss","webpack://./styles/sass/pages/_dictionary.scss"],"names":[],"mappings":"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","sourcesContent":[".btn-basic {\n  @include btn-primary;\n}\n\n.btn-basic:hover {\n  background: $color-accent;\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.button-panel .button-sign-in {\n  @include btn-signIn;\n}\n\n.button-panel .button-sign-up {\n  @include btn-signIn;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: $color-accent;\n  box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: $color-orange;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}","@mixin btn-primary() {\n  font-family: 'Roboto', sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: $color-dark;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: .0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n  transition: all .2s ease-out;\n}\n\n@mixin btn-signIn {\n  background: $color-dark;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgb(37 44 97 / 15%), 0 1px 3px 0 rgb(93 100 148 / 20%);\n  transition: all .2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n@mixin section-title {\n  font-size: 3rem;\n  color: $color-dark;\n  font-family: $font-stack;\n  font-weight: 400;\n}\n\n@mixin card-title {\n  font-family: $font-stack;\n  font-size: 24px;\n  color: $font-color_primary;\n  font-weight: 400;\n}\n\n@mixin paragraph-txt {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: $font-stack;\n  color: $font-color_primary;\n}\n\n","$color-primary: #f4efe7;\n$color-paper: #fcedd9;\n$color-gray: #8d8d8d;\n$color-dark: #3F5069;\n$color-dark-m: #2c3849;\n$color-accent: #ffb108;\n$color-orange: #fa6930;\n$font-color_primary: #000;\n$font-color_light: #fff;","@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n.btn-basic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n}\n\n.btn-basic:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.button-panel .button-sign-in {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-panel .button-sign-up {\n  background: #3F5069;\n  border: none;\n  color: #fff;\n  cursor: pointer;\n  height: 50px;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1.2em;\n  letter-spacing: 0.05em;\n  text-align: center;\n  text-transform: uppercase;\n  box-shadow: 0 4px 11px 0 rgba(37, 44, 97, 0.15), 0 1px 3px 0 rgba(93, 100, 148, 0.2);\n  transition: all 0.2s ease-out;\n  width: 100%;\n  border-radius: 4px;\n}\n\n.button-sign-in:hover,\n.button-sign-up:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.cta-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 150px;\n  margin-top: 24px;\n  background-color: #fa6930;\n  font-size: 16px;\n  line-height: 1.5;\n  transition: background-color 0.5s ease 0s;\n  text-transform: none;\n}\n\n.modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0, 0, 0, 0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in;\n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n}\n@media (max-width: 560px) {\n  .modal-dialog {\n    width: 55vw;\n  }\n}\n@media (max-width: 470px) {\n  .modal-dialog {\n    width: 65vw;\n  }\n}\n@media (max-width: 410px) {\n  .modal-dialog {\n    width: 70vw;\n  }\n}\n@media (max-width: 375px) {\n  .modal-dialog {\n    width: 75vw;\n  }\n}\n@media (max-width: 365px) {\n  .modal-dialog {\n    width: 80vw;\n  }\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n    max-width: 500px;\n    margin: 30px auto;\n  }\n}\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: \"\";\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n}\n\n/* Fonts */\n/* fontawesome */\n[class*=fontawesome-]:before {\n  font-family: \"FontAwesome\", sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: \"Open Sans\", sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n}\n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: 0.75;\n}\n\n.signup-link {\n  cursor: pointer;\n}\n\n.signup-link a:focus {\n  color: #2c3849;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em \"Open Sans\", sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%, -60%);\n  display: none;\n}\n\n/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n/* Document\n   ========================================================================== */\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\nhtml {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n/**\n * Remove the margin in all browsers.\n */\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n/**\n * Remove the gray background on active links in IE 10.\n */\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n/**\n * Remove the border on images inside links in IE 10.\n */\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\nbutton,\n[type=button],\n[type=reset],\n[type=submit] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\nbutton::-moz-focus-inner,\n[type=button]::-moz-focus-inner,\n[type=reset]::-moz-focus-inner,\n[type=submit]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\nbutton:-moz-focusring,\n[type=button]:-moz-focusring,\n[type=reset]:-moz-focusring,\n[type=submit]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n[type=checkbox],\n[type=radio] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n[type=number]::-webkit-inner-spin-button,\n[type=number]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n[type=search] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n[type=search]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n/**\n * Add the correct display in IE 10+.\n */\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}\n\n.section-title {\n  font-size: 3rem;\n  color: #3F5069;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n}\n\n.card-title {\n  font-family: \"Roboto\", sans-serif;\n  font-size: 24px;\n  color: #000;\n  font-weight: 400;\n}\n\n.paragraph-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.header {\n  background-color: #f4efe7;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: \"Roboto\", sans-serif;\n  height: 120px;\n}\n@media (max-width: 768px) {\n  .header-container {\n    height: 100px;\n  }\n}\n@media (max-width: 375px) {\n  .header-container {\n    height: 85px;\n  }\n}\n\n.header-left-wrapper {\n  display: flex;\n  align-items: center;\n  width: 82vw;\n  justify-content: space-between;\n}\n@media (max-width: 1270px) {\n  .header-left-wrapper {\n    width: 80vw;\n  }\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n  align-items: center;\n  cursor: pointer;\n  position: relative;\n  height: 40px;\n}\n\n.logo {\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  font-size: 2rem;\n  color: #3F5069;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid #3F5069;\n  cursor: pointer;\n}\n@media (max-width: 375px) {\n  .logo {\n    font-size: 1.2rem;\n  }\n}\n\n.logo:hover {\n  color: #2c3849;\n  transition: all 0.3s ease-in-out;\n}\n\n.nav__container {\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.header-left::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background-color: #3F5069;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s ease-out 0.3s;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.header-left:hover::after,\n.nav-item:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.nav-link {\n  color: #000;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%;\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}\n\n.hamburger {\n  display: none;\n}\n\n.hamburger.open {\n  transform: rotate(-90deg);\n}\n\n@media (max-width: 980px) and (min-width: 320px) {\n  .hamburger {\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    width: 35px;\n    height: 30px;\n    cursor: pointer;\n    -webkit-user-select: none;\n    -moz-user-select: none;\n    -ms-user-select: none;\n    user-select: none;\n    transition: all 0.7s ease-in-out;\n    z-index: 10;\n  }\n  .line {\n    width: 100%;\n    height: 3px;\n    background: #2c3849;\n  }\n}\n@media (max-width: 980px) {\n  .nav__container {\n    width: 320px;\n    height: 100%;\n    overflow-x: hidden;\n    position: fixed;\n    top: 0;\n    right: 0;\n    background-color: #f4efe7;\n    z-index: 5;\n    transform: translateX(100%);\n    transition: all 0.6s ease-in-out;\n  }\n}\n@media (max-width: 980px) {\n  .nav__container.open {\n    transform: translateX(0%);\n    box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6);\n  }\n}\n@media (max-width: 320px) {\n  .nav__container.open {\n    transform: translateX(0%);\n  }\n}\n.right-elems-wrapper {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n\n@media (max-width: 980px) {\n  .nav {\n    display: flex;\n    width: 100%;\n    justify-content: center;\n    align-content: center;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 2rem;\n    margin: 0 auto;\n    margin-top: 4rem;\n    font-size: 22px;\n  }\n  .right-elems-wrapper {\n    justify-content: space-between;\n    width: 10rem;\n  }\n}\n@media (max-width: 980px) and (max-width: 460px) {\n  .right-elems-wrapper {\n    width: 8rem;\n  }\n}\n@media (max-width: 980px) {\n  .signIn-btn {\n    display: none;\n  }\n}\n\n.signIn-btn_open {\n  display: block;\n  position: fixed;\n  top: 2.4rem;\n  right: 18rem;\n  z-index: 5;\n  transform: translateX(100%);\n  transition: all 0.6s ease-in-out;\n}\n@media (max-width: 387px) {\n  .signIn-btn_open {\n    width: 33px;\n    height: 25px;\n    padding: 0;\n    font-size: 10px;\n  }\n}\n@media (max-width: 375px) {\n  .signIn-btn_open {\n    top: 1.9rem;\n    right: 18.6rem;\n  }\n}\n\n.wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nhtml {\n  scroll-behavior: smooth;\n}\n\nbody {\n  height: 100vh;\n  overflow-x: hidden;\n  scroll-behavior: smooth;\n  background-color: #f4efe7;\n}\n\nbody.lock {\n  overflow-y: hidden;\n  height: 100vh;\n}\n\n.menu-filter {\n  display: none;\n}\n\n.menu-filter_open {\n  display: block;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  z-index: 4;\n  box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6);\n  transition: 0.3s;\n  cursor: pointer;\n}\n\n.footer {\n  background-color: #2c3849;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: #fff;\n}\n@media (max-width: 605px) {\n  .footer-container {\n    justify-content: center;\n  }\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: \"Roboto\", sans-serif;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n}\n@media (max-width: 605px) {\n  .github-box {\n    width: 55vw;\n  }\n}\n@media (max-width: 480px) {\n  .github-box {\n    width: 45vw;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 10px;\n  }\n}\n@media (max-width: 370px) {\n  .github-box {\n    width: 38vw;\n  }\n}\n\n.github-link {\n  font-family: \"Roboto\", sans-serif;\n  position: relative;\n  color: #fff;\n  text-decoration: none;\n  margin-left: 1rem;\n}\n@media (max-width: 480px) {\n  .github-link {\n    margin: 0;\n  }\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: #ffb108;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after {\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}\n\n.wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}\n\n#autorisation-button.true {\n  background-color: #fa6930;\n}\n\n.textbook_container {\n  padding-top: 6rem;\n}\n\n#textbook-wrapper {\n  position: relative;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  background: #fff;\n  color: #000;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 300;\n  font-size: 20px;\n  border-radius: 50%;\n  user-select: none;\n  transition: color 0.5s ease 0s;\n  outline: none;\n  cursor: pointer;\n  align-content: center;\n}\n\n.prev-btn:hover,\n.next-btn:hover,\n.pagination_number:hover {\n  background-color: rgb(242, 166, 99);\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n  color: #fff;\n}\n\n.active-page {\n  background: rgb(242, 166, 99);\n  color: #fff;\n}\n\n.next-btn {\n  border-radius: 0 25px 25px 0;\n  width: 125px;\n}\n\n.prev-btn {\n  border-radius: 25px 0 0 25px;\n  width: 125px;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  gap: 35px;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 67rem;\n  height: 24rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 32rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  padding-right: 0;\n  justify-content: space-around;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  width: 12rem;\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  background-color: rgb(96, 164, 191);\n  height: 2rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  background-color: rgb(96, 164, 191);\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 6rem;\n  column-gap: 1rem;\n}\n\n.groups_list__item {\n  height: 60px;\n  width: 147px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  padding: 0 16px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.2rem;\n  overflow: hidden;\n  border: none;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all easy 0.5s;\n}\n.groups_list__item:nth-child(1) {\n  background-color: rgb(242, 105, 92);\n}\n.groups_list__item:nth-child(1):hover {\n  background-color: rgba(242, 105, 92, 0.9);\n}\n.groups_list__item:nth-child(2) {\n  background-color: rgb(242, 166, 99);\n}\n.groups_list__item:nth-child(2):hover {\n  background-color: rgba(242, 166, 99, 0.9);\n}\n.groups_list__item:nth-child(3) {\n  background-color: rgb(250, 170, 186);\n}\n.groups_list__item:nth-child(3):hover {\n  background-color: rgba(250, 170, 186, 0.9);\n}\n.groups_list__item:nth-child(4) {\n  background-color: rgb(136, 191, 176);\n}\n.groups_list__item:nth-child(4):hover {\n  background-color: rgba(136, 191, 176, 0.9);\n}\n.groups_list__item:nth-child(5) {\n  background-color: rgb(96, 164, 191);\n}\n.groups_list__item:nth-child(5):hover {\n  background-color: rgba(96, 164, 191, 0.9);\n}\n.groups_list__item:nth-child(6) {\n  background-color: rgb(89, 72, 77);\n}\n.groups_list__item:nth-child(6):hover {\n  background-color: rgba(89, 72, 77, 0.9);\n}\n\n.groups_list__item:hover {\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\nbutton.groups_list__item.active-group {\n  box-shadow: 4px 4px 5px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.authorization_block {\n  width: 16%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  gap: 90px;\n  padding: 10px;\n  padding-bottom: 2rem;\n}\n\n.btn_authorization_block {\n  display: flex;\n  width: 140px;\n  height: 50px;\n  font-size: 18px;\n  text-transform: none;\n  padding: 0;\n  justify-content: center;\n  align-items: center;\n  background-color: rgb(241, 105, 91);\n}\n\n.btn-dif-word {\n  background-color: rgb(242, 166, 99);\n}\n\n.back-to-top-wrapper {\n  position: absolute;\n  top: 100vh;\n  right: 7rem;\n  bottom: 0em;\n  width: 3em;\n  pointer-events: none;\n}\n\n.back-to-top-link {\n  position: sticky;\n  pointer-events: all;\n  top: calc(100vh - 5rem);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  text-decoration: none;\n  text-align: center;\n  width: 100px;\n  height: 35px;\n  border-radius: 5px;\n  padding: 0.25rem;\n  cursor: pointer;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 12px;\n  text-transform: uppercase;\n  background-color: #ffcc5e;\n  user-select: none;\n  transition: color 1s ease-in-out 0s;\n}\n.back-to-top-link:hover {\n  background-color: #ffb108;\n}\n.back-to-top-link:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n}\n@media (max-width: 1180px) {\n  .advantages-content {\n    justify-content: center;\n    row-gap: 6rem;\n  }\n}\n@media (max-width: 768px) {\n  .advantages-content {\n    gap: 4rem;\n  }\n}\n@media (max-width: 460px) {\n  .advantages-content {\n    gap: 2rem;\n    margin-bottom: 2rem;\n  }\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  cursor: pointer;\n}\n.advantages-card:hover {\n  box-shadow: 0px 2px 35px 14px rgba(20, 20, 20, 0.04);\n  background-color: #fff;\n}\n.advantages-card:hover .adv-card-title {\n  color: #ffb108;\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: #3F5069;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  filter: brightness(0.9);\n}\n@media (max-width: 768px) {\n  .about-card {\n    max-height: 265px;\n  }\n}\n@media (max-width: 767px) {\n  .about-card {\n    max-height: 60rem;\n    max-width: 290px;\n    flex-direction: column;\n  }\n  .about-card .about-photo {\n    border-radius: 10px;\n    width: 290px;\n  }\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n}\n@media (max-width: 767px) {\n  .about-content {\n    align-items: center;\n    padding: 1rem;\n  }\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: \"Roboto\", sans-serif;\n  color: #8d8d8d;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: #fff;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}\n\n.about-name {\n  color: #fff;\n}\n\n#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: auto;\n  margin: 2rem 0 4rem 0;\n  column-gap: 2rem;\n}\n#game-page #sprint-game-window {\n  width: 100%;\n  height: 100%;\n}\n#game-page #sprint-game-window .sprint-flex-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 5rem;\n}\n#game-page #sprint-game-window .sprint-game-timer {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #2c3849;\n}\n#game-page #sprint-game-window .sprint-game-timer p {\n  margin: 0;\n  padding: 0;\n  font-family: Roboto, sans-serif;\n  font-weight: 400;\n  font-size: 4rem;\n  color: #f4efe7;\n}\n#game-page #sprint-game-window .sprint-game-window-active {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-between;\n  width: 70vw;\n  height: 45vh;\n  margin: 0 auto;\n  padding: 2px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress {\n  width: 100%;\n  height: auto;\n  display: flex;\n  flex-shrink: 1;\n  padding: 0;\n  margin: 0;\n  flex-direction: row;\n  overflow-x: scroll;\n}\n#game-page #sprint-game-window .sprint-game-window-active .sprint-progress .progress {\n  min-width: 35px;\n  height: 35px;\n  padding: 0;\n  border: solid 1px white;\n  border-radius: 5px;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .english-word {\n  font-size: 2rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .main-sprint .translate-word {\n  font-size: 1rem;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint {\n  height: 10vh;\n  max-height: 40px;\n  display: flex;\n  flex-direction: row;\n  padding: 0;\n  margin-bottom: 3rem;\n  column-gap: 1rem;\n}\n#game-page #sprint-game-window .sprint-game-window-active .btn-sprint #game-btn {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 0 16px;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #fa6930;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.2s ease-out !important;\n}\n\n#game-btn:hover {\n  background: #ffb108 radial-gradient(circle, transparent 1%, #ffb108 1%) center/15000% !important;\n}\n\n#game-btn:active {\n  background-color: #f8c963 !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000% !important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n#game-btn.btn-no:focus,\n#game-btn.btn-yes:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000% !important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n#game-btn.btn-yes:active:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.result-window {\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n}\n.result-window .gameResult {\n  display: flex;\n  flex-direction: row;\n  justify-content: flex-end;\n  align-items: center;\n  width: 80vw;\n  height: auto;\n  margin: 0.6rem 0 0 0;\n  padding: 0;\n}\n.result-window .gameResult .result-left-side {\n  display: flex;\n}\n.result-window .gameResult .point-result {\n  width: 15px;\n  height: 15px;\n  border-radius: 10px;\n  margin: 10px;\n}\n.result-window .gameResult .result-word-left {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 26vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  text-align: start;\n}\n.result-window .gameResult .result-word-left .result-word-span {\n  color: #ffb108;\n}\n.result-window .gameResult .result-word {\n  display: flex;\n  flex-direction: row;\n  column-gap: 1rem;\n  width: 37vw;\n  font-family: Roboto, sans-serif;\n  font-size: 2rem;\n  font-weight: 300;\n  line-height: 4rem;\n  text-align: start;\n}\n.result-window .gameResult .result-word .result-word-span-right {\n  color: greenyellow;\n}\n\n.correct-result-percent {\n  margin: 0 auto;\n  padding: 0;\n}\n.correct-result-percent p {\n  margin: 0;\n  padding: 0;\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n\n.audioGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: #fcedd9;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: #2c3849;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n  color: #3d4f69;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n  width: 90px;\n  border-radius: 15px;\n  background-color: rgb(250, 250, 250);\n  box-shadow: 2px 4px 8px #c5c5c5;\n  transition: all 300ms;\n  border: none;\n  padding: 1rem 0 1rem 1.2rem;\n  color: #ffb108;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 900;\n  font-size: 2rem;\n}\n\n.level-option {\n  color: #fff;\n  background-color: #3F5069;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n.audio-game-wrapper {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 6rem;\n  border-radius: 10%;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n}\n.audio-place .audio-game-icon {\n  width: 180px;\n  height: 180px;\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n}\n.btn-audio p {\n  font-family: \"Roboto\", sans-serif;\n  display: flex;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  padding: 1rem 0.7rem;\n  border-radius: 4px;\n  border: none;\n  color: #fff;\n  background: #3F5069;\n  font-size: 16px;\n  height: 50px;\n  letter-spacing: 0.0892857143em;\n  text-transform: uppercase;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  background-position: center !important;\n  transition: background 0.8s !important;\n  transition: all 0.1s ease-out !important;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n}\n.btn-audio :hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: #fff;\n  background: rgba(112, 224, 37, 0.713) radial-gradient(circle, transparent 35%, rgba(112, 224, 37, 0.713) 1%) center/15000% !important;\n}\n.btn-audio :active {\n  background-color: rgba(213, 255, 44, 0.695) !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n\n@keyframes mymove {\n  0% {\n    background-color: rgba(0, 0, 0, 0);\n  }\n  25% {\n    background-color: rgba(255, 206, 83, 0.604);\n  }\n  35% {\n    background-color: rgba(247, 126, 46, 0.562);\n  }\n  50% {\n    background-color: rgba(255, 0, 55, 0.451);\n  }\n  75% {\n    background-color: rgba(27, 181, 13, 0.381);\n  }\n  85% {\n    background-color: rgb(138, 187, 200);\n  }\n  100% {\n    background-color: rgba(194, 126, 231, 0.601);\n  }\n}\n.play-again {\n  width: 15vw;\n  height: 10vh;\n  font-size: 2rem;\n  letter-spacing: normal;\n}\n\n.btn-click {\n  background-color: #ffb108 !important;\n  transition: background 0.5s !important;\n  transition: all 0.2s ease-out !important;\n  background: rgba(198, 238, 36, 0.695) radial-gradient(circle, transparent 55%, rgba(112, 224, 37, 0.713) 1%) center/15000% !important;\n  background-size: 100% !important;\n  transition: background 0s !important;\n  transform: scale(1.1);\n  outline: none;\n}\n\n.keyboard-control {\n  width: 370px;\n  height: 188px;\n  margin: 2rem auto 2rem auto;\n  font-weight: 300;\n  display: block;\n  color: #fff;\n  line-height: 1.9rem;\n  text-align: justify;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  background-color: #fa6930;\n  padding: 1rem;\n}\n\n.keys-control-title {\n  font-weight: 800;\n  color: #fff;\n}\n\n.sprint-game-btn,\n.audio-game-btn {\n  height: 55px;\n  font-size: 20px;\n}\n\n.true-answear {\n  background-color: greenyellow !important;\n}\n\n.display_none {\n  display: none;\n}\n\n#statistic {\n  width: 100vw;\n  height: 100vh;\n  margin-bottom: 8rem !important;\n}\n\n.statistic-wrapper {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: center;\n  height: 100vh;\n  margin-top: 4rem;\n}\n\n.get-statistic {\n  font-family: \"Roboto\", sans-serif;\n  display: inline-block;\n  outline: none;\n  cursor: pointer;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  background: #3F5069;\n  line-height: 1.15;\n  font-size: 14px;\n  height: 36px;\n  word-spacing: 0px;\n  letter-spacing: 0.0892857143em;\n  text-decoration: none;\n  text-transform: uppercase;\n  min-width: 64px;\n  border: none;\n  text-align: center;\n  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);\n  transition: all 0.2s ease-out;\n  min-height: 44px;\n}\n.get-statistic:hover {\n  background-color: #ffb108;\n  box-shadow: 0 8px 22px 0 rgba(37, 44, 97, 0.15), 0 4px 6px 0 rgba(93, 100, 148, 0.2);\n}\n\n.statistic-result {\n  width: 50vw;\n  height: auto;\n  display: grid;\n  grid-template-columns: 17rem 15rem 15rem;\n  row-gap: 1.5rem;\n  justify-content: center;\n  margin: 4rem 0 8rem 0;\n}\n\n.statistic-info_sprint {\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n}\n.statistic-info_sprint p {\n  margin: 0;\n  font-size: 20px;\n  color: #ffb108;\n}\n\n.statistic-info_audio {\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n}\n.statistic-info_audio p {\n  margin: 0;\n  font-size: 20px;\n  color: #ffb108;\n}\n\n.stat-title {\n  margin: 0;\n}\n\n.stat-grid-item1 {\n  width: 90%;\n  padding: 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 3px 4px 5px 0px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px;\n}\n\n.sprint-grid-padding {\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 6px 4px 5px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.audio-grid-padding {\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgba(0, 0, 0, 0.15) 6px 4px 5px;\n  color: #ffb108;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.stat-span {\n  color: #3F5069;\n  font-weight: 300;\n}\n\n.hero-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n}\n@media (max-width: 690px) {\n  .hero-container {\n    flex-direction: column;\n  }\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 6rem -10rem 38rem 0;\n}\n@media (max-width: 1150px) {\n  .hero-content {\n    margin: 6rem -15rem 30rem 0;\n  }\n}\n@media (max-width: 980px) {\n  .hero-content {\n    margin: 6rem -25rem 30rem 0;\n  }\n}\n@media (max-width: 768px) {\n  .hero-content {\n    margin: -16rem -38rem 30rem 0;\n  }\n}\n@media (max-width: 690px) {\n  .hero-content {\n    margin: 6rem 6rem 0 0;\n  }\n}\n@media (max-width: 615px) {\n  .hero-content {\n    margin: 6rem 0 0 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-content {\n    margin: 4rem 0 2rem 0;\n  }\n  .hero-content .cta-btn {\n    margin: 0 auto;\n  }\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: #2c3849;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n}\n@media (max-width: 460px) {\n  .hero-title {\n    text-align: center;\n  }\n}\n\n.hero-subtitle {\n  font-family: \"Roboto\", sans-serif;\n  display: block;\n  margin-top: 8px;\n  color: #8d8d8d;\n}\n@media (max-width: 460px) {\n  .hero-subtitle {\n    text-align: center;\n  }\n}\n\n.hero-text,\n.hero-under-text {\n  font-size: 16px;\n  font-weight: 400;\n  line-height: 1.6;\n  font-family: \"Roboto\", sans-serif;\n  color: #000;\n  display: block;\n  margin: 16px 0px 0px;\n}\n@media (max-width: 460px) {\n  .hero-text,\n.hero-under-text {\n    text-align: center;\n    margin-bottom: 1rem;\n    font-size: 18px;\n  }\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n}\n@media (max-width: 980px) {\n  .hero-img-box {\n    margin-bottom: 0;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-box {\n    display: flex;\n    width: 100vw;\n    flex-direction: column;\n    align-items: center;\n    margin: 0 0 2rem 0;\n  }\n}\n@media (max-width: 375px) {\n  .hero-img-box {\n    margin-bottom: 0;\n  }\n}\n\n.hero-img-girl {\n  width: 575px;\n  margin-left: 14rem;\n}\n@media (max-width: 1150px) {\n  .hero-img-girl {\n    margin-left: 10rem;\n  }\n}\n@media (max-width: 980px) {\n  .hero-img-girl {\n    width: 390px;\n    margin-left: 21rem;\n  }\n}\n@media (max-width: 768px) {\n  .hero-img-girl {\n    width: 500px;\n    margin-left: 17rem;\n    margin-top: 10rem;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-girl {\n    width: 455px;\n    margin: 0 0 0 10rem;\n  }\n}\n@media (max-width: 615px) {\n  .hero-img-girl {\n    margin: 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-img-girl {\n    width: 395px;\n  }\n}\n@media (max-width: 395px) {\n  .hero-img-girl {\n    width: 320px;\n  }\n}\n\n.hero-img-guy {\n  width: 575px;\n}\n@media (max-width: 980px) {\n  .hero-img-guy {\n    display: block;\n    margin: 0 auto;\n  }\n}\n@media (max-width: 768px) {\n  .hero-img-guy {\n    margin-left: 6rem;\n  }\n}\n@media (max-width: 690px) {\n  .hero-img-guy {\n    width: 455px;\n    margin: 0 10rem 4rem 0;\n  }\n}\n@media (max-width: 615px) {\n  .hero-img-guy {\n    margin: 0;\n  }\n}\n@media (max-width: 460px) {\n  .hero-img-guy {\n    width: 395px;\n  }\n}\n@media (max-width: 395px) {\n  .hero-img-guy {\n    width: 320px;\n  }\n}\n\n#pagination-dictionary {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}",".modal {\n  position: fixed;\n  top: 0;\n  right: 0;\n  bottom: 0;\n  left: 0;\n  background: rgba(0,0,0,0.5);\n  z-index: 1050;\n  opacity: 0;\n  -webkit-transition: opacity 200ms ease-in; \n  -moz-transition: opacity 200ms ease-in;\n  transition: opacity 200ms ease-in;\n  transition: all 0.8s ease 0s;\n  pointer-events: none;\n  margin: 0;\n  padding: 0;\n}\n\n.modal:target {\n  opacity: 1;\n  pointer-events: auto;\n  overflow-y: auto;\n  transform: translate(0px, 0px);\n}\n\n.modal:target .form-wrapper {\n  opacity: 1;\n  transform: translate(0px, 0px);\n}\n\n.modal-dialog {\n  width: 45vw;\n  display: inline-block;\n  vertical-align: middle;\n  @media (max-width: 560px) {\n    width: 55vw;\n  }\n  @media (max-width: 470px) {\n    width: 65vw;\n  }\n  @media (max-width: 410px) {\n    width: 70vw;\n  }\n  @media (max-width: 375px) {\n    width: 75vw;\n  }\n  @media (max-width: 365px) {\n    width: 80vw;\n  }\n}\n\n@media (min-width: 576px) {\n  .modal-dialog {\n      max-width: 500px;\n      margin: 30px auto;\n  }\n}\n\n.overlay__modal {\n  text-align: center;\n  white-space: nowrap;\n}\n\n.overlay__modal::after {\n  display: inline-block;\n  vertical-align: middle;\n  width: 0;\n  height: 100%;\n  content: '';\n}\n\n.modal-out-area {\n  position: absolute;\n  width: 100%;\n  height: 100%;\n  top: 0;\n  left: 0;\n} \n\n/* Fonts */\n@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n\n/* fontawesome */\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n[class*=\"fontawesome-\"]:before {\n  font-family: 'FontAwesome', sans-serif;\n}\n\n/* body */\nbody {\n  background: #e9e9e9;\n  color: #5e5e5e;\n}\n\n/* Form Layout */\n.form-wrapper {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em 'Open Sans', sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(0px, -100%);\n}\n\nh1 {\n  text-align: center;\n  padding: 1em 0;\n}\n\nform {\n  padding: 0 1.5em;\n}\n\n.form-item {\n  margin-bottom: 0.75em;\n  width: 100%;\n}\n\n.form-item input {\n  background: #fafafa;\n  border: none;\n  border-bottom: 2px solid #e9e9e9;\n  color: #666;\n  font-family: 'Open Sans', sans-serif;\n  font-size: 1em;\n  height: 50px;\n  transition: border-color 0.3s;\n  width: 100%;\n}\n\n.form-item input:focus {\n  border-bottom: 2px solid #c0c0c0;\n  outline: none;\n}\n\n.button-panel {\n  margin: 2em 0 0;\n  width: 100%;\n} \n\n.form-footer {\n  font-size: 1em;\n  padding: 2em 0;\n  text-align: center;\n}\n\n.form-footer a {\n  color: #8c8c8c;\n  text-decoration: none;\n  transition: border-color 0.3s;\n}\n\n.form-footer a:hover {\n  border-bottom: 1px dotted #8c8c8c;\n}\n\n.close {\n  position: absolute;\n  right: 0;\n  top: 0;\n  cursor: pointer;\n  padding: 15px;\n}\n\n.close:focus, .close:hover {\n  cursor: pointer;\n  opacity: .75;\n}\n\n.signup-link {\ncursor: pointer;\n}\n\n.signup-link a:focus {\n  color: $color-dark-m;\n}\n\n.signup-form-container {\n  position: relative;\n  background: #fafafa;\n  margin: 3em auto;\n  padding: 0 1em;\n  max-width: 370px;\n  font: 400 87.5%/1.5em 'Open Sans', sans-serif;\n  transition: all 0.8s ease 0s;\n  opacity: 0;\n  transform: translate(-50%,-60%);\n  display: none;\n}","/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */\n\n/* Document\n   ========================================================================== */\n\n/**\n * 1. Correct the line height in all browsers.\n * 2. Prevent adjustments of font size after orientation changes in iOS.\n */\n\n html {\n  line-height: 1.15; /* 1 */\n  -webkit-text-size-adjust: 100%; /* 2 */\n}\n\n/* Sections\n   ========================================================================== */\n\n/**\n * Remove the margin in all browsers.\n */\n\nbody {\n  margin: 0;\n}\n\n/**\n * Render the `main` element consistently in IE.\n */\n\nmain {\n  display: block;\n}\n\n/**\n * Correct the font size and margin on `h1` elements within `section` and\n * `article` contexts in Chrome, Firefox, and Safari.\n */\n\nh1 {\n  font-size: 2em;\n  margin: 0.67em 0;\n}\n\n/* Grouping content\n   ========================================================================== */\n\n/**\n * 1. Add the correct box sizing in Firefox.\n * 2. Show the overflow in Edge and IE.\n */\n\nhr {\n  box-sizing: content-box; /* 1 */\n  height: 0; /* 1 */\n  overflow: visible; /* 2 */\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\npre {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/* Text-level semantics\n   ========================================================================== */\n\n/**\n * Remove the gray background on active links in IE 10.\n */\n\na {\n  background-color: transparent;\n}\n\n/**\n * 1. Remove the bottom border in Chrome 57-\n * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.\n */\n\nabbr[title] {\n  border-bottom: none; /* 1 */\n  text-decoration: underline; /* 2 */\n  text-decoration: underline dotted; /* 2 */\n}\n\n/**\n * Add the correct font weight in Chrome, Edge, and Safari.\n */\n\nb,\nstrong {\n  font-weight: bolder;\n}\n\n/**\n * 1. Correct the inheritance and scaling of font size in all browsers.\n * 2. Correct the odd `em` font sizing in all browsers.\n */\n\ncode,\nkbd,\nsamp {\n  font-family: monospace, monospace; /* 1 */\n  font-size: 1em; /* 2 */\n}\n\n/**\n * Add the correct font size in all browsers.\n */\n\nsmall {\n  font-size: 80%;\n}\n\n/**\n * Prevent `sub` and `sup` elements from affecting the line height in\n * all browsers.\n */\n\nsub,\nsup {\n  font-size: 75%;\n  line-height: 0;\n  position: relative;\n  vertical-align: baseline;\n}\n\nsub {\n  bottom: -0.25em;\n}\n\nsup {\n  top: -0.5em;\n}\n\n/* Embedded content\n   ========================================================================== */\n\n/**\n * Remove the border on images inside links in IE 10.\n */\n\nimg {\n  border-style: none;\n}\n\n/* Forms\n   ========================================================================== */\n\n/**\n * 1. Change the font styles in all browsers.\n * 2. Remove the margin in Firefox and Safari.\n */\n\nbutton,\ninput,\noptgroup,\nselect,\ntextarea {\n  font-family: inherit; /* 1 */\n  font-size: 100%; /* 1 */\n  line-height: 1.15; /* 1 */\n  margin: 0; /* 2 */\n}\n\n/* Remove outline on the forms and links */\n:active, :hover, :focus {\n  outline: 0;\n  outline-offset: 0;\n}\n\n/**\n * Show the overflow in IE.\n * 1. Show the overflow in Edge.\n */\n\nbutton,\ninput { /* 1 */\n  overflow: visible;\n}\n\n/**\n * Remove the inheritance of text transform in Edge, Firefox, and IE.\n * 1. Remove the inheritance of text transform in Firefox.\n */\n\nbutton,\nselect { /* 1 */\n  text-transform: none;\n}\n\n/**\n * Correct the inability to style clickable types in iOS and Safari.\n */\n\nbutton,\n[type=\"button\"],\n[type=\"reset\"],\n[type=\"submit\"] {\n  -webkit-appearance: button;\n}\n\n/**\n * Remove the inner border and padding in Firefox.\n */\n\nbutton::-moz-focus-inner,\n[type=\"button\"]::-moz-focus-inner,\n[type=\"reset\"]::-moz-focus-inner,\n[type=\"submit\"]::-moz-focus-inner {\n  border-style: none;\n  padding: 0;\n}\n\n/**\n * Restore the focus styles unset by the previous rule.\n */\n\nbutton:-moz-focusring,\n[type=\"button\"]:-moz-focusring,\n[type=\"reset\"]:-moz-focusring,\n[type=\"submit\"]:-moz-focusring {\n  outline: 1px dotted ButtonText;\n}\n\n/**\n * Correct the padding in Firefox.\n */\n\nfieldset {\n  padding: 0.35em 0.75em 0.625em;\n}\n\n/**\n * 1. Correct the text wrapping in Edge and IE.\n * 2. Correct the color inheritance from `fieldset` elements in IE.\n * 3. Remove the padding so developers are not caught out when they zero out\n *    `fieldset` elements in all browsers.\n */\n\nlegend {\n  box-sizing: border-box; /* 1 */\n  color: inherit; /* 2 */\n  display: table; /* 1 */\n  max-width: 100%; /* 1 */\n  padding: 0; /* 3 */\n  white-space: normal; /* 1 */\n}\n\n/**\n * Add the correct vertical alignment in Chrome, Firefox, and Opera.\n */\n\nprogress {\n  vertical-align: baseline;\n}\n\n/**\n * Remove the default vertical scrollbar in IE 10+.\n */\n\ntextarea {\n  overflow: auto;\n}\n\n/**\n * 1. Add the correct box sizing in IE 10.\n * 2. Remove the padding in IE 10.\n */\n\n[type=\"checkbox\"],\n[type=\"radio\"] {\n  box-sizing: border-box; /* 1 */\n  padding: 0; /* 2 */\n}\n\n/**\n * Correct the cursor style of increment and decrement buttons in Chrome.\n */\n\n[type=\"number\"]::-webkit-inner-spin-button,\n[type=\"number\"]::-webkit-outer-spin-button {\n  height: auto;\n}\n\n/**\n * 1. Correct the odd appearance in Chrome and Safari.\n * 2. Correct the outline style in Safari.\n */\n\n[type=\"search\"] {\n  -webkit-appearance: textfield; /* 1 */\n  outline-offset: -2px; /* 2 */\n}\n\n/**\n * Remove the inner padding in Chrome and Safari on macOS.\n */\n\n[type=\"search\"]::-webkit-search-decoration {\n  -webkit-appearance: none;\n}\n\n/**\n * 1. Correct the inability to style clickable types in iOS and Safari.\n * 2. Change font properties to `inherit` in Safari.\n */\n\n::-webkit-file-upload-button {\n  -webkit-appearance: button; /* 1 */\n  font: inherit; /* 2 */\n}\n\n/* Interactive\n   ========================================================================== */\n\n/*\n * Add the correct display in Edge, IE 10+, and Firefox.\n */\n\ndetails {\n  display: block;\n}\n\n/*\n * Add the correct display in all browsers.\n */\n\nsummary {\n  display: list-item;\n}\n\n/* Misc\n   ========================================================================== */\n\n/**\n * Add the correct display in IE 10+.\n */\n\ntemplate {\n  display: none;\n}\n\n/**\n * Add the correct display in IE 10.\n */\n\n[hidden] {\n  display: none;\n}\n\na {\n  text-decoration: none;\n}\n\nli {\n  list-style: none;\n}\n\n* {\n  box-sizing: border-box;\n}","$font-stack: 'Roboto', sans-serif;\n\n.section-title {\n  @include section-title;\n}\n\n.card-title {\n  @include card-title;\n}\n\n.paragraph-text {\n  @include paragraph-txt;\n}",".header {\n  background-color: $color-primary;\n}\n\n.header-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  padding: 20px 0;\n  font-size: 1rem;\n  font-family: $font-stack;\n  height: 120px;\n  @media (max-width: 768px) {\n    height: 100px;\n  }\n  @media (max-width: 375px) {\n    height: 85px;\n  }\n}\n\n.header-left-wrapper {\n  display: flex;\n  align-items: center;\n  width: 82vw;\n  justify-content: space-between;\n  @media (max-width: 1270px) {\n    width: 80vw;\n  }\n}\n\n.header-left {\n  display: flex;\n  justify-content: center;\n  align-content: center;\n  align-items: center;\n  cursor: pointer;\n  position: relative;\n  height: 40px;\n}\n\n.logo {\n  font-family: $font-stack;\n  font-weight: 700;\n  font-size: 2rem;\n  color: $color-dark;\n  padding-left: 10px;\n  margin-left: 10px;\n  border-left: 2px solid $color-dark;\n  cursor: pointer;\n  @media (max-width: 375px) {\n    font-size: 1.2rem;\n  }\n}\n\n.logo:hover {\n  color: $color-dark-m;\n  transition: all 0.3s ease-in-out;\n}\n\n.nav__container{\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n}\n\n.nav {\n  display: flex;\n  margin: 0;\n  padding: 0;\n  align-items: center;\n  justify-content: center;\n}\n\n.nav-item {\n  display: flex;\n  align-items: center;\n  margin: 0 15px;\n  position: relative;\n}\n\n.header-left::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background-color: $color-dark;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s ease-out 0.3s;\n}\n\n.nav-item::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: $color-accent;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.5s;\n}\n\n.header-left:hover::after,\n.nav-item:hover::after{\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n\n.nav-link {\n  color: $font-color_primary;\n}\n\n.active {\n  color: red;\n  pointer-events: none;\n}\n\n.act::after {\n  content: none;\n}\n\n.sticky {\n  position: fixed;\n  top: 0;\n  width: 100%\n}\n\n.sticky + .main {\n  padding-top: 80px;\n}\n\n.hamburger {\n  display: none;\n}\n\n.hamburger.open {\n  transform: rotate(-90deg);\n}\n\n@media (max-width: 980px) and (min-width: 320px) {\n  .hamburger {\n    display: flex;\n    flex-direction: column;\n    justify-content: space-between;\n    width: 35px;\n    height: 30px;\n    cursor: pointer;\n    -webkit-user-select: none;\n       -moz-user-select: none;\n        -ms-user-select: none;\n            user-select: none;\n    transition: all 0.7s ease-in-out;\n    z-index: 10;\n  }\n  .line {\n    width: 100%;\n    height: 3px;\n    background: $color-dark-m;\n  }\n}\n\n@media (max-width: 980px) {\n  .nav__container {\n    width: 320px;\n    height: 100%;\n    overflow-x: hidden;\n    position: fixed;\n    top: 0;\n    right: 0;\n    background-color: $color-primary;\n    z-index: 5;\n    transform: translateX(100%);\n    transition: all 0.6s ease-in-out;\n  }\n}\n@media (max-width: 980px) {\n  .nav__container.open {\n    transform: translateX(0%);\n    box-shadow: 0 0 0 9999px rgba(41, 41, 41, 0.6);\n  }\n}\n@media (max-width: 320px) {\n  .nav__container.open {\n    transform: translateX(0%);\n  }\n}\n\n.right-elems-wrapper {\n  display: flex;\n  justify-content: flex-end;\n  align-items: center;\n}\n\n@media (max-width: 980px) {\n  .nav {\n    display: flex;\n    width: 100%;\n    justify-content: center;\n    align-content: center;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 2rem;\n    margin: 0 auto;\n    margin-top: 4rem;\n    font-size: 22px;\n  }\n  .right-elems-wrapper {\n    justify-content: space-between;\n    width: 10rem;\n    @media (max-width: 460px) {\n      width: 8rem;\n    }\n  }\n}\n\n.signIn-btn {\n  @media (max-width: 980px) {\n    display: none;\n  }\n}\n.signIn-btn_open {\n  display: block;\n  position: fixed;\n  top: 2.4rem;\n  right: 18rem;\n  z-index: 5;\n  transform: translateX(100%);\n  transition: all 0.6s ease-in-out;\n  @media (max-width: 387px) {\n    width: 33px;\n    height: 25px;\n    padding: 0;\n    font-size: 10px;\n  }\n  @media (max-width: 375px) {\n    top: 1.9rem;\n    right: 18.6rem;\n  }\n}\n",".wrapper {\n  width: 90%;\n  max-width: 1440px;\n  margin: 0 auto;\n}\n\nhtml {\n scroll-behavior: smooth;\n}\n\nbody {\n  height: 100vh;\n  overflow-x: hidden;\n  scroll-behavior: smooth;\n  background-color: $color-primary;\n}\n\nbody.lock {\n  overflow-y: hidden;\n  height: 100vh;\n}\n\n.menu-filter {\n  display: none;\n}\n\n.menu-filter_open {\n  display: block;\n  width: 100%;\n  height: 100vh;\n  position: fixed;\n  z-index: 4;\n  box-shadow: 0 0 0 9999px rgb(41 41 41 / 60%);\n  transition: 0.3s;\n  cursor: pointer;\n}\n",".footer {\n  background-color: $color-dark-m;\n}\n\n.footer-container {\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  color: $font-color_light;\n  @media (max-width: 605px) {\n    justify-content: center;\n  }\n}\n\n.year-box {\n  max-height: fit-content;\n  display: flex;\n  justify-content: space-between;\n  align-items: center;\n  font-family: $font-stack;\n}\n\n.github-box {\n  width: 60vw;\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  @media (max-width: 605px) {\n    width: 55vw;\n  }\n  @media (max-width: 480px) {\n    width: 45vw;\n    flex-direction: column;\n    align-items: center;\n    row-gap: 10px;\n  }\n  @media (max-width: 370px) {\n    width: 38vw;\n  }\n}\n\n.github-link {\n  font-family: $font-stack;\n  position: relative;\n  color: $font-color_light;\n  text-decoration: none;\n  margin-left: 1rem;\n  @media (max-width: 480px) {\n    margin: 0;\n  }\n}\n\n.github-link::after {\n  position: absolute;\n  content: \"\";\n  top: 120%;\n  left: 0;\n  width: 100%;\n  height: 2px;\n  background: $color-accent;\n  transform: scaleX(0);\n  transform-origin: right;\n  transition: transform 0.8s;\n}\n\n.github-link:hover::after{\n  transform: scaleX(1);\n  transform-origin: left;\n}\n\n.rss-logo {\n  width: 7rem;\n  height: auto;\n}\n\n.rss-logo:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}",".wrongPassword {\n  background-color: aqua;\n}\n.closeModal {\n  display: none;\n}\n\n#autorisation-button.true {\n  background-color: #fa6930;\n}","@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n\n.textbook_container {\n  padding-top: 6rem;\n}\n\n#textbook-wrapper {\n  position: relative;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  background: #fff;\n  color: #000;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 300;\n  font-size: 20px;\n  border-radius: 50%;\n  user-select: none;\n  transition: color 0.5s ease 0s;\n  outline: none;\n  cursor: pointer;\n  align-content: center;\n}\n\n.prev-btn:hover,\n.next-btn:hover,\n.pagination_number:hover {\n  background-color: rgb(242, 166, 99);\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n  color: #fff;\n}\n\n.active-page {\n  background: rgb(242, 166, 99);\n  color: #fff;\n}\n\n.next-btn {\n  border-radius: 0 25px 25px 0;\n  width: 125px;\n}\n\n.prev-btn {\n  border-radius: 25px 0 0 25px;\n  width: 125px;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  gap: 35px;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 67rem;\n  height: 24rem;\n  display: flex;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 32rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  padding-right: 0;\n  justify-content: space-around;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  width: 12rem;\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  background-color: rgb(96 164 191);\n  height: 2rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  background-color: rgb(96 164 191);\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 6rem;\n  column-gap: 1rem;\n}\n\n.groups_list__item {\n  height: 60px;\n  width: 147px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  padding: 0 16px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.2rem;\n  overflow: hidden;\n  border: none;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  // box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  &:nth-child(1) {\n    background-color: rgb(242, 105, 92);\n    &:hover {\n      background-color: rgba(242, 105, 92, 0.9);\n    }\n  }\n  &:nth-child(2) {\n    background-color: rgb(242, 166, 99);\n    &:hover {\n      background-color: rgba(242, 166, 99, 0.9);\n    }\n  }\n  &:nth-child(3) {\n    background-color: rgb(250, 170, 186);\n    &:hover {\n      background-color: rgba(250, 170, 186, 0.9);\n    }\n  }\n  &:nth-child(4) {\n    background-color: rgb(136, 191, 176);\n    &:hover {\n      background-color: rgba(136, 191, 176, 0.9);\n    }\n  }\n  &:nth-child(5) {\n    background-color: rgb(96, 164, 191);\n    &:hover {\n      background-color: rgba(96, 164, 191, 0.9);\n    }\n  }\n  &:nth-child(6) {\n    background-color: rgb(89, 72, 77);\n    &:hover {\n      background-color: rgba(89, 72, 77, 0.9);\n    }\n  }\n}\n\n.groups_list__item:hover {\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\nbutton.groups_list__item.active-group  {\n  box-shadow: 4px 4px 5px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.authorization_block {\n  width: 16%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  gap: 90px;\n  padding: 10px;\n  padding-bottom: 2rem;\n}\n\n.btn_authorization_block {\n  display: flex;\n  width: 140px;\n  height: 50px;\n  font-size: 18px;\n  text-transform: none;\n  padding: 0;\n  justify-content: center;\n  align-items: center;\n  background-color: rgb(241 105 91);\n}\n\n.btn-dif-word {\n  background-color: rgb(242, 166, 99);\n}\n\n\n.back-to-top-wrapper {\n  position: absolute;\n  top: 100vh;\n  right: 7rem;\n  bottom: 0em;\n  width: 3em;\n  pointer-events: none;\n}\n\n.back-to-top-link {\n  position: sticky;\n  pointer-events: all;\n  top: calc(100vh - 5rem);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  text-decoration: none;\n  text-align: center;\n  width: 100px;\n  height: 35px;\n  border-radius: 5px;\n  padding: 0.25rem;\n  cursor: pointer;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 12px;\n  text-transform: uppercase;\n  background-color: #ffcc5e;\n  user-select: none;\n  transition: color 1s ease-in-out 0s;\n\n  &:hover {\n    background-color: #ffb108;\n  }\n\n  &:focus {\n    transform: scale(1.1);\n    outline: none;\n    box-shadow: 0 0 9px 5px scale-color(#fab32f, $lightness: 15%);\n  }\n}","// advantages section\n.advantages-container {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n\n.advantages-content {\n  display: flex;\n  flex-wrap: wrap;\n  column-gap: 6rem;\n  margin-bottom: 7rem;\n  @media (max-width: 1180px) {\n    justify-content: center;\n    row-gap: 6rem;\n  }\n  @media (max-width: 768px) {\n    gap: 4rem;\n  }\n  @media (max-width: 460px) {\n    gap: 2rem;\n    margin-bottom: 2rem;\n  }\n}\n\n.adv-card-icon {\n  display: inline-block;\n  margin-bottom: 2rem;\n}\n\n.advantages-card {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  max-width: 290px;\n  padding: 40px 20px;\n  flex-wrap: wrap;\n  text-align: center;\n  border-radius: 10px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  cursor: pointer;\n  &:hover {\n    box-shadow: 0px 2px 35px 14px rgba(20, 20, 20, 0.04);\n    background-color: #fff;\n    .adv-card-title {\n      color: $color-accent;\n    }\n  }\n}\n\n.adv-card-title {\n  margin-bottom: 1.5rem;\n}\n\n.adv-card-desc {\n  @include paragraph-txt;\n}\n\n// our team section\n\n.about-photo {\n  width: 273px;\n  height: auto;\n  margin: 0px;\n}\n\n.about-container {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  flex-flow: column wrap;\n  row-gap: 3rem;\n  padding: 32px 0px;\n  font-size: 16px;\n  line-height: 1.5;\n  margin-bottom: 7rem;\n}\n\n.about-card {\n  max-width: 67rem;\n  max-height: 16.6rem;\n  overflow: hidden;\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  font-size: 16px;\n  line-height: 1.5;\n  background-color: $color-dark;\n  border-radius: 10px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  filter: brightness(0.9);\n  @media (max-width: 768px) {\n    max-height: 265px;\n  }\n  @media (max-width: 767px) {\n    max-height: 60rem;\n    max-width: 290px;\n    flex-direction: column;\n    .about-photo {\n      border-radius: 10px;\n      width: 290px;\n    }\n}\n}\n\n.about-content {\n  display: flex;\n  flex-direction: column;\n  padding: 1rem 2.5rem;\n  @media (max-width: 767px) {\n    align-items: center;\n    padding: 1rem;\n  }\n}\n\n.about-name {\n  margin: 0;\n}\n\n.about-subtitle {\n  font-size: $font-stack;\n  color: $color-gray;\n}\n\n.about-desc {\n  margin: 14px 0px 0px;\n  color: $font-color_light;\n}\n\n.github-icon {\n  max-width: 2.5rem;\n  height: auto;\n  margin: 14px 0 0;\n}\n\n.github-icon:hover {\n  filter: invert(29%) sepia(32%) saturate(582%) hue-rotate(354deg) brightness(107%) contrast(101%);\n  transition: 0.4s;\n}\n\n.about-name {\n  color: $font-color_light;\n}","#game-page {\n  display: flex;\n  flex-direction: row;\n  flex-wrap: wrap;\n  align-items: center;\n  justify-content: center;\n  align-content: center;\n  text-align: center;\n  max-width: 1440px;\n  height: auto;\n  // margin: 8rem 0 10rem 0;\n  margin: 2rem 0 4rem 0;\n  column-gap: 2rem;\n\n    #sprint-game-window {\n        width: 100%;\n        height: 100%;\n        .sprint-flex-wrapper {\n          display: flex;\n          flex-direction: column;\n          align-items: center;\n          row-gap: 5rem;\n        }\n        .sprint-game-timer {\n          display: flex;\n          align-items: center;\n          justify-content: center;\n          width: 180px;\n          height: 180px;\n          border-radius: 50%;\n          background-color: $color-dark-m;\n            p{\n              margin: 0;\n              padding: 0;\n              font-family: Roboto, sans-serif;\n              font-weight: 400;\n              font-size: 4rem;\n              color: $color-primary;\n            }\n        }\n        .sprint-game-window-active {\n          display: flex;\n          flex-direction: column;\n          align-items: center;\n          justify-content: space-between;\n          width: 70vw;\n          height: 45vh;\n          margin: 0 auto;\n          padding: 2px;\n          border-radius: 10px;\n          box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n          background-color: rgb(255, 255, 255);\n            .sprint-progress {\n                width: 100%;\n                height: auto;\n                display: flex;\n                flex-shrink: 1;\n                padding: 0;\n                margin: 0;\n                flex-direction: row;\n                overflow-x: scroll;\n                .progress {\n                  min-width: 35px;\n                  height: 35px;\n                  padding: 0;\n                  border: solid 1px white;\n                  border-radius: 5px;\n                }\n            }\n            .main-sprint {\n\n                .english-word {\n                  font-size: 2rem;\n                  font-weight: 400;\n                  line-height: 1.6;\n                  font-family: $font-stack;\n                  color: $font-color_primary;\n                }\n                \n                .translate-word {\n                  font-size: 1rem;\n                  font-weight: 400;\n                  line-height: 1.6;\n                  font-family: $font-stack;\n                  color: $font-color_primary;\n                }\n            }\n            .btn-sprint {\n                height: 10vh;\n                max-height: 40px;\n                display: flex;\n                flex-direction: row;\n                padding: 0;\n                margin-bottom: 3rem;\n                column-gap: 1rem;\n                #game-btn {\n                  font-family: 'Roboto', sans-serif;\n                  display: inline-block;\n                  outline: none;\n                  cursor: pointer;\n                  font-weight: 500;\n                  padding: 0 16px;\n                  border-radius: 4px;\n                  border: none;\n                  color: #fff;\n                  background: $color-orange;\n                  line-height: 1.15;\n                  font-size: 14px;\n                  height: 36px;\n                  word-spacing: 0px;\n                  letter-spacing: .0892857143em;\n                  text-decoration: none;\n                  text-transform: uppercase;\n                  text-align: center;\n                  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n                  background-position: center!important;\n                  transition: background 0.8s!important;\n                  transition: all .2s ease-out!important;\n                }\n            }\n        }\n    }\n}\n\n#game-btn:hover {\n  background: $color-accent radial-gradient(circle, transparent 1%, $color-accent 1%) center/15000%!important;\n}\n\n#game-btn:active {\n  background-color: #f8c963!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n}\n\n#game-btn.btn-no:hover {\n  background: red radial-gradient(circle, transparent 1%, red 1%) center/15000%!important;\n}\n\n#game-btn.btn-no:active {\n  background-color: rgb(247, 160, 160)!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n}\n\n#game-btn.btn-no:focus,\n#game-btn.btn-yes:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px scale-color(#fab32f, $lightness: 15%);\n}\n\n#game-btn.btn-yes:hover {\n  background: greenyellow radial-gradient(circle, transparent 1%, greenyellow 1%) center/15000%!important;\n}\n\n#game-btn.btn-yes:active {\n  background-color: rgb(255, 255, 255)!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n  &:focus {\n    transform: scale(1.1);\n    outline: none;\n    box-shadow: 0 0 9px 5px scale-color(#fab32f, $lightness: 15%);\n  }\n}\n\n\n.game-result-wrapper {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 3rem;\n}\n.result-window{\n  width: 80vw;\n  height: 68vh;\n  display: flex;\n  flex-direction: column;\n  align-content: center;\n  align-items: center;\n  // justify-content: space-around;\n  margin-bottom: 3rem;\n  border-radius: 25px;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: #3F5069;\n  color: #fff;\n  overflow: scroll;\n  padding: 1.7rem;\n  \n    .gameResult {\n        display: flex;\n        flex-direction: row;\n        justify-content: flex-end;\n        align-items: center;\n        width: 80vw;\n        height: auto;\n        margin: 0.6rem 0 0 0;\n        padding: 0;\n      \n        .result-left-side {\n          display: flex;\n        }\n        .point-result{\n          width: 15px;\n          height: 15px;\n          border-radius: 10px;\n          margin: 10px;\n        }\n        .result-word-left {\n          display: flex;\n          flex-direction: row;\n          column-gap: 1rem;\n          width: 26vw;\n          font-family: Roboto, sans-serif;\n          font-size: 2rem;\n          font-weight: 300;\n          text-align: start;\n          .result-word-span {\n            color: $color-accent;\n          }\n        }\n        .result-word{\n          display: flex;\n          flex-direction: row;\n          column-gap: 1rem;\n          width: 37vw;\n          font-family: Roboto, sans-serif;\n          font-size: 2rem;\n          font-weight: 300;\n          line-height: 4rem;\n          text-align: start;\n          .result-word-span-right {\n            color: greenyellow;\n          }\n        }\n    }\n}\n.correct-result-percent{\n    margin: 0 auto;\n    padding: 0;\n    p{\n        margin: 0;\n        padding: 0;\n    }\n}\n\n.true {\n  background-color: greenyellow;\n}\n\n.false {\n  background-color: red;\n}\n\n.sprintGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n.audioGameInfo {\n  width: 40rem;\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  justify-content: center;\n  margin-bottom: 4rem;\n  padding: 4rem 0 4rem 0;\n}\n\n.game-title-frame {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 3rem;\n  border-radius: 10%;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background-color: rgb(255, 255, 255);\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n}\n\nimg.sprint-title-icon {\n  width: 110px;\n  height: 110px;\n}\n\n.game-icon-box {\n  display: flex;\n  align-items: center;\n  justify-content: center;\n  width: 180px;\n  height: 180px;\n  border-radius: 50%;\n  background-color: $color-paper;\n}\n\n.game-title {\n  font-size: 2rem;\n  color: $color-dark-m;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 700;\n  margin: 0;\n}\n.game-description {\n  margin: 0 auto;\n  width: 40vw;\n  height: 15vh;\n  text-align: justify;\n  line-height: 2.4rem;\n  letter-spacing: 0.7px;\n  margin-bottom: 3rem;\n}\n\n.game-level-select {\n  font-size: 2rem;\n  font-family: \"Roboto\", sans-serif;\n  font-weight: 400;\n  color: #3d4f69;\n}\n\n.game-level-box {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  row-gap: 2rem;\n}\n\n.select-level-audio,\n.select-level-sprint {\n  cursor: pointer;\n    width: 90px;\n    border-radius: 15px;\n    background-color: rgb(250, 250, 250);\n    box-shadow: 2px 4px 8px #c5c5c5;\n    transition: all 300ms;\n    border: none;\n    padding: 1rem 0 1rem 1.2rem;\n    color: $color-accent;\n    font-family: 'Roboto', sans-serif;\n    font-weight: 900;\n    font-size: 2rem;\n}\n\n.level-option {\n  color: $font-color_light;\n  background-color: $color-dark;\n}\n\n.sad-boy-icon {\n  width: 16vw;\n  height: auto;\n  margin: 6rem auto;\n}\n\n.good-result-icon {\n  width: 10rem;\n  height: 10rem;\n}\n\n.audio-game-wrapper {\n  display: flex;\n  align-items: center;\n  height: 100vh;\n}\n\n.audio-place {\n  display: flex;\n  width: 340px;\n  height: 340px;\n  margin: 0 auto;\n  margin-bottom: 6rem;\n  border-radius: 10%;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  background: #fffdfd;\n  flex-direction: column;\n  align-items: center;\n  justify-content: space-evenly;\n  cursor: pointer;\n\n  .audio-game-icon {\n    width: 180px;\n    height: 180px;\n  }\n}\n\n.audio-place:hover {\n  box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n  background-color: $font-color_light;\n  transition: 0.3s;\n}\n\n.btn-audio {\n  display: flex;\n  column-gap: 3rem;\n  p {\n    font-family: 'Roboto', sans-serif;\n    display: flex;\n    outline: none;\n    cursor: pointer;\n    font-weight: 500;\n    padding: 1rem 0.7rem;\n    border-radius: 4px;\n    border: none;\n    color: #fff;\n    background: $color-dark;\n    font-size: 16px;\n    height: 50px;\n    letter-spacing: .0892857143em;\n    text-transform: uppercase;\n    box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);\n    background-position: center!important;\n    transition: background 0.8s!important;\n    transition: all 0.1s ease-out!important;\n    align-items: center;\n    justify-content: center;\n    align-content: center;\n  }\n  :hover {\n    box-shadow: 0px 2px 35px 14px rgba(13, 13, 13, 0.04);\n    background-color: $font-color_light;\n    background: rgba(112, 224, 37, 0.713) radial-gradient(circle, transparent 35%, rgba(112, 224, 37, 0.713) 1%) center/15000%!important;\n    // transition: 0.7s;\n  }\n  \n  :active {\n    background-color: rgba(213, 255, 44, 0.695)!important;\n    background-size: 100%!important;\n    transition: background 0s!important;\n  }\n}\n\n.sprint-game-timer {\n  animation: mymove 5s infinite alternate;\n}\n@keyframes mymove {\n  0% { background-color: rgba(0, 0, 0, 0); }\n  25% { background-color: rgba(255, 206, 83, 0.604); }\n  35% { background-color: rgba(247, 126, 46, 0.562); }\n  50% { background-color: rgba(255, 0, 55, 0.451); }\n  75% { background-color: rgba(27, 181, 13, 0.381); }\n  85% { background-color: rgba(138, 187, 200); }\n  100% { background-color: rgba(194, 126, 231, 0.601); }\n}\n\n.play-again {\n  width: 15vw;\n  height: 10vh;\n  font-size: 2rem;\n  letter-spacing: normal;\n}\n\n.btn-click {\n  background-color: $color-accent!important;\n  transition: background 0.5s!important;\n  transition: all .2s ease-out!important;\n  background: rgba(198, 238, 36, 0.695) radial-gradient(circle, transparent 55%, rgba(112, 224, 37, 0.713) 1%) center/15000%!important;\n  background-size: 100%!important;\n  transition: background 0s!important;\n  transform: scale(1.1);\n  outline: none;\n}\n\n.keyboard-control {\n  width: 370px;\n  height: 188px;\n  margin: 2rem auto 2rem auto;\n  font-weight: 300;\n  display: block;\n  color: $font-color_light;\n  line-height: 1.9rem;\n  text-align: justify;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n  background-color: $color-orange;\n  padding: 1rem;\n}\n\n.keys-control-title {\n  font-weight: 800;\n  color: $font-color_light;\n}\n\n.sprint-game-btn,\n.audio-game-btn {\n  height: 55px;\n  font-size: 20px;\n}\n.true-answear {\n  background-color: greenyellow !important;\n}",".display_none {\n  display: none;\n}\n\n#statistic {\n  width: 100vw;\n  height: 100vh;\n  margin-bottom: 8rem!important;\n}\n\n.statistic-wrapper {\n  display: flex;\n  justify-content: flex-start;\n  flex-direction: column;\n  align-items: center;\n  height: 100vh;\n  margin-top: 4rem;\n}\n\n.get-statistic {\n  @include btn-primary;\n  min-height: 44px;\n  &:hover {\n    background-color: $color-accent;\n    box-shadow: 0 8px 22px 0 rgb(37 44 97 / 15%), 0 4px 6px 0 rgb(93 100 148 / 20%);\n  }\n}\n\n.statistic-result {\n  width: 50vw;\n  height: auto;\n  display: grid;\n  grid-template-columns: 17rem 15rem 15rem;\n  // grid-template-rows: 20rem;\n  row-gap: 1.5rem;\n  justify-content: center;\n  margin: 4rem 0 8rem 0;\n}\n\n.statistic-info_sprint{\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n  p {\n    margin: 0;\n    font-size: 20px;\n    color: $color-accent;\n  }\n}\n\n.statistic-info_audio {\n  width: 15rem;\n  height: 15rem;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-evenly;\n  background-color: #fff;\n  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;\n  border-radius: 0 10px 10px 0;\n  p {\n    margin: 0;\n    font-size: 20px;\n    color: $color-accent;\n  }\n}\n\n.stat-title {\n  margin: 0;\n}\n\n.stat-grid-item1 {\n  width: 90%;\n  padding: 1rem;\n  background-color: #fff;\n  box-shadow: rgb(0 0 0 / 15%) 3px 4px 5px 0px;\n  color: $color-accent;\n  font-weight: 600;\n  border-radius: 10px;\n}\n\n.sprint-grid-padding {\n  // text-align: center;\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;\n  color: $color-accent;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.audio-grid-padding {\n  // text-align: center;\n  padding: 1rem 0 0 1rem;\n  background-color: #fff;\n  box-shadow: rgb(0 0 0 / 15%) 6px 4px 5px;\n  color: $color-accent;\n  font-weight: 600;\n  border-radius: 10px 0 0 10px;\n}\n\n.stat-span {\n  color: $color-dark;\n  font-weight: 300;\n}",".hero-container {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  @media (max-width: 690px) {\n    flex-direction: column;\n  }\n}\n\n.hero-content {\n  max-width: 424px;\n  margin: 6rem -10rem 38rem 0;\n  @media (max-width: 1150px) {\n    margin: 6rem -15rem 30rem 0;\n  }\n  @media (max-width: 980px) {\n    margin: 6rem -25rem 30rem 0;\n  }\n  @media (max-width: 768px) {\n    margin: -16rem -38rem 30rem 0;\n  }  \n  @media (max-width: 690px) {\n    margin: 6rem 6rem 0 0;\n  }\n  @media (max-width: 615px) {\n    margin: 6rem 0 0 0;\n  }\n  @media (max-width: 460px) {\n    margin: 4rem 0 2rem 0;\n    .cta-btn {\n      margin: 0 auto;\n    }\n  }\n}\n\n.hero-title {\n  text-align: left;\n  font-family: \"Roboto\", sans-serif;\n  font-size: 3rem;\n  color: $color-dark-m;\n  font-weight: 700;\n  line-height: 1;\n  margin: 0;\n  padding: 0;\n  @media (max-width: 460px) {\n   text-align: center;\n  }\n}\n\n.hero-subtitle {\n  font-family: $font-stack;\n  display: block;\n  margin-top: 8px;\n  color: $color-gray;\n  @media (max-width: 460px) {\n    text-align: center;\n   }\n}\n\n.hero-text,\n.hero-under-text {\n  @include paragraph-txt;\n  display: block;\n  margin: 16px 0px 0px;\n  @media (max-width: 460px) {\n    text-align: center;\n    margin-bottom: 1rem;\n    font-size: 18px;\n   }\n}\n\n.hero-img-box {\n  width: 700px;\n  margin: 6rem 0rem 7rem 0rem;\n  @media (max-width: 980px) {\n    margin-bottom: 0;\n  }\n  @media (max-width: 690px) {\n    display: flex;\n    width: 100vw;\n    flex-direction: column;\n    align-items: center;\n    margin: 0 0 2rem 0;\n  }\n  @media (max-width: 375px) {\n    margin-bottom: 0;\n  }\n}\n\n.hero-img-girl {\n  width: 575px;\n  margin-left: 14rem;\n  @media (max-width: 1150px) {\n    margin-left: 10rem;\n  }\n  @media (max-width: 980px) {\n    width: 390px;\n    margin-left: 21rem;\n  }\n  @media (max-width: 768px) {\n    width: 500px;\n    margin-left: 17rem;\n    margin-top: 10rem;\n  }\n  @media (max-width: 690px) {\n    width: 455px;\n    margin: 0 0 0 10rem;\n  }\n  @media (max-width: 615px) {\n    margin: 0;\n  }\n  @media (max-width: 460px) {\n    width: 395px;\n  }\n  @media (max-width: 395px) {\n    width: 320px;\n  }\n}\n\n.hero-img-guy {\n  width: 575px;\n  @media (max-width: 980px) {\n    display: block;\n    margin: 0 auto;\n  }\n  @media (max-width: 768px) {\n  margin-left: 6rem;\n  }\n  @media (max-width: 690px) {\n    width: 455px;\n    margin: 0 10rem 4rem 0;\n  }\n  @media (max-width: 615px) {\n    margin: 0;\n  }\n  @media (max-width: 460px) {\n    width: 395px;\n  }\n  @media (max-width: 395px) {\n    width: 320px;\n  }\n}","#pagination-dictionary {\n    display: flex;\n    flex-wrap: wrap;\n    justify-content: center;\n    padding: 0;\n    list-style-type: none;\n    margin-bottom: 3rem;\n    column-gap: 0.6rem;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3200,7 +4230,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}", "",{"version":3,"sources":["webpack://./styles/sass/pages/_authorization.scss"],"names":[],"mappings":"AAAA;EACE,sBAAA;AACF;;AACA;EACE,aAAA;AAEF","sourcesContent":[".wrongPassword {\n  background-color: aqua;\n}\n.closeModal {\n  display: none;\n}"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".wrongPassword {\n  background-color: aqua;\n}\n\n.closeModal {\n  display: none;\n}\n\n#autorisation-button.true {\n  background-color: #fa6930;\n}", "",{"version":3,"sources":["webpack://./styles/sass/pages/_authorization.scss"],"names":[],"mappings":"AAAA;EACE,sBAAA;AACF;;AACA;EACE,aAAA;AAEF;;AACA;EACE,yBAAA;AAEF","sourcesContent":[".wrongPassword {\n  background-color: aqua;\n}\n.closeModal {\n  display: none;\n}\n\n#autorisation-button.true {\n  background-color: #fa6930;\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -3228,7 +4258,7 @@ var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBP
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);"]);
 ___CSS_LOADER_EXPORT___.push([module.id, "@import url(http://weloveiconfonts.com/api/?family=fontawesome);"]);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  margin: 0px 8px;\n  background: #3f5069;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 18px;\n  border-radius: 10px;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  user-select: none;\n  transition: color 0.3s ease 0s;\n  outline: none;\n  cursor: pointer;\n}\n\n.prev-btn:hover,\n.next-btn:hover {\n  background-color: #ffb108;\n}\n\n.active-page {\n  background-color: #ffb108;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 60rem;\n  height: 18rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 28rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  justify-content: space-between;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  height: 1.3rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  position: fixed;\n  left: 0;\n  top: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  justify-content: space-between;\n}\n\n.groups_list__item {\n  height: 70px;\n  width: 215px;\n  background-color: #3f5069;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.4rem;\n  overflow: hidden;\n  border: none;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n}\n\n.groups_list__item:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.active-group {\n  background-color: #ffb108;\n}", "",{"version":3,"sources":["webpack://./styles/sass/pages/_textbook.scss"],"names":[],"mappings":"AAGA;EACE,aAAA;EACA,eAAA;EACA,uBAAA;EACA,UAAA;EACA,qBAAA;AAAF;;AAGA;;;EAGI,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,WAAA;EACA,YAAA;EACA,eAAA;EACA,mBAAA;EACA,WAAA;EACA,uDAAA;EACA,gBAAA;EACA,eAAA;EACA,mBAAA;EACA,4CAAA;EACA,iBAAA;EACA,8BAAA;EACA,aAAA;EACA,eAAA;AAAJ;;AAGA;;EAEE,yBAAA;AAAF;;AAGA;EACE,yBAAA;AAAF;;AAIA;EACE,UAAA;EACA,cAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,mBAAA;AADF;;AAIA;EACE,YAAA;EACA,aAAA;EACA,aAAA;EACA,4CAAA;EACA,mBAAA;EACA,UAAA;EACA,oCAAA;EACA,WAAA;EACA,mBAAA;EACA,uDAAA;EACA,gBAAA;EACA,iBAAA;EACA,yBAAA;AADF;;AAIA;;;EAGE,yBAAA;AADF;;AAIA;EACE,YAAA;EACA,YAAA;EACA,mBAAA;AADF;;AAMA;EACE,aAAA;EACA,sBAAA;EACA,cAAA;EACA,eAAA;EACA,8BAAA;EACA,mBAAA;EACA,mBAAA;AAHF;;AAMA;EACE,WAAA;EACA,aAAA;EACA,yBAAA;EACA,8BAAA;AAHF;;AAMA;EACE,aAAA;EACA,eAAA;AAHF;;AAMA;EACE,8BAAA;EACA,kBAAA;AAHF;;AAMA;;;;;;EAME,SAAA;AAHF;;AAMA;EACE,eAAA;EACA,0BAAA;EACA,gBAAA;EACA,iBAAA;EACA,iBAAA;AAHF;;AAMA;EACE,eAAA;EACA,iBAAA;EACA,oBAAA;EACA,gBAAA;AAHF;;AAMA;EACE,cAAA;EACA,cAAA;AAHF;;AAMA;EACE,iBAAA;EACA,cAAA;EACA,cAAA;EACA,0BAAA;AAHF;;AAMA;EACE,eAAA;EACA,OAAA;EACA,MAAA;EACA,aAAA;EACA,sBAAA;EACA,SAAA;EACA,8BAAA;AAHF;;AAMA;EACE,YAAA;EACA,YAAA;EACA,yBAAA;EACA,aAAA;EACA,uBAAA;EACA,mBAAA;EACA,+BAAA;EACA,gBAAA;EACA,kBAAA;EACA,eAAA;EACA,kBAAA;EACA,WAAA;EACA,iBAAA;EACA,iBAAA;EACA,gBAAA;EACA,YAAA;EACA,eAAA;EACA,yBAAA;EACA,4CAAA;EACA,mBAAA;AAHF;;AAMA;EACE,mBAAA;EACA,0HAAA;AAHF;;AAMA;EACE,yBAAA;AAHF","sourcesContent":["@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n    display: flex;\n    justify-content: center;\n    align-items: center;\n    width: 40px;\n    height: 40px;\n    margin: 0px 8px;\n    background: #3f5069;\n    color: #fff;\n    font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n    font-weight: 400;\n    font-size: 18px;\n    border-radius: 10px;\n    box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n    user-select: none;\n    transition: color 0.3s ease 0s;\n    outline: none;\n    cursor: pointer;\n}\n\n.prev-btn:hover,\n.next-btn:hover {\n  background-color: #ffb108;\n}\n\n.active-page {\n  background-color: #ffb108;\n}\n\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 60rem;\n  height: 18rem;\n  display: flex;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 28rem;\n  height: 100%;\n  border-radius: 10px;\n  // object-fit: cover;\n  // object-position: center center;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  justify-content: space-between;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  height: 1.3rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  position: fixed;\n  left: 0;\n  top: 0;\n  display: flex;\n  flex-direction: column;\n  gap: 1rem;\n  justify-content: space-between;\n}\n\n.groups_list__item {\n  height: 70px;\n  width: 215px;\n  background-color: #3f5069;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  border-radius: 3px;\n  padding: 0 16px;\n  border-radius: 4px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.4rem;\n  overflow: hidden;\n  border: none;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n}\n\n.groups_list__item:hover {\n  background: #ffb108;\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.active-group {\n  background-color: #ffb108;\n}\n\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".textbook_container {\n  padding-top: 6rem;\n}\n\n#textbook-wrapper {\n  position: relative;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  background: #fff;\n  color: #000;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 300;\n  font-size: 20px;\n  border-radius: 50%;\n  user-select: none;\n  transition: color 0.5s ease 0s;\n  outline: none;\n  cursor: pointer;\n  align-content: center;\n}\n\n.prev-btn:hover,\n.next-btn:hover,\n.pagination_number:hover {\n  background-color: rgb(242, 166, 99);\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n  color: #fff;\n}\n\n.active-page {\n  background: rgb(242, 166, 99);\n  color: #fff;\n}\n\n.next-btn {\n  border-radius: 0 25px 25px 0;\n  width: 125px;\n}\n\n.prev-btn {\n  border-radius: 25px 0 0 25px;\n  width: 125px;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  gap: 35px;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 67rem;\n  height: 24rem;\n  display: flex;\n  box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 32rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  padding-right: 0;\n  justify-content: space-around;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  width: 12rem;\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  background-color: rgb(96, 164, 191);\n  height: 2rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  background-color: rgb(96, 164, 191);\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 6rem;\n  column-gap: 1rem;\n}\n\n.groups_list__item {\n  height: 60px;\n  width: 147px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  padding: 0 16px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.2rem;\n  overflow: hidden;\n  border: none;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all easy 0.5s;\n}\n.groups_list__item:nth-child(1) {\n  background-color: rgb(242, 105, 92);\n}\n.groups_list__item:nth-child(1):hover {\n  background-color: rgba(242, 105, 92, 0.9);\n}\n.groups_list__item:nth-child(2) {\n  background-color: rgb(242, 166, 99);\n}\n.groups_list__item:nth-child(2):hover {\n  background-color: rgba(242, 166, 99, 0.9);\n}\n.groups_list__item:nth-child(3) {\n  background-color: rgb(250, 170, 186);\n}\n.groups_list__item:nth-child(3):hover {\n  background-color: rgba(250, 170, 186, 0.9);\n}\n.groups_list__item:nth-child(4) {\n  background-color: rgb(136, 191, 176);\n}\n.groups_list__item:nth-child(4):hover {\n  background-color: rgba(136, 191, 176, 0.9);\n}\n.groups_list__item:nth-child(5) {\n  background-color: rgb(96, 164, 191);\n}\n.groups_list__item:nth-child(5):hover {\n  background-color: rgba(96, 164, 191, 0.9);\n}\n.groups_list__item:nth-child(6) {\n  background-color: rgb(89, 72, 77);\n}\n.groups_list__item:nth-child(6):hover {\n  background-color: rgba(89, 72, 77, 0.9);\n}\n\n.groups_list__item:hover {\n  box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\nbutton.groups_list__item.active-group {\n  box-shadow: 4px 4px 5px -1px rgba(0, 0, 0, 0.2), 0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);\n}\n\n.authorization_block {\n  width: 16%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  gap: 90px;\n  padding: 10px;\n  padding-bottom: 2rem;\n}\n\n.btn_authorization_block {\n  display: flex;\n  width: 140px;\n  height: 50px;\n  font-size: 18px;\n  text-transform: none;\n  padding: 0;\n  justify-content: center;\n  align-items: center;\n  background-color: rgb(241, 105, 91);\n}\n\n.btn-dif-word {\n  background-color: rgb(242, 166, 99);\n}\n\n.back-to-top-wrapper {\n  position: absolute;\n  top: 100vh;\n  right: 7rem;\n  bottom: 0em;\n  width: 3em;\n  pointer-events: none;\n}\n\n.back-to-top-link {\n  position: sticky;\n  pointer-events: all;\n  top: calc(100vh - 5rem);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  text-decoration: none;\n  text-align: center;\n  width: 100px;\n  height: 35px;\n  border-radius: 5px;\n  padding: 0.25rem;\n  cursor: pointer;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 12px;\n  text-transform: uppercase;\n  background-color: #ffcc5e;\n  user-select: none;\n  transition: color 1s ease-in-out 0s;\n}\n.back-to-top-link:hover {\n  background-color: #ffb108;\n}\n.back-to-top-link:focus {\n  transform: scale(1.1);\n  outline: none;\n  box-shadow: 0 0 9px 5px #fbbe4e;\n}", "",{"version":3,"sources":["webpack://./styles/sass/pages/_textbook.scss"],"names":[],"mappings":"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","sourcesContent":["@import url(https://fonts.googleapis.com/css?family=Open+Sans:400);\n@import url(http://weloveiconfonts.com/api/?family=fontawesome);\n\n.textbook_container {\n  padding-top: 6rem;\n}\n\n#textbook-wrapper {\n  position: relative;\n}\n\n#pagination {\n  display: flex;\n  flex-wrap: wrap;\n  justify-content: center;\n  padding: 0;\n  list-style-type: none;\n  margin-bottom: 3rem;\n  column-gap: 0.6rem;\n}\n\n.pagination_number,\n.prev-btn,\n.next-btn {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  width: 40px;\n  height: 40px;\n  background: #fff;\n  color: #000;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 300;\n  font-size: 20px;\n  border-radius: 50%;\n  user-select: none;\n  transition: color 0.5s ease 0s;\n  outline: none;\n  cursor: pointer;\n  align-content: center;\n}\n\n.prev-btn:hover,\n.next-btn:hover,\n.pagination_number:hover {\n  background-color: rgb(242, 166, 99);\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n  color: #fff;\n}\n\n.active-page {\n  background: rgb(242, 166, 99);\n  color: #fff;\n}\n\n.next-btn {\n  border-radius: 0 25px 25px 0;\n  width: 125px;\n}\n\n.prev-btn {\n  border-radius: 25px 0 0 25px;\n  width: 125px;\n}\n\n.textbook-list {\n  padding: 0;\n  margin: 0 auto;\n  display: flex;\n  flex-direction: column;\n  gap: 35px;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 3rem;\n}\n\n.textbook-list_item {\n  width: 67rem;\n  height: 24rem;\n  display: flex;\n  box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  border-radius: 10px;\n  padding: 0;\n  background-color: rgb(250, 252, 254);\n  color: #000;\n  font-size: 0.875rem;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  line-height: 1.43;\n  letter-spacing: 0.01071em;\n}\n\n.translate,\n.description-translate,\n.example-translate {\n  color: rgb(136, 136, 136);\n}\n\n.textbook-card-img {\n  width: 32rem;\n  height: 100%;\n  border-radius: 10px;\n}\n\n.textbook-list_item__wrapper {\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n  padding: 1.2rem;\n  padding-right: 0;\n  justify-content: space-around;\n  align-items: center;\n  line-height: 1.7rem;\n}\n\n.upper_card-row {\n  width: 100%;\n  display: flex;\n  -webkit-box-pack: justify;\n  justify-content: space-between;\n}\n\n.word-wrapper {\n  display: flex;\n  flex-wrap: wrap;\n}\n\n.upper_card-box {\n  width: 12rem;\n  border-left: 3px solid #3f5069;\n  padding-left: 23px;\n}\n\n.word,\np.description,\np.description-translate,\np.example,\np.example-translate,\np.transcription {\n  margin: 0;\n}\n\nh2.word {\n  display: inline;\n  text-transform: capitalize;\n  font-weight: 500;\n  font-size: 1.5rem;\n  line-height: 28px;\n}\n\np.transcription {\n  display: inline;\n  font-size: 1.2rem;\n  text-transform: none;\n  font-weight: 300;\n}\n\n.bnt-textbook {\n  background-color: rgb(96 164 191);\n  height: 2rem;\n  margin: 0.2rem;\n}\n\n.bnt-bell {\n  background-color: rgb(96 164 191);\n  min-width: 1.5rem;\n  height: 1.5rem;\n  margin: 0.2rem;\n  padding: 0 0 0.2rem 0.2rem;\n}\n\n.groups {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  margin-bottom: 6rem;\n  column-gap: 1rem;\n}\n\n.groups_list__item {\n  height: 60px;\n  width: 147px;\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  font-family: Roboto, sans-serif;\n  font-weight: 500;\n  padding: 0 16px;\n  color: #fff;\n  line-height: 1.15;\n  font-size: 1.2rem;\n  overflow: hidden;\n  border: none;\n  border-radius: 3px;\n  cursor: pointer;\n  transition: all easy 0.5s;\n  // box-shadow: rgb(0 0 0 / 15%) 0px 0px 10px;\n  &:nth-child(1) {\n    background-color: rgb(242, 105, 92);\n    &:hover {\n      background-color: rgba(242, 105, 92, 0.9);\n    }\n  }\n  &:nth-child(2) {\n    background-color: rgb(242, 166, 99);\n    &:hover {\n      background-color: rgba(242, 166, 99, 0.9);\n    }\n  }\n  &:nth-child(3) {\n    background-color: rgb(250, 170, 186);\n    &:hover {\n      background-color: rgba(250, 170, 186, 0.9);\n    }\n  }\n  &:nth-child(4) {\n    background-color: rgb(136, 191, 176);\n    &:hover {\n      background-color: rgba(136, 191, 176, 0.9);\n    }\n  }\n  &:nth-child(5) {\n    background-color: rgb(96, 164, 191);\n    &:hover {\n      background-color: rgba(96, 164, 191, 0.9);\n    }\n  }\n  &:nth-child(6) {\n    background-color: rgb(89, 72, 77);\n    &:hover {\n      background-color: rgba(89, 72, 77, 0.9);\n    }\n  }\n}\n\n.groups_list__item:hover {\n  box-shadow: 0px 2px 4px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\nbutton.groups_list__item.active-group  {\n  box-shadow: 4px 4px 5px -1px rgb(0 0 0 / 20%), 0px 4px 5px 0px rgb(0 0 0 / 14%), 0px 1px 10px 0px rgb(0 0 0 / 12%);\n}\n\n.authorization_block {\n  width: 16%;\n  height: 100%;\n  display: flex;\n  flex-direction: column;\n  justify-content: flex-end;\n  gap: 90px;\n  padding: 10px;\n  padding-bottom: 2rem;\n}\n\n.btn_authorization_block {\n  display: flex;\n  width: 140px;\n  height: 50px;\n  font-size: 18px;\n  text-transform: none;\n  padding: 0;\n  justify-content: center;\n  align-items: center;\n  background-color: rgb(241 105 91);\n}\n\n.btn-dif-word {\n  background-color: rgb(242, 166, 99);\n}\n\n\n.back-to-top-wrapper {\n  position: absolute;\n  top: 100vh;\n  right: 7rem;\n  bottom: 0em;\n  width: 3em;\n  pointer-events: none;\n}\n\n.back-to-top-link {\n  position: sticky;\n  pointer-events: all;\n  top: calc(100vh - 5rem);\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  text-decoration: none;\n  text-align: center;\n  width: 100px;\n  height: 35px;\n  border-radius: 5px;\n  padding: 0.25rem;\n  cursor: pointer;\n  color: #fff;\n  font-family: \"Roboto\", \"Helvetica\", \"Arial\", sans-serif;\n  font-weight: 400;\n  font-size: 12px;\n  text-transform: uppercase;\n  background-color: #ffcc5e;\n  user-select: none;\n  transition: color 1s ease-in-out 0s;\n\n  &:hover {\n    background-color: #ffb108;\n  }\n\n  &:focus {\n    transform: scale(1.1);\n    outline: none;\n    box-shadow: 0 0 9px 5px scale-color(#fab32f, $lightness: 15%);\n  }\n}"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 

@@ -11,21 +11,23 @@
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
   <title>RSlang</title>
 <script defer="defer" src="vendors-node_modules_babel_polyfill_lib_index_js-node_modules_css-loader_dist_runtime_api_js--b3e1e9.js"></script><script defer="defer" src="main.js"></script></head>
+
 <body>
+<div class="menu-filter"></div>
   <header class="header" id="pageHeader">
     <div class="wrapper header-container">
-      <div class="header-left">
-        <img src="./assets/logo.png" alt="logo icon" class="logo-icon" width="40px" height="40px">
-        <a href="index.html" class="logo">RSLang</a>
-      </div>
-      <div class="header-right">
+      <div class="header-left-wrapper">
+        <a href="#home" class="header-left">
+          <img src="./assets/logo.png" alt="logo icon" class="logo-icon" width="40px" height="40px">
+          <p class="logo">RSLang</p>
+        </a>
         <nav class="nav__container">
           <ul class="nav">
             <li data-nav="home" class="nav-item">
-              <a href="/" class="nav-link">Home</a>
+              <a href="#home" class="nav-link">Home</a>
             </li>
             <li data-nav="textbook" class="nav-item">
-              <a href="#textbook" class="nav-link">Textbook</a>
+              <a href="#textbook-wrapper" class="nav-link">Textbook</a>
             </li>
             <li data-nav="dictionary" class="nav-item">
               <a href="#dictionary" class="nav-link">Dictionary</a>
@@ -41,14 +43,20 @@
             </li>
           </ul>
         </nav>
+      </div>
+      <div class="right-elems-wrapper">
         <div class="auth__container">
           <a href="#openModal">
-            <button id="autorisation-button" type="button" class="btn-basic">Sign In</button>
+            <button id="autorisation-button" type="button" class="btn-basic signIn-btn">Sign In</button>
           </a>
+        </div>
+        <div class="hamburger">
+          <li class="line line1"></li>
+          <li class="line line2"></li>
+          <li class="line line3"></li>
         </div>
       </div>
     </div>
-    
   </header>
   <!-- main -->
   <main class="main">
@@ -60,11 +68,11 @@
           <p class="hero-text">Memorizing English words can be fun and challenging. Play games, listen to pronunciation,
             improve your knowledge. With our app, learning is a joy.</p>
           <p class="hero-under-text">We Hope You'll Enjoy It!</p>
-          <a href="#textbook" class="btn-basic cta-btn">let's start</a>
+          <a id="lets-start" href="#textbook" class="btn-basic cta-btn">let's start</a>
         </div>
         <div class="hero-img-box">
-          <img src="./assets/image/hero-guy.png" alt="guy learning english" class="hero-img-guy">
-          <img src="./assets/image/hero-girl.png" alt="girl learning english" class="hero-img-girl">
+          <img src="./assets/image/girl.png" alt="guy learning english" class="hero-img-girl">
+          <img src="./assets/image/guy.png" alt="girl learning english" class="hero-img-guy">
         </div>
       </div>
     </section>
@@ -73,7 +81,7 @@
       <div class="wrapper advantages-container">
         <h2 class="section-title">Advantages</h2>
         <div class="advantages-content">
-          <div class="advantages-card">
+          <div class="advantages-card" id="textbook-main-card">
             <img src="./assets/svg/textbook.png" alt="textbook icon" class="adv-card-icon" width="60px" height="60px">
             <h3 class="adv-card-title card-title">Textbook</h3>
             <p class="adv-card-desc paragraph-text">The electronic textbook consists of six sections. Each section has
@@ -86,7 +94,7 @@
             <p class="adv-card-desc paragraph-text">For learning words and reinforcing memorization, the application has
               2 games: Audio Challenge, Sprint, which will help you to "pump" your vocabulary in a playful way.</p>
           </div>
-          <div class="advantages-card">
+          <div class="advantages-card" id="statistic-main-card">
             <img src="./assets/svg/statistics.png" alt="statistics icon" class="adv-card-icon" width="60px" height="60px">
             <h3 class="adv-card-title card-title">Statistics</h3>
             <p class="adv-card-desc paragraph-text">All the progress of training can be viewed in statistics, where data
@@ -107,11 +115,8 @@
           <div class="about-content">
             <h3 class="about-name card-title">Artem Puzik</h3>
             <span class="about-subtitle">Frontend developer, Team lead</span>
-            <p class="about-desc paragraph-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sint
-              assumenda quibusdam minus libero nulla veritatis, iusto neque dolores labore sapiente alias, ipsam
-              eligendi, nobis illo quis fugit unde delectus nisi facilis ab expedita fuga. Dolorem facere earum pariatur
-              ad odit!</p>
-            <a href="https://github.com/1991artem" class="about-github">
+            <p class="about-desc paragraph-text">Carried out the basic configuration of the project and the repository setup, user authorization, logic of the games "Sprint" and "Audio Challenge", statistics logic, API creation, backend.</p>
+            <a href="https://github.com/1991artem" class="about-github" target="_blank">
               <img src="./assets/svg/github.png" alt="github icon" class="github-icon">
             </a>
           </div>
@@ -123,11 +128,8 @@
           <div class="about-content">
             <h3 class="about-name card-title">Nikita Snitko</h3>
             <span class="about-subtitle">Frontend developer</span>
-            <p class="about-desc paragraph-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nihil
-              sapiente aliquid modi ipsa suscipit dignissimos excepturi odit quod, aspernatur rem corrupti velit
-              deleniti necessitatibus quo, laborum autem obcaecati perferendis quidem. Odit, veniam nisi! Non illo vitae
-              assumenda. Fugiat, facere tempore?</p>
-            <a href="https://github.com/Snitkon" class="about-github">
+            <p class="about-desc paragraph-text">Implemented the functionality of the textbook page, dictionary page and it's interconnection with user authorization state, work with the API.</p>
+            <a href="https://github.com/Snitkon" class="about-github" target="_blank">
               <img src="./assets/svg/github.png" alt="github icon" class="github-icon">
             </a>
           </div>
@@ -139,10 +141,8 @@
           <div class="about-content">
             <h3 class="about-name card-title">Anna Baranova</h3>
             <span class="about-subtitle">Frontend developer, Designer</span>
-            <p class="about-desc paragraph-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic aperiam ex
-              tempora eos sunt quod nisi rem labore vitae qui earum amet dolore, minima fugiat, natus quaerat quia
-              possimus ut tempore quos odit, obcaecati repudiandae laboriosam voluptatibus. Possimus, quam minima.</p>
-            <a href="https://github.com/annabarnv" class="about-github">
+            <p class="about-desc paragraph-text">Designed layout of the application, participated in the development of the registration form, customized textbook page pagination, designed the UI of the games.</p>
+            <a href="https://github.com/annabarnv" class="about-github" target="_blank">
               <img src="./assets/svg/github.png" alt="github icon" class="github-icon">
             </a>
           </div>
@@ -150,13 +150,11 @@
       </div>
     </section>
     <!-- Textbook -->
-    <div class="groups">
-    </div>
-    <ul id="pagination">
-    </ul>
-    <div class="main_container">
-    </div>
+    <!-- <button id="test">Test</button> -->
+    <div id="textbook-wrapper" class="textbook_container"></div>
+    <div id="dictionary-wrapper" class="dictionary-container"></div>
   </main>
+
   <!-- footer -->
   <footer class="footer">
     <div class="wrapper footer-container">
@@ -164,15 +162,16 @@
         <p class="year">© 2022</p>
       </div>
       <div class="github-box">
-        <a href="https://github.com/1991artem" class="github-link">1991artem</a>
-        <a href="https://github.com/Snitkon" class="github-link">Snitkon</a>
-        <a href="https://github.com/annabarnv" class="github-link">annabarnv</a>
+        <a href="https://github.com/1991artem" class="github-link" target="_blank">1991artem</a>
+        <a href="https://github.com/Snitkon" class="github-link" target="_blank">Snitkon</a>
+        <a href="https://github.com/annabarnv" class="github-link" target="_blank">annabarnv</a>
       </div>
-      <a href="https://rs.school/js/">
+      <a href="https://rs.school/js/" target="_blank">
         <img src="./assets/svg/rs-school-js.svg" alt="rss-logo" class="rss-logo">
       </a>
     </div>
   </footer>
+
   <!-- modal window -->
   <div id="openModal" class="modal overlay__modal closeModal">
     <a href="#close" class="modal-out-area"></a>
@@ -197,7 +196,8 @@
             </div>
           </form>
           <div class="form-footer">
-            <p class="signup-link"><a id="sing-up" href="#openModal" myclick="changeLoginWindow">Don't have an account? Sign Up</a></p>
+            <p class="signup-link"><a id="sing-up" href="#openModal" myclick="changeLoginWindow">Don't have an account?
+                Sign Up</a></p>
           </div>
         </div>
         <div class="form-wrapper signup-form-container">
@@ -230,4 +230,5 @@
     </div>
   </div>
 </body>
+
 </html>
