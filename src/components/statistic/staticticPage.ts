@@ -24,7 +24,7 @@ export class StatisticPage {
     }
     buttonClick(){
         const onClick = (e:Event) => {
-            if((<HTMLElement>e.target).innerHTML == 'Statistics'){
+            if((<HTMLElement>e.target).innerHTML == 'Statistics' || (<HTMLElement>e.target).id == 'statistic-main-card'){
                 if(StartPageListener.MAIN){
                     StartPageListener.STATISTIC?.classList.remove('display_none');
                     StartPageListener.HERO_PAGE?.classList.add("display_none");
@@ -56,6 +56,9 @@ export class StatisticPage {
         if(StartPageListener.NAV){
             StartPageListener.NAV.addEventListener('click', onClick);
         }
+        if(document.querySelector('#statistic-main-card')){
+            document.querySelector('#statistic-main-card')?.addEventListener('click', onClick)
+          }
     }
 
     static async workWithStatistic(array: IResGame[], game: string){
