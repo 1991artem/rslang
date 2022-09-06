@@ -2942,17 +2942,18 @@ function () {
 
 var hamIcon = document.querySelector('.hamburger');
 var navMenu = document.querySelector('.nav__container');
-var navLink = document.querySelectorAll('.nav-link');
 var navList = document.querySelector('.nav');
 var menuFilter = document.querySelector('.menu-filter');
 var signInBtn = document.querySelector('.signIn-btn');
 hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.addEventListener('click', openMenu);
 menuFilter === null || menuFilter === void 0 ? void 0 : menuFilter.addEventListener('click', openMenu);
-navList === null || navList === void 0 ? void 0 : navList.addEventListener('click', openMenu);
+navList === null || navList === void 0 ? void 0 : navList.addEventListener('click', checkOpenMenu);
 
 function checkOpenMenu() {
   if (hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.classList.contains('open')) {
     navList === null || navList === void 0 ? void 0 : navList.addEventListener('click', openMenu);
+  } else {
+    navList === null || navList === void 0 ? void 0 : navList.removeEventListener('click', openMenu);
   }
 }
 
