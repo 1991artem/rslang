@@ -2307,6 +2307,7 @@ img.sprint-title-icon {
   -moz-column-gap: 3rem;
        column-gap: 3rem;
   justify-content: center;
+  margin: 0 1rem;
 }
 @media (max-width: 475px) {
   .btn-audio {
