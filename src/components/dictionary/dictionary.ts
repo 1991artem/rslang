@@ -1,7 +1,7 @@
 import { API } from "../api";
 import { AutorisationForm } from "../autorisation/autorisation-form";
 import { DataStorage } from "../dataStorage";
-import { IWordsData } from "../interfaces";
+import { Groups, IWordsData } from "../interfaces";
 import { StartPageListener } from "../startPageListener";
 import { Card } from "../textbook/textbook";
 
@@ -80,9 +80,21 @@ export class Dictionary {
             StartPageListener.NAV.addEventListener("click", onClick);
         }
 
-        StartPageListener.GROUPS_DICTIONARY?.addEventListener("click", (event) => {
+        StartPageListener.GROUPS_DICTIONARY?.addEventListener("click", async (event) => {
+          await this.checkAutorization();
+          if(DataStorage.isUserAutorized) {
             const btn = event.target as HTMLElement;
-            console.log(btn)
+            if(btn.classList.contains('groups_list__item')){
+              //@ts-ignore
+              const groupNumber = Groups[btn.textContent];
+              console.log('Index group: ', groupNumber)
+              if (groupNumber >= 0){
+                const userWords = DataStorage.userWords;
+                const dictionaryWords = userWords?.map((el) => el.optional as IWordsData).filter((el) => el.group === groupNumber)
+                this.renderCards(dictionaryWords as IWordsData[])
+              }
+            }
+          }
         })
     }
 
