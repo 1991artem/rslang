@@ -1141,8 +1141,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../api */ "./components/api.ts");
 /* harmony import */ var _autorisation_autorisation_form__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../autorisation/autorisation-form */ "./components/autorisation/autorisation-form.ts");
 /* harmony import */ var _dataStorage__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../dataStorage */ "./components/dataStorage.ts");
-/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../startPageListener */ "./components/startPageListener.ts");
-/* harmony import */ var _textbook_textbook__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../textbook/textbook */ "./components/textbook/textbook.ts");
+/* harmony import */ var _interfaces__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../interfaces */ "./components/interfaces.ts");
+/* harmony import */ var _startPageListener__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../startPageListener */ "./components/startPageListener.ts");
+/* harmony import */ var _textbook_textbook__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../textbook/textbook */ "./components/textbook/textbook.ts");
 var __awaiter = undefined && undefined.__awaiter || function (thisArg, _arguments, P, generator) {
   function adopt(value) {
     return value instanceof P ? value : new P(function (resolve) {
@@ -1292,6 +1293,7 @@ var __generator = undefined && undefined.__generator || function (thisArg, body)
 
 
 
+
 var Dictionary =
 /** @class */
 function () {
@@ -1324,27 +1326,54 @@ function () {
     btnNext.className = "next-btn";
     btnPrev.className = "prev-btn";
 
-    if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.MAIN) {
-      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.append(GROUPS_DICTIONARY);
-      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _b === void 0 ? void 0 : _b.append(PAGINATION_DICTIONARY);
-      (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _c === void 0 ? void 0 : _c.append(DICTIONARY);
-      (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
-      (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.SINGIN) === null || _e === void 0 ? void 0 : _e.addEventListener("click", function () {
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.MAIN) {
+      (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.append(GROUPS_DICTIONARY);
+      (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY_CONTAINER) === null || _b === void 0 ? void 0 : _b.append(PAGINATION_DICTIONARY);
+      (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY_CONTAINER) === null || _c === void 0 ? void 0 : _c.append(DICTIONARY);
+      (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY_CONTAINER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+      (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.SINGIN) === null || _e === void 0 ? void 0 : _e.addEventListener("click", function () {
         return __awaiter(_this, void 0, void 0, function () {
-          return __generator(this, function (_a) {
-            switch (_a.label) {
+          var _this = this;
+
+          var _a;
+
+          return __generator(this, function (_b) {
+            switch (_b.label) {
               case 0:
                 return [4
                 /*yield*/
                 , this.checkAutorization()];
 
               case 1:
-                _a.sent();
+                _b.sent();
 
                 if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized) {
                   this.getUsersWord();
                 }
 
+                (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.AUTORISATION_SINGIN) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function () {
+                  return __awaiter(_this, void 0, void 0, function () {
+                    return __generator(this, function (_a) {
+                      switch (_a.label) {
+                        case 0:
+                          return [4
+                          /*yield*/
+                          , this.checkAutorization()];
+
+                        case 1:
+                          _a.sent();
+
+                          if (!_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized) {
+                            DICTIONARY.innerHTML = "<span>Requires login with an account</span>";
+                          }
+
+                          return [2
+                          /*return*/
+                          ];
+                      }
+                    });
+                  });
+                });
                 return [2
                 /*return*/
                 ];
@@ -1354,10 +1383,10 @@ function () {
       });
     }
 
-    _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.listen();
+    _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.listen();
     PAGINATION_DICTIONARY.prepend(btnPrev);
-    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group", _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GROUPS_DICTIONARY, this.englishLevel, "id");
-    this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.PAGINATION_DICTIONARY);
+    this.dynamicList(this.quantityGroups, "button", "groups_list__item", "active-group", _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.GROUPS_DICTIONARY, this.englishLevel, "id");
+    this.dynamicList(this.visiblePages, "li", "pagination_number", "active-page", _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.PAGINATION_DICTIONARY);
     PAGINATION_DICTIONARY.append(btnNext);
     this.buttonClick();
   };
@@ -1372,33 +1401,85 @@ function () {
         var _a, _b, _c, _d, _e, _f, _g;
 
         return __generator(this, function (_h) {
-          if (e.target.textContent === "Dictionary") {
-            if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.MAIN) {
-              (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.classList.remove("display_none");
-              (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.TEXTBOOK_CONTAINER) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
-              (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.STATISTIC) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
-              (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GAME_PAGE_WRAPPER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
-              (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.HERO_PAGE) === null || _e === void 0 ? void 0 : _e.classList.add("display_none");
-              (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.ADVANTAGES_PAGE) === null || _f === void 0 ? void 0 : _f.classList.add("display_none");
-              (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.ABOUT_PAGE) === null || _g === void 0 ? void 0 : _g.classList.add("display_none");
-              this.getUsersWord();
-            }
-          }
+          switch (_h.label) {
+            case 0:
+              if (!(e.target.textContent === "Dictionary")) return [3
+              /*break*/
+              , 2];
+              return [4
+              /*yield*/
+              , this.checkAutorization()];
 
-          return [2
-          /*return*/
-          ];
+            case 1:
+              _h.sent();
+
+              if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized) {
+                this.getUsersWord();
+              }
+
+              if (_startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.MAIN) {
+                (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY_CONTAINER) === null || _a === void 0 ? void 0 : _a.classList.remove("display_none");
+                (_b = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.TEXTBOOK_CONTAINER) === null || _b === void 0 ? void 0 : _b.classList.add("display_none");
+                (_c = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.STATISTIC) === null || _c === void 0 ? void 0 : _c.classList.add("display_none");
+                (_d = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.GAME_PAGE_WRAPPER) === null || _d === void 0 ? void 0 : _d.classList.add("display_none");
+                (_e = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.HERO_PAGE) === null || _e === void 0 ? void 0 : _e.classList.add("display_none");
+                (_f = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.ADVANTAGES_PAGE) === null || _f === void 0 ? void 0 : _f.classList.add("display_none");
+                (_g = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.ABOUT_PAGE) === null || _g === void 0 ? void 0 : _g.classList.add("display_none");
+              }
+
+              _h.label = 2;
+
+            case 2:
+              return [2
+              /*return*/
+              ];
+          }
         });
       });
     };
 
-    if (_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.NAV) {
-      _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.NAV.addEventListener("click", onClick);
+    if (_startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.NAV) {
+      _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.NAV.addEventListener("click", onClick);
     }
 
-    (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.GROUPS_DICTIONARY) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function (event) {
-      var btn = event.target;
-      console.log(btn);
+    (_a = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.GROUPS_DICTIONARY) === null || _a === void 0 ? void 0 : _a.addEventListener("click", function (event) {
+      return __awaiter(_this, void 0, void 0, function () {
+        var btn, groupNumber_1, userWords, dictionaryWords;
+        return __generator(this, function (_a) {
+          switch (_a.label) {
+            case 0:
+              return [4
+              /*yield*/
+              , this.checkAutorization()];
+
+            case 1:
+              _a.sent();
+
+              if (_dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.isUserAutorized) {
+                btn = event.target;
+
+                if (btn.classList.contains('groups_list__item')) {
+                  groupNumber_1 = _interfaces__WEBPACK_IMPORTED_MODULE_3__.Groups[btn.textContent];
+                  console.log('Index group: ', groupNumber_1);
+
+                  if (groupNumber_1 >= 0) {
+                    userWords = _dataStorage__WEBPACK_IMPORTED_MODULE_2__.DataStorage.userWords;
+                    dictionaryWords = userWords === null || userWords === void 0 ? void 0 : userWords.map(function (el) {
+                      return el.optional;
+                    }).filter(function (el) {
+                      return el.group === groupNumber_1;
+                    });
+                    this.renderCards(dictionaryWords);
+                  }
+                }
+              }
+
+              return [2
+              /*return*/
+              ];
+          }
+        });
+      });
     });
   };
 
@@ -1432,9 +1513,9 @@ function () {
   };
 
   Dictionary.prototype.renderCards = function (cards) {
-    var ulElement = _startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.DICTIONARY;
+    var ulElement = _startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.DICTIONARY;
     var result = cards.reduce(function (prevValue, currValue) {
-      var card = new _textbook_textbook__WEBPACK_IMPORTED_MODULE_4__.Card(ulElement, currValue);
+      var card = new _textbook_textbook__WEBPACK_IMPORTED_MODULE_5__.Card(ulElement, currValue);
       var template = card.createCardTemplate();
       return prevValue + template;
     }, "");
@@ -1648,7 +1729,7 @@ function () {
   Dictionary.prototype.addButtonsForAuthUsers = function (isAutorized) {
     if (!isAutorized) return;
     var additionalButtons = "\n        <buttom data-btn=\"difficultWord\" class=\"btn-basic btn_authorization_block btn-dif-word\">Difficult word</buttom>\n        <buttom data-btn=\"deleteWord\" class=\"btn-basic btn_authorization_block\">Delete word</buttom>\n      ";
-    Array.from(_startPageListener__WEBPACK_IMPORTED_MODULE_3__.StartPageListener.BUTTONS_CONTAINER).forEach(function (element) {
+    Array.from(_startPageListener__WEBPACK_IMPORTED_MODULE_4__.StartPageListener.BUTTONS_CONTAINER).forEach(function (element) {
       element.insertAdjacentHTML("afterbegin", additionalButtons);
     });
   };
@@ -2792,6 +2873,29 @@ function () {
 
 /***/ }),
 
+/***/ "./components/interfaces.ts":
+/*!**********************************!*\
+  !*** ./components/interfaces.ts ***!
+  \**********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Groups": () => (/* binding */ Groups)
+/* harmony export */ });
+var Groups;
+
+(function (Groups) {
+  Groups[Groups["Easy - A1"] = 0] = "Easy - A1";
+  Groups[Groups["Easy - A2"] = 1] = "Easy - A2";
+  Groups[Groups["Medium - B1"] = 2] = "Medium - B1";
+  Groups[Groups["Medium - B2"] = 3] = "Medium - B2";
+  Groups[Groups["Hard - C1"] = 4] = "Hard - C1";
+  Groups[Groups["Hard - C2"] = 5] = "Hard - C2";
+})(Groups || (Groups = {}));
+
+/***/ }),
+
 /***/ "./components/modal.ts":
 /*!*****************************!*\
   !*** ./components/modal.ts ***!
@@ -2844,6 +2948,7 @@ var menuFilter = document.querySelector('.menu-filter');
 var signInBtn = document.querySelector('.signIn-btn');
 hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.addEventListener('click', openMenu);
 menuFilter === null || menuFilter === void 0 ? void 0 : menuFilter.addEventListener('click', openMenu);
+navList === null || navList === void 0 ? void 0 : navList.addEventListener('click', openMenu);
 
 function checkOpenMenu() {
   if (hamIcon === null || hamIcon === void 0 ? void 0 : hamIcon.classList.contains('open')) {
