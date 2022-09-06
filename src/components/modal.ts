@@ -32,6 +32,7 @@ const signInBtn = document.querySelector('.signIn-btn');
 
 hamIcon?.addEventListener('click', openMenu);
 menuFilter?.addEventListener('click', openMenu);
+navList?.addEventListener('click', openMenu);
 
 
 function checkOpenMenu() {
