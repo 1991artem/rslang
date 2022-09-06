@@ -25,14 +25,13 @@ export class ModalWindow {
 
 const hamIcon = document.querySelector('.hamburger');
 const navMenu = document.querySelector('.nav__container');
-const navLink = document.querySelectorAll('.nav-link');
 const navList = document.querySelector('.nav');
 const menuFilter = document.querySelector('.menu-filter');
 const signInBtn = document.querySelector('.signIn-btn');
 
 hamIcon?.addEventListener('click', openMenu);
 menuFilter?.addEventListener('click', openMenu);
-navList?.addEventListener('click', openMenu);
+navList?.addEventListener('click', checkOpenMenu);
 
 
 function checkOpenMenu() {
