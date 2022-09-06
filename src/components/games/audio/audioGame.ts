@@ -201,7 +201,7 @@ export class AudioGame {
               <img src="../../../assets/svg/gamer.png" alt="sad boy icon" class="sad-boy-icon">
               </div>
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
-              </div>;`
+              </div>`
             } else if (this.resultArray.length === 1 && this.calculateResult().percent === 0) {
               StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
@@ -211,7 +211,7 @@ export class AudioGame {
               <div class="correct-result-percent"><p class="game-level-select">Mistakes: ${this.calculateResult().mistakes} </p></div>
               <div class="result-window">${dataResult()}</div>
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
-              </div>;`
+              </div>`
             } else if (this.resultArray.length > 1 && this.calculateResult().percent === 0) {
               StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
@@ -221,7 +221,7 @@ export class AudioGame {
               <div class="correct-result-percent"><p class="game-level-select">Mistakes: ${this.calculateResult().mistakes} </p></div>
               <div class="result-window">${dataResult()}</div>
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
-              </div>;`
+              </div>`
             } else if (this.resultArray.length === 1 && this.calculateResult().percent > 0) {
               StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
@@ -230,7 +230,7 @@ export class AudioGame {
               <div class="correct-result-percent"><p class="game-level-select">Correct result: ${this.calculateResult().percent} %</p></div>
               <div class="result-window">${dataResult()}</div>
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
-              </div>;`
+              </div>`
             } else {
               StartPageListener.GAME_PAGE.innerHTML+=`
               <div class="game-result-wrapper">
@@ -240,7 +240,7 @@ export class AudioGame {
               <div class="correct-result-percent"><p class="game-level-select">Mistakes: ${this.calculateResult().mistakes} </p></div>
               <div class="result-window">${dataResult()}</div>
               <button class="sprint-game-btn btn-basic cta-btn play-again">Play again</button>
-              </div>;`;
+              </div>`;
             }
         }
         StatisticPage.workWithStatistic(this.resultArray, 'audio')
