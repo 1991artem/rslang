@@ -221,8 +221,8 @@ export class Dictionary {
       addButtonsForAuthUsers(isAutorized: boolean): void {
         if (!isAutorized) return;
         const additionalButtons = `
-        <buttom data-btn="difficultWord" class="btn-basic btn_authorization_block btn-dif-word">Difficult word</buttom>
-        <buttom data-btn="deleteWord" class="btn-basic btn_authorization_block">Delete word</buttom>
+        <button data-btn="difficultWord" class="btn-basic btn_authorization_block btn-dif-word">Difficult word</button>
+        <button data-btn="deleteWord" class="btn-basic btn_authorization_block">Delete word</button>
       `;
         Array.from(StartPageListener.BUTTONS_CONTAINER as HTMLCollectionOf<Element>).forEach((element) => {
           element.insertAdjacentHTML("afterbegin", additionalButtons);
