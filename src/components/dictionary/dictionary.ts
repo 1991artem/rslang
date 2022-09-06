@@ -41,6 +41,12 @@ export class Dictionary {
               if(DataStorage.isUserAutorized){
                 this.getUsersWord()
               }
+              StartPageListener.AUTORISATION_SINGIN?.addEventListener("click", async () => {
+                await this.checkAutorization()
+                if(!DataStorage.isUserAutorized){
+                  DICTIONARY.innerHTML = "<span>Requires login with an account</span>"
+                }
+              })
             })
         }
         StartPageListener.listen();
@@ -54,6 +60,10 @@ export class Dictionary {
     buttonClick() {
         const onClick = async (e: Event) => {
             if((<HTMLElement>e.target).textContent === "Dictionary") {
+              await this.checkAutorization()
+              if(DataStorage.isUserAutorized){
+                this.getUsersWord()
+              }
                 if(StartPageListener.MAIN) {
                     StartPageListener.DICTIONARY_CONTAINER?.classList.remove("display_none")
                     StartPageListener.TEXTBOOK_CONTAINER?.classList.add("display_none");
@@ -62,7 +72,6 @@ export class Dictionary {
                     StartPageListener.HERO_PAGE?.classList.add("display_none");
                     StartPageListener.ADVANTAGES_PAGE?.classList.add("display_none");
                     StartPageListener.ABOUT_PAGE?.classList.add("display_none");
-                    this.getUsersWord()
                 }
             }
         }
