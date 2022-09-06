@@ -37,6 +37,8 @@ navList?.addEventListener('click', checkOpenMenu);
 function checkOpenMenu() {
   if(hamIcon?.classList.contains('open')) {
     navList?.addEventListener('click', openMenu);
+  } else {
+    navList?.removeEventListener('click', openMenu);
   }
 }
 
