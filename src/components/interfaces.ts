@@ -78,7 +78,7 @@ export interface ICalculateResult {
   mistakes: number
 }
 
-enum Groups {
+export enum Groups {
   "Easy - A1", 
   "Easy - A2", 
   "Medium - B1", 
