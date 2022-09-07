@@ -42,7 +42,7 @@ export class SprintGame {
         let game: HTMLElement = document.createElement('div');
         game.id = 'sprint-game-window';
         game.innerHTML = `
-        <div class="sprint-flex-wrapper">
+        <div class="sprint-flex-wrapper wrapper">
         <div class="sprint-game-timer"><p></p></div>
         <div class="sprint-game-window-active">
             <div class="sprint-progress"></div>

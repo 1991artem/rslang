@@ -28,15 +28,25 @@ const navMenu = document.querySelector('.nav__container');
 const navList = document.querySelector('.nav');
 const menuFilter = document.querySelector('.menu-filter');
 const signInBtn = document.querySelector('.signIn-btn');
+const navLink = document.querySelectorAll('.nav-link');
 
 hamIcon?.addEventListener('click', openMenu);
 menuFilter?.addEventListener('click', openMenu);
 navList?.addEventListener('click', checkOpenMenu);
 
 
+
 function checkOpenMenu() {
   if(hamIcon?.classList.contains('open')) {
-    navList?.addEventListener('click', openMenu);
+    navList?.addEventListener('click', function(event) {
+      navLink.forEach(el => {
+        if (el === event.target) { 
+          openMenu();
+        }
+      
+      })
+    
+    });
   } else {
     navList?.removeEventListener('click', openMenu);
   }
@@ -47,5 +57,5 @@ function openMenu() {
   hamIcon?.classList.toggle('open');
   document.body.classList.toggle('lock');
   menuFilter?.classList.toggle('menu-filter_open');
-  signInBtn?.classList.toggle('signIn-btn_open');
+    signInBtn?.classList.toggle('signIn-btn_open');
 }
