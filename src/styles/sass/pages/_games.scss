@@ -1,3 +1,8 @@
+#game-page-wrapper {
+  height: 100%;
+  margin-top: 6rem;
+}
+
 #game-page {
   display: flex;
   flex-direction: row;
@@ -8,7 +13,7 @@
   text-align: center;
   max-width: 1440px;
   height: auto;
-  margin: 2rem 0 4rem 0;
+  margin: 0 auto;
   column-gap: 2rem;
   @media (max-width: 768) {
     column-gap: 0;
@@ -22,6 +27,8 @@
           flex-direction: column;
           align-items: center;
           row-gap: 5rem;
+          height: 100vh;
+          margin-top: 4rem;
         }
         .sprint-game-timer {
           display: flex;
@@ -45,7 +52,7 @@
           flex-direction: column;
           align-items: center;
           justify-content: space-between;
-          width: 70vw;
+          width: 50vw;
           height: 45vh;
           margin: 0 auto;
           padding: 2px;
@@ -56,9 +63,8 @@
             width: 80vw;
           }
           @media (max-width: 380px) {
-            width: 94vw;
+            width: 90vw;
           }
-          width: 94vw;
             .sprint-progress {
                 width: 100%;
                 height: auto;
@@ -185,6 +191,9 @@
   flex-direction: column;
   align-items: center;
   row-gap: 3rem;
+  margin-bottom: 8rem;
+  margin-top: 10rem;
+  height: 100vh;
 }
 .result-window{
   width: 80vw;
@@ -355,7 +364,7 @@ img.sprint-title-icon {
 }
 .game-description {
   margin: 0 auto;
-  width: 40vw;
+  width: 570px;
   height: 15vh;
   text-align: justify;
   line-height: 2.4rem;

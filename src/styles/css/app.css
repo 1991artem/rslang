@@ -659,7 +659,7 @@ li {
 .header-left-wrapper {
   display: flex;
   align-items: center;
-  width: 82vw;
+  width: 83vw;
   justify-content: space-between;
 }
 @media (max-width: 1270px) {
@@ -833,6 +833,7 @@ li {
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  width: 10vw;
 }
 
 @media (max-width: 980px) {
@@ -889,7 +890,7 @@ li {
 }
 
 .wrapper {
-  width: 90%;
+  width: 90vw;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -1788,6 +1789,11 @@ button.groups_list__item.active-group {
   color: #fff;
 }
 
+#game-page-wrapper {
+  height: 100%;
+  margin-top: 6rem;
+}
+
 #game-page {
   display: flex;
   flex-direction: row;
@@ -1798,7 +1804,7 @@ button.groups_list__item.active-group {
   text-align: center;
   max-width: 1440px;
   height: auto;
-  margin: 2rem 0 4rem 0;
+  margin: 0 auto;
   -moz-column-gap: 2rem;
        column-gap: 2rem;
 }
@@ -1817,6 +1823,8 @@ button.groups_list__item.active-group {
   flex-direction: column;
   align-items: center;
   row-gap: 5rem;
+  height: 100vh;
+  margin-top: 4rem;
 }
 #game-page #sprint-game-window .sprint-game-timer {
   display: flex;
@@ -1840,14 +1848,13 @@ button.groups_list__item.active-group {
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  width: 70vw;
+  width: 50vw;
   height: 45vh;
   margin: 0 auto;
   padding: 2px;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 10px;
   background-color: rgb(255, 255, 255);
-  width: 94vw;
 }
 @media (max-width: 768px) {
   #game-page #sprint-game-window .sprint-game-window-active {
@@ -1856,7 +1863,7 @@ button.groups_list__item.active-group {
 }
 @media (max-width: 380px) {
   #game-page #sprint-game-window .sprint-game-window-active {
-    width: 94vw;
+    width: 90vw;
   }
 }
 #game-page #sprint-game-window .sprint-game-window-active .sprint-progress {
@@ -1983,6 +1990,9 @@ button.groups_list__item.active-group {
   flex-direction: column;
   align-items: center;
   row-gap: 3rem;
+  margin-bottom: 8rem;
+  margin-top: 10rem;
+  height: 100vh;
 }
 
 .result-window {
@@ -2173,7 +2183,7 @@ img.sprint-title-icon {
 
 .game-description {
   margin: 0 auto;
-  width: 40vw;
+  width: 570px;
   height: 15vh;
   text-align: justify;
   line-height: 2.4rem;
